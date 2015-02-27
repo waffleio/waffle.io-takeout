@@ -1,12 +1,29 @@
 #!/bin/bash
 
+blue='\033[0;34m'
 red='\033[0;31m'
 reset='\033[0m'
 
 hash docker 2>/dev/null || { echo -e >&2 "${red}I require docker but it's not installed.  Aborting.${reset}"; exit 1; }
 
+if [ ! $WAFFLE_AWS_ACCESS_KEY_ID ]
+then
+  echo -e "${red}You must supply an environment variable named $WAFFLE_AWS_ACCESS_KEY_ID set to your AWS access key.${reset}"
+  exit 1
+fi
+
+if [ ! $WAFFLE_AWS_SECRET_ACCESS_KEY ]
+then
+  echo -e "${red}You must supply an environment variable named $WAFFLE_AWS_SECRET_ACCESS_KEY set to your AWS secret.${reset}"
+  exit 1
+fi
+
+echo -e "\n${blue}Please login to quay.io${reset}"
+docker login quay.io
+
 mkdir -p waffleio-takeout
 
+echo -e "\nPulling images from quay.io..."
 docker pull quay.io/waffleio/hedwig
 docker pull quay.io/waffleio/poxa
 docker pull quay.io/waffleio/waffle.io-app
@@ -36,8 +53,8 @@ resource="/${bucket}/${file}"
 contentType="application/zip"
 dateValue=`TZ=utc date "+%a, %d %h %Y %T %z"`
 stringToSign="PUT\n\n${contentType}\n${dateValue}\n${resource}"
-s3Key=$AWS_ACCESS_KEY_ID
-s3Secret=$AWS_SECRET_ACCESS_KEY
+s3Key=$WAFFLE_AWS_ACCESS_KEY_ID
+s3Secret=$WAFFLE_AWS_SECRET_ACCESS_KEY
 signature=`echo -en ${stringToSign} | openssl sha1 -hmac ${s3Secret} -binary | base64`
 
 curl -k -X PUT -T "${file}" \

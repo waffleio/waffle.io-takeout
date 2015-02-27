@@ -3,6 +3,7 @@
 blue='\033[0;34m'
 grey="\033[1;30m"
 red='\033[0;31m'
+yellow='\033[1;33'
 reset='\033[0m'
 
 hash docker 2>/dev/null || { echo -e >&2 "${red}I require docker but it's not installed.  Aborting.${reset}"; exit 1; }
@@ -188,5 +189,7 @@ echo "                                    NNNN                      "
 echo -e "
 
 Your Waffle.io Takeout is ready for pick up. You can find it at ${hostIp}:${appPort}.
+
+${yellow}WARNING: We have stored your environment configuration in ./${envFile}. We recommend you back this file up. If it is lost or damaged we may not be able to recover your application state.${reset}
 
 Happy Waffling!"
