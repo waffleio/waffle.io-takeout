@@ -22,6 +22,7 @@ docker save --output="waffleio-takeout/waffle.io-models.tar" quay.io/waffleio/wa
 docker save --output="waffleio-takeout/waffle.io-rally-integration.tar" quay.io/waffleio/waffle.io-rally-integration
 
 cp install.sh waffleio-takeout/
+cp waffleio-env.list waffleio-takeout/
 
 echo "Packaging files together"
 zip -r waffleio-takeout.zip waffleio-takeout
