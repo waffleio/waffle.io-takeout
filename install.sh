@@ -3,13 +3,15 @@
 blue='\033[0;34m'
 grey="\033[1;30m"
 red='\033[0;31m'
-yellow='\033[1;33'
+yellow='\033[1;33m'
 reset='\033[0m'
 
 hash docker 2>/dev/null || { echo -e >&2 "${red}I require docker but it's not installed.  Aborting.${reset}"; exit 1; }
 
-envFile='waffleio-env.list'
+echo -e "\nWelcome to Waffle.io Takeout!"
+echo -e "\nWe need to get some information about your environment to get started."
 
+envFile='waffleio-env.list'
 source $envFile
 
 ###############################################
@@ -20,17 +22,15 @@ then
   hostIp=$(boot2docker ip)
 elif ifconfig | grep -q eth0
 then
-  echo '1'
   hostIp=$(ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{print $1}')
 elif ifconfig | grep -q en1
 then
-  echo '2'
   hostIp=$(ipconfig getifaddr en1)
 fi
 
 if [ -z "$hostIp" ];
 then
-  echo -e -n "\n${blue}What is the IP address of the host machine (the machine this script is running on)?${grey}\n>${reset}"
+  echo -en "\n${blue}What is the IP address of the host machine (the machine this script is running on)?${grey}\n> ${reset}"
   read hostIp
 fi
 
@@ -40,49 +40,216 @@ rallyIntegrationPort=3003
 poxaPort=3004
 
 sed -n '/WAFFLE_BASE_URL/!p' $envFile > tmp.list && mv tmp.list $envFile
-echo WAFFLE_BASE_URL="${hostIp}:${appPort}" >> $envFile
+echo WAFFLE_BASE_URL="http://${hostIp}:${appPort}" >> $envFile
 sed -n '/WAFFLE_HOOKS_SERVICE_URI/!p' $envFile > tmp.list && mv tmp.list $envFile
-echo WAFFLE_HOOKS_SERVICE_URI="${hostIp}:${hooksPort}" >> $envFile
+echo WAFFLE_HOOKS_SERVICE_URI="http://${hostIp}:${hooksPort}" >> $envFile
 sed -n '/RALLY_INTEGRATION_BASE_URL/!p' $envFile > tmp.list && mv tmp.list $envFile
-echo RALLY_INTEGRATION_BASE_URL="${hostIp}:${rallyIntegrationPort}" >> $envFile
+echo RALLY_INTEGRATION_BASE_URL="http://${hostIp}:${rallyIntegrationPort}" >> $envFile
 sed -n '/POXA_HOST/!p' $envFile > tmp.list && mv tmp.list $envFile
-echo POXA_HOST="${hostIp}" >> $envFile
+echo POXA_HOST="http://${hostIp}" >> $envFile
 sed -n '/POXA_PORT/!p' $envFile > tmp.list && mv tmp.list $envFile
 echo POXA_PORT="${poxaPort}" >> $envFile
 
-###################
-# WEB_CONCURRENCY #
-###################
-echo
-if [ $WEB_CONCURRENCY ]
+echo -e "\n"
+echo "#############################################"
+echo "# GitHub:Enterprise OAuth Application Setup #"
+echo "#############################################"
+echo -e "Many Waffle.io Takeout users also use GitHub:Enterprise. In order for Waffle.io Takeout to connect to a GitHub:Enterprise install, we need to create an OAuth application. This section of the setup will guide you through how to do that."
+echo -en "\n${blue}Do you have a GitHub:Enterprise installation that you would like to be your primary GitHub instance for Waffle.io Takeout? (Y/n)\n${grey}>${reset}"
+sed -n '/IS_GHE_PRIMARY/!p' $envFile > tmp.list && mv tmp.list $envFile
+read isGHEPrimary
+if [[ $isGHEPrimary =~ ^([yY][eE][sS]|[yY])$ ]]
 then
-  echo -e "${blue}How many CPUs would you like to use? (${WEB_CONCURRENCY}):${reset}"
+  if [ $GHE_BASE_URL ]
+  then
+    echo -e "\n${blue}What is the url of your GitHub:Enterprise install? Please include the protocol. (${GHE_BASE_URL})${reset}"
+  else
+    echo -e "\n${blue}What is the url of your GitHub:Enterprise install? Please include the protocol.${reset}"
+  fi
+
+  while [ -z "$primaryGitHubBaseUrl" ]; do
+    echo -en $"${grey}Please enter the url to your GitHub:Enterprise install (blank to keep it the same):\n>${reset}"
+    read primaryGitHubBaseUrl
+    primaryGitHubBaseUrl=${primaryGitHubBaseUrl:-$GHE_BASE_URL}
+  done
+
+  sed -n '/GHE_BASE_URL/!p' $envFile > tmp.list && mv tmp.list $envFile
+  echo GHE_BASE_URL=$primaryGitHubBaseUrl >> $envFile
+
+  echo IS_GHE_PRIMARY=true >> $envFile
+
+  echo -e "\nWe need to configure an OAuth Application for Waffle.io Takeout. Please go to ${primaryGitHubBaseUrl%/}/settings/applications and register an application with the following configuration:"
+  echo -e "     Application name: Waffle.io Takeout"
+  echo -e "     Homepage URL: http://${hostIp}:${appPort}"
+  echo -e "     Application description: Automate your workflow."
+  echo -e "     Application callback URL: http://${hostIp}:${appPort}"
+  echo -e "After registriering your application, you will be given a Client ID and Client Secret."
+
+  # Client ID
+  if [ $GHE_CLIENT_ID ]
+  then
+    echo -e "\n${blue}What is your GitHub:Enterprise OAuth Client ID? (${GHE_CLIENT_ID})${reset}"
+  else
+    echo -e "\n${blue}What is your GitHub:Enterprise OAuth Client ID?${reset}"
+  fi
+
+  while [ -z "$gheClientId" ]; do
+    echo -en $"${grey}Please enter your GitHub:Enterprise OAuth Client ID (blank to keep it the same):\n>${reset}"
+    read gheClientId
+    gheClientId=${gheClientId:-$GHE_CLIENT_ID}
+  done
+
+  sed -n '/GHE_CLIENT_ID/!p' $envFile > tmp.list && mv tmp.list $envFile
+  echo GHE_CLIENT_ID=$gheClientId >> $envFile
+
+  # Client Secret
+  if [ $GHE_CLIENT_SECRET ]
+  then
+    echo -e "${blue}What is your GitHub:Enterprise OAuth Client Secret? (${GHE_CLIENT_SECRET})${reset}"
+  else
+    echo -e "${blue}What is your GitHub:Enterprise OAuth Client Secret?${reset}"
+  fi
+
+  while [ -z "$gheClientSecret" ]; do
+    echo -en $"${grey}Please enter your GitHub:Enterprise OAuth Client Secret (blank to keep it the same):\n>${reset}"
+    read gheClientSecret
+    gheClientSecret=${gheClientSecret:-$GHE_CLIENT_SECRET}
+  done
+
+  sed -n '/GHE_CLIENT_SECRET/!p' $envFile > tmp.list && mv tmp.list $envFile
+  echo GHE_CLIENT_SECRET=$gheClientSecret >> $envFile
 else
-  echo -e "${blue}How many CPUs would you like to use?${reset}"
+  echo "Skipping GitHub:Enterprise OAuth Application setup. You may rerun this script if you wish to configure it later."
 fi
 
-while [[ ! $webConcurrency || $webConcurrency = *[^0-9]* ]]; do
-  echo -e -n $"${grey}Please enter in a number (blank to keep it the same):\n>${reset}"
-  read webConcurrency
-  webConcurrency=${webConcurrency:-$WEB_CONCURRENCY}
-done
+echo -e "\n"
+echo "######################################"
+echo "# GitHub.com OAuth Application Setup #"
+echo "######################################"
+echo "Many Waffle.io Takeout users want to access GitHub.com from their Takeout install. In order for Waffle.io Takeout to connect to a GitHub.com, we need to create an OAuth application. This section of the setup will guide you through how to do that."
+echo -en "\n${blue}Do you want your Waffle.io Takeout to connect to GitHub.com? (Y/n)\n${grey}>${reset}"
+read wantsGitHubSaas
+if [[ $wantsGitHubSaas =~ ^([yY][eE][sS]|[yY])$ ]]
+then
+  echo -e "\nWe need to configure an OAuth Application for Waffle.io Takeout. Please go to https://github.com/settings/applications and register an application with the following configuration:"
+  echo -e "     Application name: Waffle.io Takeout"
+  echo -e "     Homepage URL: http://${hostIp}:${appPort}"
+  echo -e "     Application description: Automate your workflow."
+  echo -e "     Application callback URL: http://${hostIp}:${appPort}"
+  echo -e "After registriering your application, you will be given a Client ID and Client Secret."
 
-sed -n '/WEB_CONCURRENCY/!p' $envFile > tmp.list && mv tmp.list $envFile
-echo WEB_CONCURRENCY=$webConcurrency >> $envFile
+  # Client ID
+  if [ $APPLICATION_CLIENT_ID ]
+  then
+    echo -e "\n${blue}What is your GitHub.com OAuth Client ID? (${APPLICATION_CLIENT_ID})${reset}"
+  else
+    echo -e "\n${blue}What is your GitHub.com OAuth Client ID?${reset}"
+  fi
 
-################
-# MONGOLAB_URI #
-################
-echo
+  while [ -z "$githubClientId" ]; do
+    echo -en $"${grey}Please enter your GitHub.com OAuth Client ID (blank to keep it the same):\n>${reset}"
+    read githubClientId
+    githubClientId=${githubClientId:-$APPLICATION_CLIENT_ID}
+  done
+
+  sed -n '/APPLICATION_CLIENT_ID/!p' $envFile > tmp.list && mv tmp.list $envFile
+  echo APPLICATION_CLIENT_ID=$githubClientId >> $envFile
+
+  # Client Secret
+  if [ $APPLICATION_CLIENT_SECRET ]
+  then
+    echo -e "${blue}What is your GitHub.com OAuth Client Secret? (${APPLICATION_CLIENT_SECRET})${reset}"
+  else
+    echo -e "${blue}What is your GitHub.com OAuth Client Secret?${reset}"
+  fi
+
+  while [ -z "$githubClientSecret" ]; do
+    echo -en $"${grey}Please enter your GitHub.com OAuth Client Secret (blank to keep it the same):\n>${reset}"
+    read githubClientSecret
+    githubClientSecret=${githubClientSecret:-$APPLICATION_CLIENT_SECRET}
+  done
+
+  sed -n '/APPLICATION_CLIENT_SECRET/!p' $envFile > tmp.list && mv tmp.list $envFile
+  echo APPLICATION_CLIENT_SECRET=$githubClientSecret >> $envFile
+else
+  sed -n '/APPLICATION_CLIENT_ID/!p' $envFile > tmp.list && mv tmp.list $envFile
+  echo APPLICATION_CLIENT_ID=not-a-real-client-id >> $envFile
+  sed -n '/APPLICATION_CLIENT_SECRET/!p' $envFile > tmp.list && mv tmp.list $envFile
+  echo APPLICATION_CLIENT_SECRET=not-a-real-client-secret >> $envFile
+  echo "Skipping GitHub.com OAuth Application setup. You may rerun this script if you wish to configure it later."
+fi
+
+echo -e "\n"
+echo "#################################"
+echo "# Rally OAuth Application Setup #"
+echo "#################################"
+echo -e "Waffle.io Takeout offers a Rally integration that enables your devs to work in Waffle while still giving all the business folk the data they need in Rally. In order for this to work, Waffle.io Takeout needs an OAuth Application in Rally. This section of the setup will walk you through how to do that."
+echo -en "\n${blue}Do you have a Rally Subscription? (Y/n)\n${grey}>${reset}"
+read hasRally
+if [[ $hasRally =~ ^([yY][eE][sS]|[yY])$ ]]
+then
+  echo -e "\nPlease go to https://rally1.rallydev.com/login/accounts/index.html#/clients and register an application with the following configuration:"
+  echo -e "     Application name: Waffle.io Takeout"
+  echo -e "     Application callback URL: http://${hostIp}:${appPort}/rally-callback"
+  echo -e "After registriering your application, you will be given a Client ID and Client Secret."
+
+  # Client ID
+  if [ $RALLY_CLIENT_ID ]
+  then
+    echo -e "\n${blue}What is your Rally OAuth Client ID? (${RALLY_CLIENT_ID})${reset}"
+  else
+    echo -e "\n${blue}What is your Rally OAuth Client ID?${reset}"
+  fi
+
+  while [ -z "$rallyClientId" ]; do
+    echo -en $"${grey}Please enter your Rally OAuth OAuth Client ID (blank to keep it the same):\n>${reset}"
+    read rallyClientId
+    rallyClientId=${rallyClientId:-$RALLY_CLIENT_ID}
+  done
+
+  sed -n '/RALLY_CLIENT_ID/!p' $envFile > tmp.list && mv tmp.list $envFile
+  echo RALLY_CLIENT_ID=$rallyClientId >> $envFile
+
+  # Client Secret
+  if [ $RALLY_CLIENT_SECRET ]
+  then
+    echo -e "${blue}What is your Rally OAuth Client Secret? (${RALLY_CLIENT_SECRET})${reset}"
+  else
+    echo -e "${blue}What is your Rally OAuth Client Secret?${reset}"
+  fi
+
+  while [ -z "$rallyClientSecret" ]; do
+    echo -en $"${grey}Please enter your Rally OAuth OAuth Client Secret (blank to keep it the same):\n>${reset}"
+    read rallyClientSecret
+    rallyClientSecret=${rallyClientSecret:-$RALLY_CLIENT_SECRET}
+  done
+
+  sed -n '/RALLY_CLIENT_SECRET/!p' $envFile > tmp.list && mv tmp.list $envFile
+  echo RALLY_CLIENT_SECRET=$rallyClientSecret >> $envFile
+else
+  sed -n '/RALLY_CLIENT_ID/!p' $envFile > tmp.list && mv tmp.list $envFile
+  echo RALLY_CLIENT_ID=not-a-real-client-id >> $envFile
+  sed -n '/RALLY_CLIENT_SECRET/!p' $envFile > tmp.list && mv tmp.list $envFile
+  echo RALLY_CLIENT_SECRET=not-a-real-client-secret >> $envFile
+  echo "Skipping GitHub.com OAuth Application setup. You may rerun this script if you wish to configure it later."
+fi
+
+echo -e "\n"
+echo "#####################"
+echo "# Environment Setup #"
+echo "#####################"
+echo "The last bits of information we need is just about your environment. NOTE: we currently require you to run your own instance of MongoDB."
+
+# MONGOLAB_URI
 if [ $MONGOLAB_URI ]
 then
-  echo -e "${blue}What is the connect string for your MongoDB instance? (${MONGOLAB_URI}):${reset}"
+  echo -e "\n${blue}What is the connect string for your MongoDB instance? (${MONGOLAB_URI})${reset}"
 else
-  echo -e "${blue}What is the connect string for your MongoDB instance?${reset}"
+  echo -e "\n${blue}What is the connect string for your MongoDB instance?${reset}"
 fi
 
 while [ -z "$mongoDbConnectString" ]; do
-  echo -e -n $"${grey}Please enter a MongoDB connect string (blank to keep it the same):\n>${reset}"
+  echo -en $"${grey}Please enter a MongoDB connect string (blank to keep it the same):\n>${reset}"
   read mongoDbConnectString
   mongoDbConnectString=${mongoDbConnectString:-$MONGOLAB_URI}
 done
@@ -90,14 +257,31 @@ done
 sed -n '/MONGOLAB_URI/!p' $envFile > tmp.list && mv tmp.list $envFile
 echo MONGOLAB_URI=$mongoDbConnectString >> $envFile
 
-############################
-# WAFFLE_DB_ENCRYPTION_KEY #
-############################
+# WAFFLE_DB_ENCRYPTION_KEY
 if [ -z "$WAFFLE_DB_ENCRYPTION_KEY" ];
 then
   encryptionkey=$(openssl rand -base64 32)
   echo WAFFLE_DB_ENCRYPTION_KEY=$encryptionkey >> $envFile
 fi
+
+# WEB_CONCURRENCY
+if [ $WEB_CONCURRENCY ]
+then
+  echo -e "\n${blue}How many CPUs would you like to use? (${WEB_CONCURRENCY})${reset}"
+else
+  echo -e "\n${blue}How many CPUs would you like to use?${reset}"
+fi
+
+while [[ ! $webConcurrency || $webConcurrency = *[^0-9]* ]]; do
+  echo -en $"${grey}Please enter in a number (blank to keep it the same):\n>${reset}"
+  read webConcurrency
+  webConcurrency=${webConcurrency:-$WEB_CONCURRENCY}
+done
+
+sed -n '/WEB_CONCURRENCY/!p' $envFile > tmp.list && mv tmp.list $envFile
+echo WEB_CONCURRENCY=$webConcurrency >> $envFile
+
+echo -e "\n\nGreat! That's all we need, we will have your Waffle.io Takeout ready shortly."
 
 #############################
 # Load in the Docker images #
@@ -188,8 +372,8 @@ echo "                                   NNNNNN                     "
 echo "                                    NNNN                      "
 echo -e "
 
-Your Waffle.io Takeout is ready for pick up. You can find it at ${hostIp}:${appPort}.
+Your Waffle.io Takeout is ready for pick up. You can pick it up at ${hostIp}:${appPort}.
 
 ${yellow}WARNING: We have stored your environment configuration in ./${envFile}. We recommend you back this file up. If it is lost or damaged we may not be able to recover your application state.${reset}
 
-Happy Waffling!"
+Happy Waffle'ing!"
