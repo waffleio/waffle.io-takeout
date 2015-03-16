@@ -34,19 +34,23 @@ then
   read hostIp
 fi
 
-appPort=3001
+echo -en "\n${blue}Is there a hostname for this machine that you want to use to talk to your Waffle.io Takeout? Or would you like us to just use the IP? (${hostIp})\n${grey}Please enter the hostname for this maching (blank to use the IP):\n> ${reset}"
+read hostName
+hostName=${hostName:-$hostIp}
+
+appPort=80
 hooksPort=3002
 rallyIntegrationPort=3003
 poxaPort=3004
 
 sed -n '/WAFFLE_BASE_URL/!p' $envFile > tmp.list && mv tmp.list $envFile
-echo WAFFLE_BASE_URL="http://${hostIp}:${appPort}" >> $envFile
+echo WAFFLE_BASE_URL="http://${hostName}" >> $envFile
 sed -n '/WAFFLE_HOOKS_SERVICE_URI/!p' $envFile > tmp.list && mv tmp.list $envFile
-echo WAFFLE_HOOKS_SERVICE_URI="http://${hostIp}:${hooksPort}" >> $envFile
+echo WAFFLE_HOOKS_SERVICE_URI="http://${hostName}:${hooksPort}" >> $envFile
 sed -n '/RALLY_INTEGRATION_BASE_URL/!p' $envFile > tmp.list && mv tmp.list $envFile
-echo RALLY_INTEGRATION_BASE_URL="http://${hostIp}:${rallyIntegrationPort}" >> $envFile
+echo RALLY_INTEGRATION_BASE_URL="http://${hostName}:${rallyIntegrationPort}" >> $envFile
 sed -n '/POXA_HOST/!p' $envFile > tmp.list && mv tmp.list $envFile
-echo POXA_HOST="http://${hostIp}" >> $envFile
+echo POXA_HOST="http://${hostName}" >> $envFile
 sed -n '/POXA_PORT/!p' $envFile > tmp.list && mv tmp.list $envFile
 echo POXA_PORT="${poxaPort}" >> $envFile
 
@@ -79,11 +83,12 @@ then
   echo IS_GHE_PRIMARY=true >> $envFile
 
   echo -e "\nWe need to configure an OAuth Application for Waffle.io Takeout. Please go to ${primaryGitHubBaseUrl%/}/settings/applications and register an application with the following configuration:"
-  echo -e "     Application name: Waffle.io Takeout"
-  echo -e "     Homepage URL: http://${hostIp}:${appPort}"
-  echo -e "     Application description: Automate your workflow."
-  echo -e "     Application callback URL: http://${hostIp}:${appPort}"
-  echo -e "After registriering your application, you will be given a Client ID and Client Secret."
+  echo -e "     Application name:           Waffle.io Takeout"
+  echo -e "     Homepage URL:               http://${hostName}"
+  echo -e "     Application description:    Automate your workflow."
+  echo -e "     Authorization callback URL: http://${hostName}"
+  echo -e "     Application Logo:           https://brandfolder.com/waffleio/share/1FBJUQk"
+echo -e "After registering your application, you will be given a Client ID and Client Secret."
 
   # Client ID
   if [ $GHE_CLIENT_ID ]
@@ -126,17 +131,18 @@ echo -e "\n"
 echo "######################################"
 echo "# GitHub.com OAuth Application Setup #"
 echo "######################################"
-echo "Many Waffle.io Takeout users want to access GitHub.com from their Takeout install. In order for Waffle.io Takeout to connect to a GitHub.com, we need to create an OAuth application. This section of the setup will guide you through how to do that."
+echo "Many Waffle.io Takeout users want to access GitHub.com from their Takeout install. In order for Waffle.io Takeout to connect to GitHub.com, we need to create an OAuth application. This section of the setup will guide you through how to do that."
 echo -en "\n${blue}Do you want your Waffle.io Takeout to connect to GitHub.com? (Y/n)\n${grey}>${reset}"
 read wantsGitHubSaas
 if [[ $wantsGitHubSaas =~ ^([yY][eE][sS]|[yY])$ ]]
 then
   echo -e "\nWe need to configure an OAuth Application for Waffle.io Takeout. Please go to https://github.com/settings/applications and register an application with the following configuration:"
-  echo -e "     Application name: Waffle.io Takeout"
-  echo -e "     Homepage URL: http://${hostIp}:${appPort}"
-  echo -e "     Application description: Automate your workflow."
-  echo -e "     Application callback URL: http://${hostIp}:${appPort}"
-  echo -e "After registriering your application, you will be given a Client ID and Client Secret."
+  echo -e "     Application name:           Waffle.io Takeout"
+  echo -e "     Homepage URL:               http://${hostName}"
+  echo -e "     Application description:    Automate your workflow."
+  echo -e "     Authorization callback URL: http://${hostName}"
+  echo -e "     Application Logo:           https://brandfolder.com/waffleio/share/1FBJUQk"
+  echo -e "After registering your application, you will be given a Client ID and Client Secret."
 
   # Client ID
   if [ $APPLICATION_CLIENT_ID ]
@@ -189,9 +195,11 @@ read hasRally
 if [[ $hasRally =~ ^([yY][eE][sS]|[yY])$ ]]
 then
   echo -e "\nPlease go to https://rally1.rallydev.com/login/accounts/index.html#/clients and register an application with the following configuration:"
-  echo -e "     Application name: Waffle.io Takeout"
-  echo -e "     Application callback URL: http://${hostIp}:${appPort}/rally-callback"
-  echo -e "After registriering your application, you will be given a Client ID and Client Secret."
+  echo -e "     Application name:           Waffle.io Takeout"
+  echo -e "     Homepage URL:               http://${hostName}"
+  echo -e "     Authorization callback URL: http://${hostName}/rally-callback"
+  echo -e "     Application Logo:           https://brandfolder.com/waffleio/share/1FBJUQk"
+  echo -e "After registering your application, you will be given a Client ID and Client Secret."
 
   # Client ID
   if [ $RALLY_CLIENT_ID ]
@@ -238,7 +246,7 @@ echo -e "\n"
 echo "#####################"
 echo "# Environment Setup #"
 echo "#####################"
-echo "The last bits of information we need is just about your environment. NOTE: we currently require you to run your own instance of MongoDB."
+echo "Just a few more questions about your environment. NOTE: we currently require you to run your own instance of MongoDB."
 
 # MONGOLAB_URI
 if [ $MONGOLAB_URI ]
@@ -372,7 +380,7 @@ echo "                                   NNNNNN                     "
 echo "                                    NNNN                      "
 echo -e "
 
-Your Waffle.io Takeout is ready for pick up. You can pick it up at ${hostIp}:${appPort}.
+Your Waffle.io Takeout is ready for pick up. You can pick it up at http://${hostName}.
 
 ${yellow}WARNING: We have stored your environment configuration in ./${envFile}. We recommend you back this file up. If it is lost or damaged we may not be able to recover your application state.${reset}
 
