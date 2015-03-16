@@ -1,10 +1,9 @@
 PUSHER_APP_ID="pusher-app-id"
 PUSHER_KEY="pusher-key"
 PUSHER_SECRET="pusher-secret"
-APPLICATION_CLIENT_ID="not-a-real-token"
-APPLICATION_CLIENT_SECRET="not-a-real-token"
 APPLICATION_ACCESS_TOKEN="not-a-real-token"
 APPLICATION_PUBLIC_REPO_ACCESS_TOKEN="not-a-real-token"
 APPLICATION_GRAPH_ACCESS_TOKEN="not-a-real-token"
 APPLICATION_DELETE_REPO_ACCESS_TOKEN="not-a-real-token"
 NODE_ENV=takeout
+NODE_HEAPDUMP_OPTIONS=nosignal
