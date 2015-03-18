@@ -30,11 +30,11 @@ _These instructions are meant for customers installing Waffle Takeout in their o
 7. ssh into your ec2 instance: `ssh -i <your key pair>.pem ec2-user@<ec2 public ip>`.
 8. Run `unzip waffleio-takeout.zip`.
 9. Run `cd waffleio-takeout`.
-10. Run `./install.sh`, and follow prompts.
+10. Run `./install.sh` and follow prompts.
 
 ### Troubleshooting
 
-#### If `./install.sh` does not complete
+#### If `install.sh` does not complete
 
 ##### Clean out docker containers and images
 _Before running `install.sh` again, you need to remove existing docker containers and images._
