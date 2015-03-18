@@ -15,26 +15,27 @@ If you're a Waffle dev, clear out any waffle specific environment variables you 
 #### Hardware Requirements
 
  - We recommend at least 16GB of storage, and 3GB of memory.
- - Any linux distro with docker installed
+ - Any unix based distro with docker installed
 
 #### Prerequisites
 
 1. You need mongodb (v2.6) running somewhere. It's your responsibility to maintain your mongo installation.
   - You can install mongo on EC2 by following [these instructions](http://docs.mongodb.org/ecosystem/platforms/amazon-ec2/).
-2. If you plan to have your Waffle Takeout instance available through a hostname instead of an IP address (e.g., mapping the machine to waffle.io on your local network), you'll need to configure that during 
+2. If you plan to have your Waffle Takeout instance available through a hostname instead of an IP address (e.g., mapping the machine to waffle.io on your local network), you should have that complete before running the `install.sh` script.
 
 #### Installation
 
 1. Follow [these instructions](https://docs.docker.com/installation/amazon/) to create an EC2 instance with docker installed.
   - minimum EC2 instance type: `t2.small`, with 16GB storage
   - to configure the root storage to be 16GB, instead of the default 8GB, go to the "Add Storage" tab when configuring your instance
- 
+
 2. Give your ssh user access to docker
-  - Run `docker ps`. If this errors with: `Are you trying to connect to a TLS-enabled daemon without TLS?`, then run `sudo gpasswd -a ${USER} docker`.
+  i. Run `docker ps`. If this errors with: `Are you trying to connect to a TLS-enabled daemon without TLS?`, then run `sudo gpasswd -a ${USER} docker`.
+  ii. Run `docker ps` again, to verify you have access.
 3. [Configure a security group](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AccessingInstancesLinux.html) to grant yourself ssh access to your EC2 instance.
 4. Assign an [Elastic IP address](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html) to your instance, so your instance is always available by the same IP.
-  - if you are planning to use a hostname, configure your network to use this IP address now. 
-5. Download the latest Waffle Takeout from S3
+  - if you are planning to use a hostname, configure your network to use this IP address now.
+5. Download the latest Waffle Takeout from [takeout.waffle.io](https://takeout.waffle.io). If this site isn't live yet, ask support@waffle.io for the latest image.
 6. Upload to EC2: `rsync -avz -e "ssh -i <your key pair>.pem" --progress /path/to/waffleio-takeout.zip ec2-user@<ec2 public ip>:`
 7. ssh into your ec2 instance: `ssh -i <your key pair>.pem ec2-user@<ec2 public ip>`
 8. `unzip waffleio-takeout.zip`
@@ -56,18 +57,15 @@ export DOCKER_HOST=tcp://192.168.59.103:2376 # add to ~/.zshrc
 ## If something goes wrong during `./install.sh`
 
 #### Clean out docker containers and images
-1. stop any running containers.
-  i. `docker ps` to see running containers
-  ii. `docker stop <containerid>` to stop it
-2. remove containers
-  i. `docker rm <containerid>`
-3. remove images
-  ii. list images: `docker images`
-  i. `docker rmi <imageid>
-
+1. stop and remove any running containers: `docker rm -f $(docker ps -a -q)`
+3. remove images: `docker rmi -f $(docker images -q)`
 
 ## If the installation went fine, but the app isn't starting
 
 #### Look at the logs from the container
 1. `docker ps` to see if any containers are running
 2. If they are, find the id for the waffle.io-app container, run `docker logs <container id>`
+
+## To reconfigure your Takeout
+1. remove containers: `docker rm -f $(docker ps -a -q)`
+3. run `./install.sh` again.
