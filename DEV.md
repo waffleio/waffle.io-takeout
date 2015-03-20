@@ -20,7 +20,7 @@ Add `DOCKER_HOST` to your `~/.zshrc`:
 3. Run `./install.sh`
 
 ### Updating docker images
-_This will eventually be handled by CI/CD, but until then..._
+_Pushes to master trigger docker builds in quay.io, these steps are not required during normal development._
 
 1. Build the docker image: `docker build --tag="waffleio/waffle.io-app" --no-cache`. The `no-cache` option is required for now, otherwise new code changes won't be picked up.
 2. Grab the image id from the output.
