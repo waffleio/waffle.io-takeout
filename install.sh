@@ -55,6 +55,56 @@ sed -n '/POXA_PORT/!p' $envFile > tmp.list && mv tmp.list $envFile
 echo POXA_PORT="${poxaPort}" >> $envFile
 
 echo -e "\n"
+echo "#######################"
+echo "# Proxy configuration #"
+echo "#######################"
+echo -en "\n${blue}Waffle supports integrations with GitHub:Enterprise, GitHub.com, and Rally (rally1.rallydev.com). Will your Takeout installation need to talk through a proxy to connect to any of these integrations, if enabled? (Y/n)\n${grey}>${reset}"
+
+read needsProxy
+if [[ $needsProxy =~ ^([yY][eE][sS]|[yY])$ ]]
+then
+  echo -e "For more details on how to configure your proxy for our integrations, see https://github.com/waffleio/waffle.io-takeout/blob/master/INSTALL.md#proxy-configuration."
+
+  if [ $HTTPS_PROXY ]
+  then
+    echo -e "\n${blue}What is your proxy url? Please include the protocol and port. (${HTTPS_PROXY})${reset}"
+  else
+    echo -e "\n${blue}What is your proxy url? Please include the protocol and port.${reset}"
+  fi
+
+  while [ -z "$proxyUrl" ]; do
+    echo -en $"${grey}Please enter the proxy url (blank to keep it the same):\n>${reset}"
+    read proxyUrl
+    proxyUrl=${proxyUrl:-$HTTPS_PROXY}
+  done
+
+  sed -n '/HTTPS_PROXY/!p' $envFile > tmp.list && mv tmp.list $envFile
+  sed -n '/HTTP_PROXY/!p' $envFile > tmp.list && mv tmp.list $envFile
+  echo HTTPS_PROXY=$proxyUrl >> $envFile
+  echo HTTP_PROXY=$proxyUrl >> $envFile
+
+  echo -e "\nThe proxy will be used for all connections, unless specific domains are excluded. Often, requests to GitHub.com must be proxied, but requests to GitHub Enterprise do not. Please enter any domains, comma-separated, that do not need to be proxied (e.g., github.yourcompany.com)."
+  if [ $NO_PROXY ]
+  then
+    echo -e "\n${blue}Enter a list of domains to exclude from the proxy. (${NO_PROXY})${reset}"
+  else
+    echo -e "\n${blue}Enter a list of domains to exclude from the proxy.${reset}"
+  fi
+
+  while [ -z "$noProxyDomains" ]; do
+    echo -en $"${grey}Enter a list of domains to exclude from the proxy, comma-separated (blank to keep it the same):\n>${reset}"
+    read noProxyDomains
+    noProxyDomains=${noProxyDomains:-$NO_PROXY}
+  done
+
+  sed -n '/NO_PROXY/!p' $envFile > tmp.list && mv tmp.list $envFile
+  echo NO_PROXY=$noProxyDomains >> $envFile
+
+else
+  echo "Skipping proxy configuration. You may rerun this script if you wish to configure it later."
+fi
+
+echo -e "\n"
 echo "#############################################"
 echo "# GitHub:Enterprise OAuth Application Setup #"
 echo "#############################################"
@@ -239,7 +289,7 @@ else
   echo RALLY_CLIENT_ID=not-a-real-client-id >> $envFile
   sed -n '/RALLY_CLIENT_SECRET/!p' $envFile > tmp.list && mv tmp.list $envFile
   echo RALLY_CLIENT_SECRET=not-a-real-client-secret >> $envFile
-  echo "Skipping GitHub.com OAuth Application setup. You may rerun this script if you wish to configure it later."
+  echo "Skipping Rally OAuth Application setup. You may rerun this script if you wish to configure it later."
 fi
 
 echo -e "\n"
