@@ -32,6 +32,16 @@ _These instructions are meant for customers installing Waffle Takeout in their o
 9. Run `cd waffleio-takeout`.
 10. Run `./install.sh` and follow prompts.
 
+### Proxy configuration
+
+During installation, you'll be prompted for proxy information. If, on your internal network, you must connect through a proxy to talk to your GitHub:Enterprise installation, GitHub.com, or Rally, you should configure a proxy. If you only need GitHub:Enterprise support (and not GitHub.com or Rally integration), and reaching GitHub:Enterprise does not require connecting through a proxy, you do not need to configure a proxy.
+
+#### Configure you proxy to allow GitHub.com access
+- See GitHub's IP information: https://help.github.com/articles/what-ip-addresses-does-github-use-that-i-should-whitelist/
+
+#### Configure your proxy to allow Rally access
+- See Rally's IP information: https://help.rallydev.com/rally-ip-addresses-and-cdn-networks
+
 ### Troubleshooting
 
 #### If `install.sh` does not complete
