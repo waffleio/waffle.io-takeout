@@ -22,7 +22,7 @@ Add `DOCKER_HOST` to your `~/.zshrc`:
 ### Updating docker images
 _Pushes to master trigger docker builds in quay.io, these steps are not required during normal development._
 
-1. Build the docker image: `docker build --tag="waffleio/waffle.io-app" --no-cache`. The `no-cache` option is required for now, otherwise new code changes won't be picked up.
+1. Build the docker image: `docker build --tag="waffleio/waffle.io-app" --no-cache .` The `no-cache` option is required for now, otherwise new code changes won't be picked up.
 2. Grab the image id from the output.
 3. Tag the image for quay.io: `docker tag -f <image id> quay.io/waffleio/waffle.io-app`
 4. Upload to quay.io: `docker push quay.io/waffleio/waffle.io-app`
