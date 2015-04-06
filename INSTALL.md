@@ -62,7 +62,8 @@ _Before running `install.sh` again, you need to remove existing docker container
 1. Stop and remove containers: `docker rm -f $(docker ps -a -q)`.
 2. Run `./install.sh` again.
 
-#### If you need to reconfigure the URLs for GitHub.com, GitHub:Enterprise, or Rally, you need to first clear some data from the mongo database before re-running the `install.sh` script (yep, we know, we should totally handle this for you).
+_If you need to reconfigure the URLs for GitHub.com, GitHub:Enterprise, or Rally, you need to first clear some data from the mongo database before re-running the `install.sh` script (yep, we know, we should totally handle this for you)._
+
 1. `mongo <connect string>`
 2. `use <db name>`
 3. `db.migration_versions.remove({$or: [{name: /create_default_providers/}, {name: /set_public_providers/}] })`
