@@ -34,7 +34,7 @@ then
   read hostIp
 fi
 
-echo -en "\n${blue}Is there a hostname for this machine that you want to use to talk to your Waffle.io Takeout? Or would you like us to just use the IP? If you do not provide a hostname, your users will have to use the IP address to access your Waffle installation. (${hostIp})\n${grey}Please enter the hostname for this maching (blank to use the IP):\n> ${reset}"
+echo -en "\n${blue}Is there a hostname for this machine that you want to use to talk to your Waffle.io Takeout? Or would you like us to just use the IP? If you do not provide a hostname, your users will have to use the IP address to access your Waffle installation. (${hostIp})\n${grey}Please enter the hostname for this machine (blank to use the IP):\n> ${reset}"
 read hostName
 hostName=${hostName:-$hostIp}
 
