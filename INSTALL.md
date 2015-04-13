@@ -10,6 +10,14 @@ _These instructions are meant for customers installing Waffle Takeout in their o
   - If you are running in AWS, you can install mongodb on EC2 by following [these instructions](http://docs.mongodb.org/ecosystem/platforms/amazon-ec2/).
 2. If you plan to have your Waffle Takeout instance available through a hostname instead of an IP address (e.g., mapping the machine to waffle.io on your local network), you should have that complete before running the `install.sh` script.
 
+### Installing Waffle.io Takeout on your own VM
+1. [Install docker](http://docs.docker.com/installation/) on any unix distro of your choosing.
+2. Upload waffle-takeout.zip to your VM. You should have received a link to dowload takeout; if not, contact support@waffle.io.
+3. Run `unzip waffleio-takeout.zip`.
+4. Run `cd waffleio-takeout`.
+5. Run `./install.sh` and follow prompts.
+Remember, it's up to you to backup your mongodb database. Also, we recommend keeping a copy of waffleio-env.list somewhere safe; if anything happens to your installation, you'll be able to restore the same settings with a new install.
+
 ### Installing Waffle.io Takeout on EC2
 
 1. Follow [these instructions](https://docs.docker.com/installation/amazon/) to create an EC2 instance with docker installed.
