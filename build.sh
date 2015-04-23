@@ -21,7 +21,8 @@ fi
 echo -e "\n${blue}Please login to quay.io${reset}"
 docker login quay.io
 
-mkdir -p waffleio-takeout
+mkdir waffleio-takeout
+mkdir waffleio-takeout/ca-certificates
 
 echo -e "\nPulling images from quay.io..."
 docker pull quay.io/waffleio/hedwig
@@ -42,28 +43,11 @@ cp install.sh waffleio-takeout/
 cp waffleio-env.list waffleio-takeout/
 
 echo "Packaging files together"
-zip -r waffleio-takeout.zip waffleio-takeout
+timestamp="$(date +"%Y-%m-%d")"
+zip -r waffleio-takeout-${timestamp}.zip waffleio-takeout
 
 rm -rf waffleio-takeout/
 
-echo "Uploading to S3"
-file=waffleio-takeout.zip
-bucket="waffleio-takeout"
-resource="/${bucket}/${file}"
-contentType="application/zip"
-dateValue=`TZ=utc date "+%a, %d %h %Y %T %z"`
-stringToSign="PUT\n\n${contentType}\n${dateValue}\n${resource}"
-s3Key=$WAFFLE_AWS_ACCESS_KEY_ID
-s3Secret=$WAFFLE_AWS_SECRET_ACCESS_KEY
-signature=`echo -en ${stringToSign} | openssl sha1 -hmac ${s3Secret} -binary | base64`
-
-curl \
-  -k -X PUT -T "${file}" \
-  -H "Host: ${bucket}.s3.amazonaws.com" \
-  -H "Date: ${dateValue}" \
-  -H "Content-Type: ${contentType}" \
-  -H "Authorization: AWS ${s3Key}:${signature}" \
-  https://${bucket}.s3.amazonaws.com/${file} \
-  | echo
+./upload.sh waffleio-takeout-${timestamp}.zip 
 
 echo 'Finished'

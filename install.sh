@@ -369,11 +369,12 @@ docker run --env-file ./waffleio-env.list quay.io/waffleio/waffle.io-models
 # Start the containers #
 ########################
 echo "Starting the docker images."
+certificatesDir="$(pwd)/ca-certificates"
 hedwigCID=$(docker run --env-file ./waffleio-env.list -d quay.io/waffleio/hedwig)
 poxaCID=$(docker run --env-file ./waffleio-env.list -d -p $poxaPort:8080 quay.io/waffleio/poxa)
 rallyIntegrationCID=$(docker run --env-file ./waffleio-env.list -d -p $rallyIntegrationPort:3001 quay.io/waffleio/waffle.io-rally-integration)
-hooksCID=$(docker run --env-file ./waffleio-env.list -d -p $hooksPort:3004 quay.io/waffleio/waffle.io-hooks)
-appCID=$(docker run --env-file ./waffleio-env.list -d -p $appPort:3001 quay.io/waffleio/waffle.io-app)
+hooksCID=$(docker run --env-file ./waffleio-env.list -d -p $hooksPort:3004 -v ${certificatesDir}:/etc/waffle/ca-certificates:ro quay.io/waffleio/waffle.io-hooks)
+appCID=$(docker run --env-file ./waffleio-env.list -d -p $appPort:3001 -v ${certificatesDir}:/etc/waffle/ca-certificates:ro quay.io/waffleio/waffle.io-app)
 
 echo -e "\n\n"
 echo "                              NN                              "
