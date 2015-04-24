@@ -50,7 +50,7 @@ echo WAFFLE_HOOKS_SERVICE_URI="http://${hostName}:${hooksPort}" >> $envFile
 sed -n '/RALLY_INTEGRATION_BASE_URL/!p' $envFile > tmp.list && mv tmp.list $envFile
 echo RALLY_INTEGRATION_BASE_URL="http://${hostName}:${rallyIntegrationPort}" >> $envFile
 sed -n '/POXA_HOST/!p' $envFile > tmp.list && mv tmp.list $envFile
-echo POXA_HOST="http://${hostName}" >> $envFile
+echo POXA_HOST="${hostName}" >> $envFile
 sed -n '/POXA_PORT/!p' $envFile > tmp.list && mv tmp.list $envFile
 echo POXA_PORT="${poxaPort}" >> $envFile
 
