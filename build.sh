@@ -29,14 +29,14 @@ docker pull quay.io/waffleio/hedwig
 docker pull quay.io/waffleio/poxa
 docker pull quay.io/waffleio/waffle.io-app
 docker pull quay.io/waffleio/waffle.io-hooks
-docker pull quay.io/waffleio/waffle.io-models
+docker pull quay.io/waffleio/waffle.io-migrations
 docker pull quay.io/waffleio/waffle.io-rally-integration
 
 docker save --output="waffleio-takeout/hedwig.tar" quay.io/waffleio/hedwig
 docker save --output="waffleio-takeout/poxa.tar" quay.io/waffleio/poxa
 docker save --output="waffleio-takeout/waffle.io-app.tar" quay.io/waffleio/waffle.io-app
 docker save --output="waffleio-takeout/waffle.io-hooks.tar" quay.io/waffleio/waffle.io-hooks
-docker save --output="waffleio-takeout/waffle.io-models.tar" quay.io/waffleio/waffle.io-models
+docker save --output="waffleio-takeout/waffle.io-migrations.tar" quay.io/waffleio/waffle.io-migrations
 docker save --output="waffleio-takeout/waffle.io-rally-integration.tar" quay.io/waffleio/waffle.io-rally-integration
 
 cp install.sh waffleio-takeout/
