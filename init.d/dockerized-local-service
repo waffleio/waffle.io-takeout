@@ -1,0 +1,105 @@
+#!/bin/bash
+
+#####
+# Note: This script needs to live on the docker hosts @ /etc/init.d/dockerized-local-service
+####
+
+declare -r image="${IMAGE:?You must specific a docker image to run.}"
+declare -r name="${NAME:-$(basename $(readlink --no-newline --canonicalize-existing $0))}"
+declare -r version="${VERSION:-latest}"
+declare -r container="${image}:${version}"
+declare -r docker_opts="${DOCKER_OPTS}"
+declare -r container_opts="${CONTAINER_OPTS}"
+declare -r restart_policy="${RESTART_POLICY:-always}"
+
+# How long to wait before sending SIGKILL when stopping a container
+declare -r stop_timeout="${STOP_TIMEOUT:-10}"
+
+declare -r docker_bin="${DOCKER_BIN:-/usr/bin/docker}"
+
+__quietly() {
+  # if DOCKER_DEBUG is unset, trash stdout/stderr, otherwise let it go through
+  if [ -z ${DOCKER_DEBUG:+x} ]; then
+    "$@" 2>/dev/null >/dev/null
+  else
+    "$@"
+  fi
+}
+
+__start() {
+  if docker inspect -f {{.State.Running}} $name >/dev/null 2>&1; then
+    echo "${name} is already running... ";
+    return 0
+  else
+    __quietly call_fn 'stop'
+    echo "Starting ${name}... "
+    __quietly ${docker_bin} run ${docker_opts} --name=$name -d --restart="${restart_policy}" --hostname="$(hostname)" "${container}" ${container_opts}
+    return $?
+  fi
+}
+
+__stop() {
+  echo "Stopping ${name}... "
+  __quietly ${docker_bin} stop --time="${stop_timeout}" "${name}"
+  echo "Cleaning up ${name}... "
+  __quietly ${docker_bin} rm --volumes=true "${name}"
+  return $?
+}
+
+__status() {
+  if docker inspect -f {{.State.Running}} $name >/dev/null 2>&1; then
+    pid=$(docker inspect -f {{.State.Pid}} $name);
+    echo "${name} is running, process ${pid}";
+  else
+    echo "${name} is stopped.";
+  fi
+
+  return 0
+}
+
+__restart() {
+  call_fn 'stop'
+  call_fn 'start'
+}
+
+__reload() {
+  call_fn 'restart'
+}
+
+call_fn() {
+  local -r fn="${1:?You must provide a function to call}"
+
+  if [ 'function' = "$(type -t $fn)" ]; then
+  "${fn}"
+  else
+  "__${fn}"
+  fi
+}
+
+case "${1}" in
+  start)
+    call_fn 'start'
+    ;;
+
+  stop)
+    call_fn 'stop'
+    ;;
+
+  status)
+    call_fn 'status'
+    ;;
+
+  restart)
+    call_fn 'restart'
+    ;;
+
+  reload)
+    call_fn 'reload'
+    ;;
+
+  *)
+    echo "Usage: ${0} {start|stop|status|reload|restart}"
+    exit 1
+    ;;
+esac
+exit $?
