@@ -354,7 +354,7 @@ docker load --input waffle.io-app.tar
 echo -ne '[###############               ] (50%)\r'
 docker load --input waffle.io-hooks.tar
 echo -ne '[####################          ] (67%)\r'
-docker load --input waffle.io-models.tar
+docker load --input waffle.io-migrations.tar
 echo -ne '[#########################     ] (83%)\r'
 docker load --input waffle.io-rally-integration.tar
 echo -e  '[##############################] (100%)\r'
@@ -363,7 +363,7 @@ echo -e  '[##############################] (100%)\r'
 # Run migrations #
 ##################
 echo -e "\nMigrating the database."
-docker run --env-file ./waffleio-env.list quay.io/waffleio/waffle.io-models
+docker run --env-file ./waffleio-env.list quay.io/waffleio/waffle.io-migrations
 
 ########################
 # Start the containers #
