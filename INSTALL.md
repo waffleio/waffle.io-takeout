@@ -3,7 +3,7 @@ _These instructions are meant for customers installing Waffle Takeout in their o
 
 #### Hardware Requirements
  - We recommend at least 16GB of storage, and 3GB of memory.
- - Takeout supports any unix based distro with docker installed.
+ - Takeout supports any linux distro with docker installed.
  
 #### Prerequisites
 1. You need mongodb (v2.6) running somewhere. It's your responsibility to maintain your mongodb installation.
