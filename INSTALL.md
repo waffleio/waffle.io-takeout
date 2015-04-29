@@ -11,7 +11,7 @@ _These instructions are meant for customers installing Waffle Takeout in their o
 2. If you plan to have your Waffle Takeout instance available through a hostname instead of an IP address (e.g., mapping the machine to waffle.io on your local network), you should have that complete before running the `install.sh` script.
 
 ### Installing Waffle.io Takeout on your own VM
-1. [Install docker](http://docs.docker.com/installation/) on any unix distro of your choosing.
+1. [Install docker](http://docs.docker.com/installation/) on any linux distro of your choosing.
 2. Upload waffle-takeout.zip to your VM. You should have received a link to download takeout; if not, contact support@waffle.io.
 3. Run `unzip waffleio-takeout.zip`.
 4. Run `cd waffleio-takeout`.
