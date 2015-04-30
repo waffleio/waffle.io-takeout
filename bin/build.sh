@@ -70,10 +70,8 @@ then
 else
   suffix=""
 fi
-filename="waffleio-takeout-${timestamp}${suffix}.zip"
-zip -r $filename waffleio-takeout
+zip -r waffleio-takeout-${timestamp}${suffix}.zip waffleio-takeout
 rm -rf waffleio-takeout/
 echo -e "${reset}"
 
-./upload.sh $filename
 echo 'Finished'
