@@ -21,8 +21,14 @@ then
   exit 1
 fi
 
-echo -e "\n${blue}Please login to quay.io${reset}"
-docker login quay.io
+if [ $WAFFLE_QUAYIO_USERNAME ] && [ $WAFFLE_QUAYIO_PASSWORD ] && [ $WAFFLE_QUAYIO_EMAIL ]
+then
+  echo -e "\n${blue}Logging in to quay.io${reset}"
+  docker login -u $WAFFLE_QUAYIO_USERNAME -p $WAFFLE_QUAYIO_PASSWORD -e $WAFFLE_QUAYIO_EMAIL quay.io
+else
+  echo -e "\n${blue}Please login to quay.io${reset}"
+  docker login quay.io
+fi
 
 mkdir waffleio-takeout
 
@@ -33,6 +39,7 @@ docker pull quay.io/waffleio/waffle.io-app
 docker pull quay.io/waffleio/waffle.io-hooks
 docker pull quay.io/waffleio/waffle.io-migrations
 docker pull quay.io/waffleio/waffle.io-rally-integration
+docker pull quay.io/waffleio/waffle.io-admin
 echo -e "${reset}"
 
 echo -e "Packaging images into tarballs"
@@ -48,14 +55,22 @@ echo -e "${grey}  Packaging waffle.io-migrations...${reset}"
 docker save --output="waffleio-takeout/waffle.io-migrations.tar" quay.io/waffleio/waffle.io-migrations
 echo -e "${grey}  Packaging waffle.io-rally-integration...${reset}"
 docker save --output="waffleio-takeout/waffle.io-rally-integration.tar" quay.io/waffleio/waffle.io-rally-integration
+echo -e "${grey}  Packaging waffle.io-admin...${reset}"
+docker save --output="waffleio-takeout/waffle.io-admin.tar" quay.io/waffleio/waffle.io-admin
 
 cp bin/install.sh waffleio-takeout/
 cp *.list waffleio-takeout/
 cp -r init.d waffleio-takeout/
 
 echo -e "\nZipping files together${grey}"
-timestamp="$(date +"%Y-%m-%d")"
-zip -r waffleio-takeout-${timestamp}.zip waffleio-takeout
+timestamp="$(date +"%Y-%m-%d-%H:%M:%S")"
+if [ $1 ]
+then
+  suffix="-${1}"
+else
+  suffix=""
+fi
+zip -r waffleio-takeout-${timestamp}${suffix}.zip waffleio-takeout
 rm -rf waffleio-takeout/
 echo -e "${reset}"
 

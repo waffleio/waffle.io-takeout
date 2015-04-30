@@ -366,16 +366,18 @@ sudo mv init.d/* /etc/init.d
 echo -e "\nLoading in the docker images, this might take a few minutes:"
 echo -ne '[                              ] (0%)\r'
 docker load --input hedwig.tar
-echo -ne '[#####                         ] (17%)\r'
+echo -ne '[###                           ] (14%)\r'
 docker load --input poxa.tar
-echo -ne '[##########                    ] (33%)\r'
+echo -ne '[#######                       ] (28%)\r'
 docker load --input waffle.io-app.tar
-echo -ne '[###############               ] (50%)\r'
+echo -ne '[############                  ] (42%)\r'
 docker load --input waffle.io-hooks.tar
-echo -ne '[####################          ] (67%)\r'
+echo -ne '[################              ] (57%)\r'
 docker load --input waffle.io-migrations.tar
-echo -ne '[#########################     ] (83%)\r'
+echo -ne '[#####################         ] (71%)\r'
 docker load --input waffle.io-rally-integration.tar
+echo -e  '[##########################    ] (85%)\r'
+docker load --input waffle.io-admin.tar
 echo -e  '[##############################] (100%)\r'
 
 ##################

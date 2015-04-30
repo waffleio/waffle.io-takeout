@@ -1,3 +1,5 @@
+#!/bin/bash
+
 file=$1
 echo "Uploading $file to S3"
 
@@ -11,7 +13,7 @@ s3Secret=$WAFFLE_AWS_SECRET_ACCESS_KEY
 signature=`echo -en ${stringToSign} | openssl sha1 -hmac ${s3Secret} -binary | base64`
 
 curl \
-  -k -X PUT -T "${file}" \
+  -k -X PUT -T $file \
   -H "Host: ${bucket}.s3.amazonaws.com" \
   -H "Date: ${dateValue}" \
   -H "Content-Type: ${contentType}" \
