@@ -6,13 +6,23 @@ red='\033[0;31m'
 yellow='\033[1;33m'
 reset='\033[0m'
 
+trap "echo -e \"\n\n${red}Exiting...${reset}\n\"; exit;" SIGINT SIGTERM
+
+#!/bin/bash
+if (( EUID != 0 )); then
+    echo -e "\n${red}We need root access in order to set up init.d scripts and save off environment configuration in /etc/waffle.\n\nPlease run ./install.sh as root.${reset}\n" 1>&2
+    exit 1
+fi
+
 hash docker 2>/dev/null || { echo -e >&2 "${red}I require docker but it's not installed.  Aborting.${reset}"; exit 1; }
 
 echo -e "\nWelcome to Waffle.io Takeout!"
 echo -e "\nWe need to get some information about your environment to get started."
 
-envFile='waffleio-env.list'
+envFile='environment.list'
 source $envFile
+portMappingsFile='port-mappings.list'
+source $portMappingsFile
 
 ###############################################
 # Setting up connecting environment variables #
@@ -38,21 +48,16 @@ echo -en "\n${blue}Is there a hostname for this machine that you want to use to 
 read hostName
 hostName=${hostName:-$hostIp}
 
-appPort=80
-hooksPort=3002
-rallyIntegrationPort=3003
-poxaPort=3004
-
 sed -n '/WAFFLE_BASE_URL/!p' $envFile > tmp.list && mv tmp.list $envFile
 echo WAFFLE_BASE_URL="http://${hostName}" >> $envFile
 sed -n '/WAFFLE_HOOKS_SERVICE_URI/!p' $envFile > tmp.list && mv tmp.list $envFile
-echo WAFFLE_HOOKS_SERVICE_URI="http://${hostName}:${hooksPort}" >> $envFile
+echo WAFFLE_HOOKS_SERVICE_URI="http://${hostName}:${HOOKS_PORT}" >> $envFile
 sed -n '/RALLY_INTEGRATION_BASE_URL/!p' $envFile > tmp.list && mv tmp.list $envFile
-echo RALLY_INTEGRATION_BASE_URL="http://${hostName}:${rallyIntegrationPort}" >> $envFile
+echo RALLY_INTEGRATION_BASE_URL="http://${hostName}:${RALLY_INTEGRATION_PORT}" >> $envFile
 sed -n '/POXA_HOST/!p' $envFile > tmp.list && mv tmp.list $envFile
 echo POXA_HOST="${hostName}" >> $envFile
 sed -n '/POXA_PORT/!p' $envFile > tmp.list && mv tmp.list $envFile
-echo POXA_PORT="${poxaPort}" >> $envFile
+echo POXA_PORT="${POXA_PORT}" >> $envFile
 
 echo -e "\n"
 echo "#######################"
@@ -341,6 +346,20 @@ echo WEB_CONCURRENCY=$webConcurrency >> $envFile
 
 echo -e "\n\nGreat! That's all we need, we will have your Waffle.io Takeout ready shortly."
 
+######################################################
+# Store off environment configuration in /etc/waffle #
+######################################################
+echo -e "\n\nSaving environment configuration in /etc/waffle/"
+sudo mkdir -p /etc/waffle/ca-certificates
+sudo cp $envFile /etc/waffle/environment.list
+sudo cp $portMappingsFile /etc/waffle/port-mappings.list
+
+########################
+# Setup init.d scripts #
+########################
+echo -e "Setting up init.d scripts"
+sudo mv init.d/* /etc/init.d
+
 #############################
 # Load in the Docker images #
 #############################
@@ -363,18 +382,13 @@ echo -e  '[##############################] (100%)\r'
 # Run migrations #
 ##################
 echo -e "\nMigrating the database."
-docker run --env-file ./waffleio-env.list quay.io/waffleio/waffle.io-migrations
+docker run --env-file /etc/waffle/environment.list quay.io/waffleio/waffle.io-migrations
 
 ########################
 # Start the containers #
 ########################
 echo "Starting the docker images."
-certificatesDir="$(pwd)/ca-certificates"
-hedwigCID=$(docker run --env-file ./waffleio-env.list -d quay.io/waffleio/hedwig)
-poxaCID=$(docker run --env-file ./waffleio-env.list -d -p $poxaPort:8080 quay.io/waffleio/poxa)
-rallyIntegrationCID=$(docker run --env-file ./waffleio-env.list -d -p $rallyIntegrationPort:3001 quay.io/waffleio/waffle.io-rally-integration)
-hooksCID=$(docker run --env-file ./waffleio-env.list -d -p $hooksPort:3004 -v ${certificatesDir}:/etc/waffle/ca-certificates:ro quay.io/waffleio/waffle.io-hooks)
-appCID=$(docker run --env-file ./waffleio-env.list -d -p $appPort:3001 -v ${certificatesDir}:/etc/waffle/ca-certificates:ro quay.io/waffleio/waffle.io-app)
+service waffle start
 
 echo -e "\n\n"
 echo "                              NN                              "

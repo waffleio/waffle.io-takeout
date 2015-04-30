@@ -4,7 +4,7 @@ _These instructions are meant for customers installing Waffle Takeout in their o
 #### Hardware Requirements
  - We recommend at least 16GB of storage, and 3GB of memory.
  - Takeout supports any linux distro with docker installed.
- 
+
 #### Prerequisites
 1. You need mongodb (v2.6) running somewhere. It's your responsibility to maintain your mongodb installation.
   - If you are running in AWS, you can install mongodb on EC2 by following [these instructions](http://docs.mongodb.org/ecosystem/platforms/amazon-ec2/).
@@ -16,7 +16,7 @@ _These instructions are meant for customers installing Waffle Takeout in their o
 3. Run `unzip waffleio-takeout.zip`.
 4. Run `cd waffleio-takeout`.
 5. Run `./install.sh` and follow prompts.
-Remember, it's up to you to backup your mongodb database. Also, we recommend keeping a copy of waffleio-env.list somewhere safe; if anything happens to your installation, you'll be able to restore the same settings with a new install.
+Remember, it's up to you to backup your mongodb database. Also, we recommend keeping a copy of /etc/waffle/environment.list somewhere safe; if anything happens to your installation, you'll be able to restore the same settings with a new install.
 
 ### Installing Waffle.io Takeout on EC2
 

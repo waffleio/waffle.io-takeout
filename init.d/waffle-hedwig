@@ -1,0 +1,8 @@
+#!/bin/bash
+
+IMAGE=quay.io/waffleio/hedwig
+
+DOCKER_OPTS="--env-file /etc/waffle/environment.list \
+             --restart='on-failure[10]'"
+
+source /etc/init.d/dockerized-local-service

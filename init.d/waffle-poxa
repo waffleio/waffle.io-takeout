@@ -1,0 +1,11 @@
+#!/bin/bash
+
+source /etc/waffle/port-mappings.list
+
+IMAGE=quay.io/waffleio/poxa
+
+DOCKER_OPTS="--env-file /etc/waffle/environment.list \
+             --publish $POXA_PORT:8080 \
+             --restart='on-failure[10]'"
+
+source /etc/init.d/dockerized-local-service
