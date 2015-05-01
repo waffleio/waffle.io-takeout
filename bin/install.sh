@@ -1,10 +1,7 @@
 #!/bin/bash
 
-blue='\033[0;34m'
-grey="\033[1;30m"
-red='\033[0;31m'
-yellow='\033[1;33m'
-reset='\033[0m'
+__dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source ${__dir}/bin/colors.sh
 
 trap "echo -e \"\n\n${red}Exiting...${reset}\n\"; exit;" SIGINT SIGTERM
 
@@ -19,10 +16,8 @@ hash docker 2>/dev/null || { echo -e >&2 "${red}I require docker but it's not in
 echo -e "\nWelcome to Waffle.io Takeout!"
 echo -e "\nWe need to get some information about your environment to get started."
 
-envFile='environment.list'
+envFile='./etc/waffle/environment.list'
 source $envFile
-portMappingsFile='port-mappings.list'
-source $portMappingsFile
 
 ###############################################
 # Setting up connecting environment variables #
@@ -47,17 +42,19 @@ fi
 echo -en "\n${blue}Is there a hostname for this machine that you want to use to talk to your Waffle.io Takeout? Or would you like us to just use the IP? If you do not provide a hostname, your users will have to use the IP address to access your Waffle installation. (${hostIp})\n${grey}Please enter the hostname for this machine (blank to use the IP):\n> ${reset}"
 read hostName
 hostName=${hostName:-$hostIp}
+sed -n '/HOST_NAME/!p' $envFile > tmp.list && mv tmp.list $envFile
+echo HOST_NAME=$hostName >> $envFile
 
 sed -n '/WAFFLE_BASE_URL/!p' $envFile > tmp.list && mv tmp.list $envFile
-echo WAFFLE_BASE_URL="http://${hostName}" >> $envFile
+echo WAFFLE_BASE_URL="https://${hostName}" >> $envFile
 sed -n '/WAFFLE_HOOKS_SERVICE_URI/!p' $envFile > tmp.list && mv tmp.list $envFile
-echo WAFFLE_HOOKS_SERVICE_URI="http://${hostName}:${HOOKS_PORT}" >> $envFile
+echo WAFFLE_HOOKS_SERVICE_URI="https://hooks.${hostName}" >> $envFile
 sed -n '/RALLY_INTEGRATION_BASE_URL/!p' $envFile > tmp.list && mv tmp.list $envFile
-echo RALLY_INTEGRATION_BASE_URL="http://${hostName}:${RALLY_INTEGRATION_PORT}" >> $envFile
+echo RALLY_INTEGRATION_BASE_URL="https://rally.${hostName}" >> $envFile
 sed -n '/POXA_HOST/!p' $envFile > tmp.list && mv tmp.list $envFile
-echo POXA_HOST="${hostName}" >> $envFile
+echo POXA_HOST="poxa.${hostName}" >> $envFile
 sed -n '/POXA_PORT/!p' $envFile > tmp.list && mv tmp.list $envFile
-echo POXA_PORT="${POXA_PORT}" >> $envFile
+echo POXA_PORT=443 >> $envFile
 
 echo -e "\n"
 echo "#######################"
@@ -139,9 +136,9 @@ then
 
   echo -e "\nWe need to configure an OAuth Application for Waffle.io Takeout. Please go to ${primaryGitHubBaseUrl%/}/settings/applications and register an application with the following configuration:"
   echo -e "     Application name:           Waffle.io Takeout"
-  echo -e "     Homepage URL:               http://${hostName}"
+  echo -e "     Homepage URL:               https://${hostName}"
   echo -e "     Application description:    Automate your workflow."
-  echo -e "     Authorization callback URL: http://${hostName}"
+  echo -e "     Authorization callback URL: https://${hostName}"
   echo -e "     Application Logo:           https://brandfolder.com/waffleio/share/1FBJUQk"
 echo -e "After registering your application, you will be given a Client ID and Client Secret."
 
@@ -193,9 +190,9 @@ if [[ $wantsGitHubSaas =~ ^([yY][eE][sS]|[yY])$ ]]
 then
   echo -e "\nWe need to configure an OAuth Application for Waffle.io Takeout. Please go to https://github.com/settings/applications and register an application with the following configuration:"
   echo -e "     Application name:           Waffle.io Takeout"
-  echo -e "     Homepage URL:               http://${hostName}"
+  echo -e "     Homepage URL:               https://${hostName}"
   echo -e "     Application description:    Automate your workflow."
-  echo -e "     Authorization callback URL: http://${hostName}"
+  echo -e "     Authorization callback URL: https://${hostName}"
   echo -e "     Application Logo:           https://brandfolder.com/waffleio/share/1FBJUQk"
   echo -e "After registering your application, you will be given a Client ID and Client Secret."
 
@@ -251,8 +248,8 @@ if [[ $hasRally =~ ^([yY][eE][sS]|[yY])$ ]]
 then
   echo -e "\nPlease go to https://rally1.rallydev.com/login/accounts/index.html#/clients and register an application with the following configuration:"
   echo -e "     Application name:           Waffle.io Takeout"
-  echo -e "     Homepage URL:               http://${hostName}"
-  echo -e "     Authorization callback URL: http://${hostName}/rally-callback"
+  echo -e "     Homepage URL:               https://${hostName}"
+  echo -e "     Authorization callback URL: https://${hostName}/rally-callback"
   echo -e "     Application Logo:           https://brandfolder.com/waffleio/share/1FBJUQk"
   echo -e "After registering your application, you will be given a Client ID and Client Secret."
 
@@ -350,35 +347,53 @@ echo -e "\n\nGreat! That's all we need, we will have your Waffle.io Takeout read
 # Store off environment configuration in /etc/waffle #
 ######################################################
 echo -e "\n\nSaving environment configuration in /etc/waffle/"
-sudo mkdir -p /etc/waffle/ca-certificates
 sudo cp $envFile /etc/waffle/environment.list
-sudo cp $portMappingsFile /etc/waffle/port-mappings.list
 
 ########################
 # Setup init.d scripts #
 ########################
 echo -e "Setting up init.d scripts"
-sudo mv init.d/* /etc/init.d
+sudo cp ./etc/init.d/* /etc/init.d
+
+##########################
+# Configure NGINX vhosts #
+##########################
+echo -e "Configuring NGINX vhosts"
+sudo mkdir -p /etc/waffle/nginx/vhost.d
+sudo cp ./etc/waffle/nginx/vhost.d/poxa.conf /etc/waffle/nginx/vhost.d/poxa.$HOST_NAME
+
+#############################
+# Creating SSL Certificates #
+#############################
+echo -e "Creating a self-signed certificates${grey}"
+sudo mkdir -p /etc/waffle/{ca-certificates,nginx/certs}
+(./bin/make-root-ca-and-certificates.sh \
+  --hostname=$HOST_NAME \
+  --ca-dir /etc/waffle/ca-certificates \
+  --certificates-dir /etc/waffle/nginx/certs)
+echo -en "${reset}"
 
 #############################
 # Load in the Docker images #
 #############################
 echo -e "\nLoading in the docker images, this might take a few minutes:"
-echo -ne '[                              ] (0%)\r'
-docker load --input hedwig.tar
-echo -ne '[###                           ] (14%)\r'
-docker load --input poxa.tar
-echo -ne '[#######                       ] (28%)\r'
-docker load --input waffle.io-app.tar
-echo -ne '[############                  ] (42%)\r'
-docker load --input waffle.io-hooks.tar
-echo -ne '[################              ] (57%)\r'
-docker load --input waffle.io-migrations.tar
-echo -ne '[#####################         ] (71%)\r'
-docker load --input waffle.io-rally-integration.tar
-echo -e  '[##########################    ] (85%)\r'
-docker load --input waffle.io-admin.tar
-echo -e  '[##############################] (100%)\r'
+echo -ne '[                                ] (0%)\r'
+docker load --input images/hedwig.tar
+echo -ne '[####                            ] (13%)\r'
+docker load --input images/poxa.tar
+echo -ne '[########                        ] (25%)\r'
+docker load --input images/waffle.io-app.tar
+echo -ne '[############                    ] (38%)\r'
+docker load --input images/waffle.io-hooks.tar
+echo -ne '[################                ] (50%)\r'
+docker load --input images/waffle.io-migrations.tar
+echo -ne '[####################            ] (63%)\r'
+docker load --input images/waffle.io-rally-integration.tar
+echo -ne  '[########################        ] (75%)\r'
+docker load --input images/waffle.io-admin.tar
+echo -ne  '[############################    ] (88%)\r'
+docker load --input images/nginx-proxy.tar
+echo -e  '[################################] (100%)\r'
 
 ##################
 # Run migrations #
@@ -447,8 +462,8 @@ echo "                                   NNNNNN                     "
 echo "                                    NNNN                      "
 echo -e "
 
-Your Waffle.io Takeout is ready for pick up. You can pick it up at http://${hostName}.
+Your Waffle.io Takeout is ready for pick up. You can pick it up at https://${hostName}.
 
-${yellow}WARNING: We have stored your environment configuration in ./${envFile}. We recommend you back this file up. If it is lost or damaged we may not be able to recover your application state.${reset}
+${yellow}WARNING: We have stored your environment configuration in /etc/waffle/environment.list. We recommend you back this file up. If it is lost or damaged we may not be able to recover your application state.${reset}
 
 Happy Waffle'ing!"

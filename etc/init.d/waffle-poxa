@@ -1,11 +1,12 @@
 #!/bin/bash
 
-source /etc/waffle/port-mappings.list
+source /etc/waffle/environment.list
 
 IMAGE=quay.io/waffleio/poxa
 
 DOCKER_OPTS="--env-file /etc/waffle/environment.list \
-             --publish $POXA_PORT:8080 \
+             --env VIRTUAL_HOST=poxa.$HOST_NAME \
+             --env CERT_NAME=*.$HOST_NAME \
              --restart='on-failure[10]'"
 
 source /etc/init.d/dockerized-local-service
