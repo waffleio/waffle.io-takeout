@@ -359,6 +359,12 @@ sudo cp $portMappingsFile /etc/waffle/port-mappings.list
 ########################
 echo -e "Setting up init.d scripts"
 sudo mv init.d/* /etc/init.d
+sudo chmod +x /etc/init.d/waffle
+sudo chmod +x /etc/init.d/waffle-app
+sudo chmod +x /etc/init.d/waffle-hedwig
+sudo chmod +x /etc/init.d/waffle-hooks
+sudo chmod +x /etc/init.d/waffle-poxa
+sudo chmod +x /etc/init.d/waffle-rally-integration
 
 #############################
 # Load in the Docker images #
