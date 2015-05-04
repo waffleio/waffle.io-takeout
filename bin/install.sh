@@ -365,6 +365,7 @@ sudo chmod +x /etc/init.d/waffle-hedwig
 sudo chmod +x /etc/init.d/waffle-hooks
 sudo chmod +x /etc/init.d/waffle-poxa
 sudo chmod +x /etc/init.d/waffle-rally-integration
+sudo chmod +x /etc/init.d/waffle-admin
 
 #############################
 # Load in the Docker images #
