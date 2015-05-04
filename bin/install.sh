@@ -376,7 +376,7 @@ echo -ne '[################              ] (57%)\r'
 docker load --input waffle.io-migrations.tar
 echo -ne '[#####################         ] (71%)\r'
 docker load --input waffle.io-rally-integration.tar
-echo -e  '[##########################    ] (85%)\r'
+echo -ne '[##########################    ] (85%)\r'
 docker load --input waffle.io-admin.tar
 echo -e  '[##############################] (100%)\r'
 
