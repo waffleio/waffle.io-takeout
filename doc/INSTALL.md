@@ -2,7 +2,7 @@
 _These instructions are meant for customers installing Waffle Takeout in their own environment._
 
 #### Hardware Requirements
- - We recommend at least 16GB of storage, and 3GB of memory.
+ - We recommend at least 16GB of storage, and 4GB of memory.
  - Takeout supports any linux distro with docker installed.
 
 #### Prerequisites
@@ -21,7 +21,7 @@ Remember, it's up to you to backup your mongodb database. Also, we recommend kee
 ### Installing Waffle.io Takeout on EC2
 
 1. Follow [these instructions](https://docs.docker.com/installation/amazon/) to create an EC2 instance with docker installed.
-  - The minimum EC2 instance type is `t2.small`, with 16GB storage.
+  - The minimum EC2 instance type is `m3.large`, with 16GB storage.
   - To configure the root storage to be 16GB, instead of the default 8GB, go to the "Add Storage" tab when configuring your instance.
 
 2. Give your ssh user access to docker.
