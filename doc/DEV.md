@@ -40,7 +40,7 @@ This looks more daunting than it is, I promise :)
   2. Generate one by running the `./bin/build.sh` script (if you are testing local changes, you have to use this option).
 2. Unzip it on your host (local) machine into the location you specified in step 7 of "Setting up your VirtualBox"
 3. Inside your guest (virtual) machine, open a terminal and `cd /media/sf_<name of shared folder>`
-4. Run `sudo ./install` and follow the install.
+4. Run `sudo ./install.sh` and follow the install.
   - You must specify a hostname and configure ngrok (explained below) to tunnel traffic to your VM.
   - For your mongo uri, run `mongod` on your host (local) machine and then use the IP for your host machine.
 
