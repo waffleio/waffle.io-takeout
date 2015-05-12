@@ -47,9 +47,10 @@ This looks more daunting than it is, I promise :)
 #### Configure ngrok
 Waffle has a team ngrok account. You need to request access to it if you don't have it already. Then follow these steps:
 
-1. Download ngrok (optionally add it to your path or move it into `/usr/local/bin/` for convenience).
-2. Run `ngrok authtoken <your ngrok auth token>`. This will create `~/.ngrok2/ngrok.yml`.
-3. Open `~/.ngrok2/ngrok.yml` in your editor of choice and add the config so your file looks something like this (of course replacing the things in `<...>`):
+1. Go to [ngrok.com](ngrok.com), login, and reserve your hostname.
+2. Download ngrok (optionally add it to your path or move it into `/usr/local/bin/` for convenience).
+3. Run `ngrok authtoken <your ngrok auth token>`. This will create `~/.ngrok2/ngrok.yml`.
+4. Open `~/.ngrok2/ngrok.yml` in your editor of choice and add the config so your file looks something like this (of course replacing the things in `<...>`):
   ```yml
     authtoken: <your auth token>
 
@@ -64,7 +65,7 @@ Waffle has a team ngrok account. You need to request access to it if you don't h
         hostname: "*.<your VM hostname>"
         proto: tls
   ```
-4. Save that file and run `ngrok start --all` from your terminal.
+5. Save that file and run `ngrok start --all` from your terminal.
 
 ## Updating docker images
 _Pushes to master trigger docker builds in quay.io, these steps are not required during normal development._
