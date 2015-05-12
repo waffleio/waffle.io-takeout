@@ -7,18 +7,6 @@ trap "echo -e \"\n\n${red}Exiting...${reset}\n\"; exit;" SIGINT SIGTERM
 
 hash docker 2>/dev/null || { echo -e >&2 "${red}I require docker but it's not installed.  Aborting.${reset}"; exit 1; }
 
-if [ ! $WAFFLE_AWS_ACCESS_KEY_ID ]
-then
-  echo -e "${red}You must supply an environment variable named $WAFFLE_AWS_ACCESS_KEY_ID set to your AWS access key.${reset}"
-  exit 1
-fi
-
-if [ ! $WAFFLE_AWS_SECRET_ACCESS_KEY ]
-then
-  echo -e "${red}You must supply an environment variable named $WAFFLE_AWS_SECRET_ACCESS_KEY set to your AWS secret.${reset}"
-  exit 1
-fi
-
 if [ $WAFFLE_QUAYIO_USERNAME ] && [ $WAFFLE_QUAYIO_PASSWORD ] && [ $WAFFLE_QUAYIO_EMAIL ]
 then
   echo -e "\n${blue}Logging in to quay.io${reset}"

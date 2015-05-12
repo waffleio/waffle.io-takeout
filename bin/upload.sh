@@ -1,5 +1,17 @@
 #!/bin/bash
 
+if [ ! $WAFFLE_AWS_ACCESS_KEY_ID ]
+then
+  echo -e "${red}You must supply an environment variable named $WAFFLE_AWS_ACCESS_KEY_ID set to your AWS access key.${reset}"
+  exit 1
+fi
+
+if [ ! $WAFFLE_AWS_SECRET_ACCESS_KEY ]
+then
+  echo -e "${red}You must supply an environment variable named $WAFFLE_AWS_SECRET_ACCESS_KEY set to your AWS secret.${reset}"
+  exit 1
+fi
+
 file=$1
 echo "Uploading $file to S3"
 
