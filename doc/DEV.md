@@ -67,6 +67,12 @@ Waffle has a team ngrok account. You need to request access to it if you don't h
   ```
 5. Save that file and run `ngrok start --all` from your terminal.
 
+#### Trusting the self-signed CA
+After Takeout is up and running in your VM and you have ngrok tunneling your traffic, you will notice pointing your browser to your Takeout instance yields an untrusted cert error. Follow these steps on OSX to trust the cert
+
+1. In your VM, *copy* `/etc/waffle/ca-certificates/waffle-root-ca.crt` into `/media/sf_<shared folder name>` to make a copy of it available to your host machine.
+2. From your host machine, follw [these instructions](http://www.techrepublic.com/blog/apple-in-the-enterprise/managing-ssl-certificate-authorities-on-os-x/) to add that copied certificate as a trusted certificate on your system.
+
 ## Updating docker images
 _Pushes to master trigger docker builds in quay.io, these steps are not required during normal development._
 
