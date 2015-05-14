@@ -120,15 +120,21 @@ if [ -z "$hostname" ]; then
     exit 1
 fi
 
-#######################################################
-# Generating a self-signed Root Certificate Authority #
-#######################################################
-if [ -f "${ca_dir}/waffle-root-ca.crt" ] && [ ! $force ] ; then
-  printf "Root certificate authority already exists, skipping creating a new one.\n"
+#########################################
+# Generating a self-signed Certificates #
+#########################################
+if [ -f "${ca_dir}/waffle-root-ca.crt" ] &&
+   [ -f "${certificates_dir}/${hostname}.crt" ] &&
+   [ -f "${certificates_dir}/${hostname}.key" ] &&
+   [ -f "${certificates_dir}/*.${hostname}.crt" ] &&
+   [ -f "${certificates_dir}/*.${hostname}.key" ] &&
+   [ ! $force ] ;
+then
+  printf "Certificates already exists, skipping creating a new ones.\n"
 else
-  printf "Generating root certificate authority...\n${grey}"
+  printf "Generating self-signed certificates...\n${grey}"
 
-  mkdir -p .tmp/certs/ca
+  mkdir -p .tmp/certs/{ca,server,tmp}
 
   # Create your very own Root Certificate Authority
   openssl genrsa \
@@ -146,26 +152,6 @@ else
     -days 7670 \
     -out .tmp/certs/ca/waffle-root-ca.crt \
     -subj "/C=US/ST=Colorado/L=Boulder/O=Waffle Ironing Authority Inc/CN=waffle-ironing-ca.com"
-
-  cp .tmp/certs/ca/waffle-root-ca.crt ${ca_dir}
-
-  printf "$reset"
-fi
-
-#########################################
-# Generating a self-signed Certificates #
-#########################################
-if [ -f "${certificates_dir}/${hostname}.crt" ] &&
-   [ -f "${certificates_dir}/${hostname}.key" ] &&
-   [ -f "${certificates_dir}/*.${hostname}.crt" ] &&
-   [ -f "${certificates_dir}/*.${hostname}.key" ] &&
-   [ ! $force ] ;
-then
-  printf "Certificates already exists, skipping creating a new ones.\n"
-else
-  printf "Generating self-signed certificates...\n${grey}"
-
-  mkdir -p .tmp/certs/{server,tmp}
 
   # Create a Device Certificate for each domain,
   # such as example.com, *.example.com, awesome.example.com
@@ -205,6 +191,7 @@ else
     -out .tmp/certs/server/*.${hostname}.crt \
     -days 7304
 
+  cp .tmp/certs/ca/waffle-root-ca.crt ${ca_dir}
   cp .tmp/certs/server/${hostname}.crt ${certificates_dir}
   cp .tmp/certs/server/${hostname}.key ${certificates_dir}
   cp .tmp/certs/server/*.${hostname}.crt ${certificates_dir}
