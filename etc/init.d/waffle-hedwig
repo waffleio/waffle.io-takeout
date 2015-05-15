@@ -1,0 +1,13 @@
+#!/bin/bash
+
+source /etc/waffle/environment.list
+
+IMAGE=quay.io/waffleio/hedwig
+
+DOCKER_OPTS="--env-file /etc/waffle/environment.list \
+             --env VIRTUAL_HOST=hedwig.$HOST_NAME \
+             --env CERT_NAME=*.$HOST_NAME \
+             --volume=/etc/waffle/ca-certificates:/etc/waffle/ca-certificates:ro \
+             --restart='on-failure[10]'"
+
+source /etc/init.d/dockerized-local-service

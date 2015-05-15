@@ -1,11 +1,12 @@
 #!/bin/bash
 
-source /etc/waffle/port-mappings.list
+source /etc/waffle/environment.list
 
-IMAGE=quay.io/waffleio/waffle.io-hooks
+IMAGE=quay.io/waffleio/waffle.io-rally-integration
 
 DOCKER_OPTS="--env-file /etc/waffle/environment.list \
-             --publish $HOOKS_PORT:3001 \
+             --env VIRTUAL_HOST=rally.$HOST_NAME \
+             --env CERT_NAME=*.$HOST_NAME \
              --volume=/etc/waffle/ca-certificates:/etc/waffle/ca-certificates:ro \
              --restart='on-failure[10]'"
 

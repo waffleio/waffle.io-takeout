@@ -1,7 +1,7 @@
 # Developer instructions for Waffle Takeout
 
 ## Running Takeout locally
-You must run takeout in a linux environment. This is most easily setup by using a VirtualBox image.
+You must run takeout in a linux environment. This is most easily setup by using a VirtualBox image. With it running in a VM, you will need to run [ngrok](ngrok.com) on your local machine to tunnel all web traffic to your VM. 
 
 #### Setuping up your VirtualBox
 This looks more daunting than it is, I promise :)
@@ -22,6 +22,7 @@ This looks more daunting than it is, I promise :)
 6. Under the "Network" tab, create a new Adapter with this config:
   - Attached to: "Bridged Adapter"
   - Name: Wi-Fi (AirPort)
+    - Depending on your current network, you might have to pick a hardline option.
 7. Under the "Shared Folders" tab, add a new Machine Folder to the location you want to keep the takeout files on your local machine. I chose ~/Desktop/waffle-takeout. You will have to create the folder on your machine first in order to share it with the virtual machine.
   - Read-only: false
   - Auto-mount: true
@@ -39,9 +40,38 @@ This looks more daunting than it is, I promise :)
   2. Generate one by running the `./bin/build.sh` script (if you are testing local changes, you have to use this option).
 2. Unzip it on your host (local) machine into the location you specified in step 7 of "Setting up your VirtualBox"
 3. Inside your guest (virtual) machine, open a terminal and `cd /media/sf_<name of shared folder>`
-4. Run `sudo ./install` and follow the install.
-  - Do not use a hostname, you have to use the IP of the guest (virtual) machine for things to run correctely.
+4. Run `sudo ./install.sh` and follow the install.
+  - You must specify a hostname and configure ngrok (explained below) to tunnel traffic to your VM.
   - For your mongo uri, run `mongod` on your host (local) machine and then use the IP for your host machine.
+
+#### Configure ngrok
+Waffle has a team ngrok account. You need to request access to it if you don't have it already. Then follow these steps:
+
+1. Go to [ngrok.com](ngrok.com), login, and reserve your hostname.
+2. Download ngrok (optionally add it to your path or move it into `/usr/local/bin/` for convenience).
+3. Run `ngrok authtoken <your ngrok auth token>`. This will create `~/.ngrok2/ngrok.yml`.
+4. Open `~/.ngrok2/ngrok.yml` in your editor of choice and add the config so your file looks something like this (of course replacing the things in `<...>`):
+  ```yml
+    authtoken: <your auth token>
+
+    tunnels:
+      takeout:
+        addr: <your VM IP>:443
+        hostname: <your VM hostname>
+        proto: tls
+
+      takeout-subdomains:
+        addr: <your VM IP>:443
+        hostname: "*.<your VM hostname>"
+        proto: tls
+  ```
+5. Save that file and run `ngrok start --all` from your terminal.
+
+#### Trusting the self-signed CA
+After Takeout is up and running in your VM and you have ngrok tunneling your traffic, you will notice pointing your browser to your Takeout instance yields an untrusted cert error. Follow these steps on OSX to trust the cert
+
+1. In your VM, *copy* `/etc/waffle/ca-certificates/waffle-root-ca.crt` into `/media/sf_<shared folder name>` to make a copy of it available to your host machine.
+2. From your host machine, follow [these instructions](http://www.techrepublic.com/blog/apple-in-the-enterprise/managing-ssl-certificate-authorities-on-os-x/) to add that copied certificate as a trusted certificate on your system.
 
 ## Updating docker images
 _Pushes to master trigger docker builds in quay.io, these steps are not required during normal development._
