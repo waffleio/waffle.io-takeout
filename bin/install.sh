@@ -26,7 +26,7 @@ source $envFile
 ###############################################
 # Setting up connecting environment variables #
 ###############################################
-echo -en "\n${blue}Is there a hostname for this machine that you want to use to talk to your Waffle.io Takeout?: ($HOST_NAME)\n> ${reset}"
+echo -en "\n${blue}What is the hostname for this machine that you want to use to talk to your Waffle.io Takeout?: ($HOST_NAME)\n> ${reset}"
 while [ -z "$hostName" ]; do
   echo -en $"${grey}Please enter the hostname of the host machine (blank to keep it the same):\n>${reset}"
   read hostName
