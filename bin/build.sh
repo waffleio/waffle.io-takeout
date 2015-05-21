@@ -23,6 +23,7 @@ echo -e "\nPulling images from quay.io...${grey}"
 docker pull quay.io/waffleio/hedwig
 docker pull quay.io/waffleio/poxa
 docker pull quay.io/waffleio/waffle.io-admin
+docker pull quay.io/waffleio/waffle.io-api
 docker pull quay.io/waffleio/waffle.io-app
 docker pull quay.io/waffleio/waffle.io-hooks
 docker pull quay.io/waffleio/waffle.io-migrations
@@ -35,6 +36,8 @@ echo -e "${grey}  Packaging hedwig...${reset}"
 docker save --output="waffleio-takeout/images/hedwig.tar" quay.io/waffleio/hedwig
 echo -e "${grey}  Packaging poxa...${reset}"
 docker save --output="waffleio-takeout/images/poxa.tar" quay.io/waffleio/poxa
+echo -e "${grey}  Packaging waffle.io-api...${reset}"
+docker save --output="waffleio-takeout/images/waffle.io-api.tar" quay.io/waffleio/waffle.io-api
 echo -e "${grey}  Packaging waffle.io-app...${reset}"
 docker save --output="waffleio-takeout/images/waffle.io-app.tar" quay.io/waffleio/waffle.io-app
 echo -e "${grey}  Packaging waffle.io-admin...${reset}"
