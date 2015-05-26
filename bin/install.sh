@@ -37,6 +37,8 @@ echo HOST_NAME=$hostName >> $envFile
 
 sed -n '/WAFFLE_BASE_URL/!p' $envFile > tmp.list && mv tmp.list $envFile
 echo WAFFLE_BASE_URL="https://${hostName}" >> $envFile
+sed -n '/WAFFLE_API_BASE_URL/!p' $envFile > tmp.list && mv tmp.list $envFile
+echo WAFFLE_API_BASE_URL="https://api.${hostName}" >> $envFile
 sed -n '/WAFFLE_HOOKS_SERVICE_URI/!p' $envFile > tmp.list && mv tmp.list $envFile
 echo WAFFLE_HOOKS_SERVICE_URI="https://hooks.${hostName}" >> $envFile
 sed -n '/RALLY_INTEGRATION_BASE_URL/!p' $envFile > tmp.list && mv tmp.list $envFile
