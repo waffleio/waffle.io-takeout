@@ -6,6 +6,7 @@ stop() {
     service waffle-rally-integration stop
     service waffle-hedwig stop
     service waffle-hooks stop
+    service waffle-api stop
     service waffle-app stop
 }
 
@@ -15,6 +16,7 @@ start() {
     service waffle-rally-integration start
     service waffle-hedwig start
     service waffle-hooks start
+    service waffle-api start
     service waffle-app start
 }
 
@@ -24,6 +26,7 @@ status() {
     service waffle-rally-integration status
     service waffle-hedwig status
     service waffle-hooks status
+    service waffle-api status
     service waffle-app status
 }
 

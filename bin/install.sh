@@ -16,37 +16,29 @@ hash docker 2>/dev/null || { echo -e >&2 "${red}I require docker but it's not in
 echo -e "\nWelcome to Waffle.io Takeout!"
 echo -e "\nWe need to get some information about your environment to get started."
 
+if [ -f "/etc/waffle/environment.list" ];
+then
+  source "/etc/waffle/environment.list"
+fi
 envFile='./etc/waffle/environment.list'
 source $envFile
 
 ###############################################
 # Setting up connecting environment variables #
 ###############################################
-if hash boot2docker 2>/dev/null && [ $(boot2docker status) = 'running' ]
-then
-  hostIp=$(boot2docker ip)
-elif ifconfig | grep -q eth0
-then
-  hostIp=$(ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{print $1}')
-elif ifconfig | grep -q en1
-then
-  hostIp=$(ipconfig getifaddr en1)
-fi
-
-if [ -z "$hostIp" ];
-then
-  echo -en "\n${blue}What is the IP address of the host machine (the machine this script is running on)?${grey}\n> ${reset}"
-  read hostIp
-fi
-
-echo -en "\n${blue}Is there a hostname for this machine that you want to use to talk to your Waffle.io Takeout? Or would you like us to just use the IP? If you do not provide a hostname, your users will have to use the IP address to access your Waffle installation. (${hostIp})\n${grey}Please enter the hostname for this machine (blank to use the IP):\n> ${reset}"
-read hostName
-hostName=${hostName:-$hostIp}
+echo -en "\n${blue}What is the hostname for this machine that you want to use to talk to your Waffle.io Takeout?: ($HOST_NAME)\n> ${reset}"
+while [ -z "$hostName" ]; do
+  echo -en $"${grey}Please enter the hostname of the host machine (blank to keep it the same):\n>${reset}"
+  read hostName
+  hostName=${hostName:-$HOST_NAME}
+done
 sed -n '/HOST_NAME/!p' $envFile > tmp.list && mv tmp.list $envFile
 echo HOST_NAME=$hostName >> $envFile
 
 sed -n '/WAFFLE_BASE_URL/!p' $envFile > tmp.list && mv tmp.list $envFile
 echo WAFFLE_BASE_URL="https://${hostName}" >> $envFile
+sed -n '/WAFFLE_API_BASE_URL/!p' $envFile > tmp.list && mv tmp.list $envFile
+echo WAFFLE_API_BASE_URL="https://api.${hostName}" >> $envFile
 sed -n '/WAFFLE_HOOKS_SERVICE_URI/!p' $envFile > tmp.list && mv tmp.list $envFile
 echo WAFFLE_HOOKS_SERVICE_URI="https://hooks.${hostName}" >> $envFile
 sed -n '/RALLY_INTEGRATION_BASE_URL/!p' $envFile > tmp.list && mv tmp.list $envFile
@@ -355,6 +347,7 @@ sudo cp $envFile /etc/waffle/environment.list
 echo -e "Setting up init.d scripts"
 sudo cp ./etc/init.d/* /etc/init.d
 sudo chmod +x /etc/init.d/waffle
+sudo chmod +x /etc/init.d/waffle-api
 sudo chmod +x /etc/init.d/waffle-app
 sudo chmod +x /etc/init.d/waffle-hedwig
 sudo chmod +x /etc/init.d/waffle-hooks
@@ -384,23 +377,25 @@ echo -en "${reset}"
 # Load in the Docker images #
 #############################
 echo -e "\nLoading in the docker images, this might take a few minutes:"
-echo -ne '[                                ] (0%)\r'
+echo -ne '[                           ] (0%)\r'
 docker load --input images/hedwig.tar
-echo -ne '[####                            ] (13%)\r'
+echo -ne '[###                        ] (11%)\r'
 docker load --input images/poxa.tar
-echo -ne '[########                        ] (25%)\r'
+echo -ne '[######                     ] (22%)\r'
+docker load --input images/waffle.io-api.tar
+echo -ne '[#########                  ] (33%)\r'
 docker load --input images/waffle.io-app.tar
-echo -ne '[############                    ] (38%)\r'
+echo -ne '[############               ] (44%)\r'
 docker load --input images/waffle.io-hooks.tar
-echo -ne '[################                ] (50%)\r'
+echo -ne '[###############            ] (55%)\r'
 docker load --input images/waffle.io-migrations.tar
-echo -ne '[####################            ] (63%)\r'
+echo -ne '[##################         ] (66%)\r'
 docker load --input images/waffle.io-rally-integration.tar
-echo -ne  '[########################        ] (75%)\r'
+echo -ne '[#####################      ] (77%)\r'
 docker load --input images/waffle.io-admin.tar
-echo -ne  '[############################    ] (88%)\r'
+echo -ne '[########################   ] (88%)\r'
 docker load --input images/nginx-proxy.tar
-echo -e  '[################################] (100%)\r'
+echo -e  '[###########################] (100%)\r'
 
 ##################
 # Run migrations #
