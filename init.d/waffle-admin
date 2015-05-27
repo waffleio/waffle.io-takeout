@@ -1,8 +1,0 @@
-#!/bin/bash
-
-IMAGE=quay.io/waffleio/waffle.io-admin
-
-DOCKER_OPTS="--env-file /etc/waffle/environment.list \
-             --restart='on-failure[10]'"
-
-source /etc/init.d/dockerized-local-service
