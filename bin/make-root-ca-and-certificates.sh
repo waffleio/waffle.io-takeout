@@ -130,7 +130,7 @@ if [ -f "${ca_dir}/waffle-root-ca.crt" ] &&
    [ -f "${certificates_dir}/*.${hostname}.key" ] &&
    [ ! $force ] ;
 then
-  printf "Certificates already exists, skipping creating a new ones.\n"
+  printf "Certificates already exists, skipping creation of new ones.\n"
 else
   printf "Generating self-signed certificates...\n${grey}"
 

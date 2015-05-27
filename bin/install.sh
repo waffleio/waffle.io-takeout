@@ -354,13 +354,14 @@ sudo chmod +x /etc/init.d/waffle-hooks
 sudo chmod +x /etc/init.d/waffle-poxa
 sudo chmod +x /etc/init.d/waffle-rally-integration
 sudo chmod +x /etc/init.d/waffle-admin
+sudo chmod +x /etc/init.d/waffle-nginx
 
 ##########################
 # Configure NGINX vhosts #
 ##########################
 echo -e "Configuring NGINX vhosts"
 sudo mkdir -p /etc/waffle/nginx/vhost.d
-sudo cp ./etc/waffle/nginx/vhost.d/poxa.conf /etc/waffle/nginx/vhost.d/poxa.$HOST_NAME
+sudo cp ./etc/waffle/nginx/vhost.d/poxa.conf /etc/waffle/nginx/vhost.d/poxa.$hostName
 
 #############################
 # Creating SSL Certificates #
@@ -368,7 +369,7 @@ sudo cp ./etc/waffle/nginx/vhost.d/poxa.conf /etc/waffle/nginx/vhost.d/poxa.$HOS
 echo -e "Creating a self-signed certificates${grey}"
 sudo mkdir -p /etc/waffle/{ca-certificates,nginx/certs}
 (./bin/make-root-ca-and-certificates.sh \
-  --hostname=$HOST_NAME \
+  --hostname=$hostName \
   --ca-dir /etc/waffle/ca-certificates \
   --certificates-dir /etc/waffle/nginx/certs)
 echo -en "${reset}"
