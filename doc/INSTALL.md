@@ -1,16 +1,25 @@
-## Waffle Takeout Installation Instructions
+Waffle Takeout Installation Instructions
+===
 _These instructions are meant for customers installing Waffle Takeout in their own environment._
 
-#### Hardware Requirements
+## Hardware Requirements
  - We recommend at least 16GB of storage, and 4GB of memory.
  - Takeout supports any linux distro with docker installed.
 
-#### Prerequisites
+## Prerequisites
 1. You need mongodb (v2.6) running somewhere. It's your responsibility to maintain your mongodb installation.
   - If you are running in AWS, you can install mongodb on EC2 by following [these instructions](http://docs.mongodb.org/ecosystem/platforms/amazon-ec2/).
-2. If you plan to have your Waffle Takeout instance available through a hostname instead of an IP address (e.g., mapping the machine to waffle.io on your local network), you should have that complete before running the `install.sh` script.
+2. You need a hostname for the VM that will host Waffle Takeout (ex. `waffle.example.com`). Waffle Takeout also stands up several services running at sub-domains of your hostname. So your DNS needs to understand that both `waffle.example.com` and `*.waffle.example.com` point to your host machine. Adding the wildcard DNS listing is the prefered option; however if that is not an option for you, you can specify each of the following domains:
+  - `waffle.example.com`
+  - `admin.waffle.example.com`
+  - `api.waffle.example.com`
+  - `hedwig.waffle.example.com`
+  - `hooks.waffle.example.com`
+  - `poxa.waffle.example.com`
+  - `rally.waffle.example.com`
 
-### Installing Waffle.io Takeout on your own VM
+## Installing Waffle Takeout
+#### Installing Waffle Takeout on your own VM
 1. [Install docker](http://docs.docker.com/installation/) on any linux distro of your choosing.
 2. Upload waffle-takeout.zip to your VM. You should have received a link to download takeout; if not, contact support@waffle.io.
 3. Run `unzip waffleio-takeout.zip`.
@@ -18,7 +27,7 @@ _These instructions are meant for customers installing Waffle Takeout in their o
 5. Run `sudo ./install.sh` and follow prompts.
 Remember, it's up to you to backup your mongodb database. Also, we recommend keeping a copy of /etc/waffle/environment.list somewhere safe; if anything happens to your installation, you'll be able to restore the same settings with a new install.
 
-### Installing Waffle.io Takeout on EC2
+#### Installing Waffle Takeout on EC2
 
 1. Follow [these instructions](https://docs.docker.com/installation/amazon/) to create an EC2 instance with docker installed.
   - The minimum EC2 instance type is `m3.large`, with 16GB storage.
@@ -40,7 +49,7 @@ Remember, it's up to you to backup your mongodb database. Also, we recommend kee
 9. Run `cd waffleio-takeout`.
 10. Run `sudo ./install.sh` and follow prompts.
 
-### Proxy configuration
+## Proxy configuration
 
 During installation, you'll be prompted for proxy information. If, on your internal network, you must connect through a proxy to talk to your GitHub:Enterprise installation, GitHub.com, or Rally, you should configure a proxy. If you only need GitHub:Enterprise support (and not GitHub.com or Rally integration), and reaching GitHub:Enterprise does not require connecting through a proxy, you do not need to configure a proxy.
 
@@ -50,7 +59,7 @@ During installation, you'll be prompted for proxy information. If, on your inter
 #### Configure your proxy to allow Rally access
 - See Rally's IP information: https://help.rallydev.com/rally-ip-addresses-and-cdn-networks
 
-### Troubleshooting
+## Troubleshooting
 
 #### If `sudo ./install.sh` does not complete
 
@@ -66,7 +75,7 @@ _Before running `sudo ./install.sh` again, you need to remove existing docker co
 1. Run `docker ps` to see if any containers are running.
 2. If they are, run `docker logs waffle-app`.
 
-### To reconfigure your Takeout
+## Reconfigure Takeout Post-Install
 1. Stop and remove containers: `sudo service waffle stop`.
 2. Run `sudo ./install.sh` again.
 
@@ -77,16 +86,22 @@ _If you need to reconfigure the URLs for GitHub.com, GitHub:Enterprise, or Rally
 3. `db.migration_versions.remove({$or: [{name: /create_default_providers/}, {name: /set_public_providers/}] })`
 4. `db.providers.remove({type: {$in: ['github', 'rally', 'github-enterprise']}})`
 
-### SSL configuration
-During the installation process, we create a root CA and a set of self-signed certs to suport SSL on your Takeout install. You will either need to trust our root CA in your system, or replace our certificates with your own certificates signed by an already trusted CA.
+## SSL configuration
+During the installation process, we create a root CA and a set of self-signed certs to suport SSL on your Takeout install. You will either need to (1) replace our certificates with your own certificates signed by an already trusted CA, or (2) trust our root CA in your system.
 
 _NOTE: If you do not take one of the following actions, some features in Waffle may not function properly._
 
-#### Trusting our root CA
-A root CA was generated during the install process and saved on the host machine at `/etc/waffle/ca-certificates/waffle-root-ca.crt`. You will need to ask a system administrator to trust this certificate in your system.
-
 #### Using your own certificates
-Self-signed certificates were created during the install process and saved on the host machine at `/etc/waffle/nginx/certs`. If you look in that directory, you will see 4 files: `<hostname>.crt`, `<hostname>.key`, `*.<hostname>.crt`, and `*.<hostname>.key`. You may provide your own certs by:
+This is the prefered way to handle SSL for Waffle Takeout. To use your own certificates, you simply overwrite our self-signed certificates with your own trusted certificates and restart the service. The self-signed certificates live on the host machine at `/etc/waffle/nginx/certs`. If you look in that directory, you will see 4 files: `<hostname>.crt`, `<hostname>.key`, `*.<hostname>.crt`, and `*.<hostname>.key`. You may provide your own certs by:
 
 1. Generate certificates signed by a trusted CA for both `<hostname>.crt` and `*.<hostname>.crt` where `hostname` is the hostname of the host machine running waffle. Those names must be exact.
-2. Overwrite the existing files in `/etc/waffle/nginx` with the certificates you created. You must upload both the `.crt` and the `.key` files.
+2. Overwrite the existing files in `/etc/waffle/nginx/certs` with the certificates you created. You must upload both the `.crt` and the `.key` files into that directory.
+3. Run `sudo service waffle restart` to restart Waffle Takeout using the new certs.
+
+#### Trusting our root CA
+A root CA was generated during the install process and saved on the host machine at `/etc/waffle/ca-certificates/waffle-root-ca.crt`. This is the certificate you need to trust. You have 2 options for trusing it:
+
+1. Often times, system administraitors can trust certificates within your domain environment. This approach will trust Waffle Takeout's self-signed certs for all machines bound to your domain. You need to ask a system administrator if this is an option for you and provide them with the certificate at `/etc/waffle/ca-certificates/waffle-root-ca.crt`.
+2. Each user of Waffle Takeout needs to trust the certificate on their own machine. Each will need to obtain the certificate from `/etc/waffle/ca-certificates/waffle-root-ca.crt` and then follow these instructions:
+  - [For OSX users](https://support.apple.com/kb/PH18677?locale=en_US)
+  - [For Windows users](https://technet.microsoft.com/en-us/library/cc754841.aspx#BKMK_addlocal)
