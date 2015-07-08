@@ -9,7 +9,7 @@ _These instructions are meant for customers installing Waffle Takeout in their o
 ## Prerequisites
 1. You need mongodb (v2.6) running somewhere. It's your responsibility to maintain your mongodb installation.
   - If you are running in AWS, you can install mongodb on EC2 by following [these instructions](http://docs.mongodb.org/ecosystem/platforms/amazon-ec2/).
-2. You need a hostname for the VM that will host Waffle Takeout (ex. `waffle.example.com`). Waffle Takeout also stands up several services running at sub-domains of your hostname. So your DNS needs to understand that both `waffle.example.com` and `*.waffle.example.com` point to your host machine. Adding the wildcard DNS listing is the prefered option; however if that is not an option for you, you can specify each of the following domains:
+2. You need a hostname for the VM that will host Waffle Takeout (ex. `waffle.example.com`). Waffle Takeout also stands up several services running at sub-domains of your hostname. So your DNS needs to understand that both `waffle.example.com` and `*.waffle.example.com` point to your host machine. Adding the wildcard DNS listing is the preferred option; however if that is not an option for you, you can specify each of the following domains:
   - `waffle.example.com`
   - `admin.waffle.example.com`
   - `api.waffle.example.com`
@@ -92,7 +92,7 @@ During the installation process, we create a root CA and a set of self-signed ce
 _NOTE: If you do not take one of the following actions, some features in Waffle may not function properly._
 
 #### Using your own certificates
-This is the prefered way to handle SSL for Waffle Takeout. To use your own certificates, you simply overwrite our self-signed certificates with your own trusted certificates and restart the service. The self-signed certificates live on the host machine at `/etc/waffle/nginx/certs`. If you look in that directory, you will see 4 files: `<hostname>.crt`, `<hostname>.key`, `*.<hostname>.crt`, and `*.<hostname>.key`. You may provide your own certs by:
+This is the preferred way to handle SSL for Waffle Takeout. To use your own certificates, overwrite our self-signed certificates with your own trusted certificates and restart the service. The self-signed certificates live on the host machine at `/etc/waffle/nginx/certs`. If you look in that directory, you will see 4 files: `<hostname>.crt`, `<hostname>.key`, `*.<hostname>.crt`, and `*.<hostname>.key`. You may provide your own certs by:
 
 1. Generate certificates signed by a trusted CA for both `<hostname>.crt` and `*.<hostname>.crt` where `hostname` is the hostname of the host machine running waffle. Those names must be exact.
 2. Overwrite the existing files in `/etc/waffle/nginx/certs` with the certificates you created. You must upload both the `.crt` and the `.key` files into that directory.
@@ -101,7 +101,7 @@ This is the prefered way to handle SSL for Waffle Takeout. To use your own certi
 #### Trusting our root CA
 A root CA was generated during the install process and saved on the host machine at `/etc/waffle/ca-certificates/waffle-root-ca.crt`. This is the certificate you need to trust. You have 2 options for trusing it:
 
-1. Often times, system administraitors can trust certificates within your domain environment. This approach will trust Waffle Takeout's self-signed certs for all machines bound to your domain. You need to ask a system administrator if this is an option for you and provide them with the certificate at `/etc/waffle/ca-certificates/waffle-root-ca.crt`.
-2. Each user of Waffle Takeout needs to trust the certificate on their own machine. Each will need to obtain the certificate from `/etc/waffle/ca-certificates/waffle-root-ca.crt` and then follow these instructions:
+1. Often times, system administrators can [trust certificates within your domain environment](https://technet.microsoft.com/en-us/library/cc754841.aspx#BKMK_adddomain). This approach will trust Waffle Takeout's self-signed certs for all machines bound to your domain. You need to ask a system administrator if this is an option for you and provide them with the certificate at `/etc/waffle/ca-certificates/waffle-root-ca.crt`.
+2. Each user of Waffle Takeout can individually trust the certificate on their own machine. This is obviously not ideal. If you want to use our self-signed certificates, we highly recommend trusting at a domain level. If you do go with each individual trusing the certificate, they need to  `/etc/waffle/ca-certificates/waffle-root-ca.crt` and then follow these instructions:
   - [For OSX users](https://support.apple.com/kb/PH18677?locale=en_US)
   - [For Windows users](https://technet.microsoft.com/en-us/library/cc754841.aspx#BKMK_addlocal)
