@@ -31,7 +31,7 @@ This looks more daunting than it is, I promise :)
 9. Double click on the VirtualBox in the left column. It will boot and walk you through the installation process for Ubuntu.
 10. After installing, while in your VM, navigate to the top menu bar of OSX and select Devices > Insert Guest Additions CD.
 11. Inside the VM, you should see a window popup asking if you want to run the software on the CD. Choose "Run" and walk through the process. If it doesn't automatically run, you should be able to run it from the CD icon on the sidebar within the VM.
-12. Lastly, install docker on your new VM [following these] instructions(https://docs.docker.com/installation/ubuntulinux/). After it is installed, make sure and run `sudo service docker start`.
+12. Lastly, install docker on your new VM [following these] instructions(https://docs.docker.com/docker/installation/ubuntulinux/). After it is installed, make sure and run `sudo service docker start`.
 13. Might be a good idea to reboot to make sure you are in a good state.
 
 #### Installing Takout
