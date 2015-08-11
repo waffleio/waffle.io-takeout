@@ -18,7 +18,7 @@ This looks more daunting than it is, I promise :)
   - Storage on physical hard drive: Dynamically allocated
   - File location and size: 16GB
 4. Once it is created, right click on the new VirtualBox in the left column of VirtualBox Manager and select "settings"
-5. Under the "Storage" tab, add a new Controller: IDE and select "Choose disk". A finder window should open. Navigate to and select the Ubuntu .iso file you downloaded in step 1.
+5. Under the "Storage" tab, click the "Add CD/DVD Drive Device" icon next to the "Controller: IDE" and then select "Choose disk". A finder window should open. Navigate to and select the Ubuntu .iso file you downloaded in step 1.
 6. Under the "Network" tab, create a new Adapter with this config:
   - Attached to: "Bridged Adapter"
   - Name: Wi-Fi (AirPort)
