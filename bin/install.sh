@@ -316,6 +316,13 @@ then
   echo WAFFLE_DB_ENCRYPTION_KEY=$encryptionkey >> $envFile
 fi
 
+# WAFFLE_SESSION_SECRET
+if [ -z "$WAFFLE_SESSION_SECRET" ];
+then
+  sessionSecret=$(openssl rand -base64 32)
+  echo WAFFLE_SESSION_SECRET=$sessionSecret >> $envFile
+fi
+
 # WEB_CONCURRENCY
 if [ $WEB_CONCURRENCY ]
 then
@@ -339,6 +346,7 @@ echo -e "\n\nGreat! That's all we need, we will have your Waffle.io Takeout read
 # Store off environment configuration in /etc/waffle #
 ######################################################
 echo -e "\n\nSaving environment configuration in /etc/waffle/"
+sudo mkdir -p /etc/waffle
 sudo cp $envFile /etc/waffle/environment.list
 
 ########################
