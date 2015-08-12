@@ -33,7 +33,7 @@ This looks more daunting than it is, I promise :)
 11. Inside the VM, you should see a window popup asking if you want to run the software on the CD. Choose "Run" and walk through the process. If it doesn't automatically run, you should be able to run it from the CD icon on the sidebar within the VM.
 12. Lastly, install docker on your new VM [following these] instructions(https://docs.docker.com/installation/ubuntulinux/). After it is installed, make sure and run `sudo service docker start`.
 13. Might be a good idea to reboot to make sure you are in a good state.
-14. If docker is not running after a `sudo service docker start` (you can tell if re-running that command does not say it's already running), look in `/var/lib/docker/trust` and delete `official.json`. It should work now.
+14. If docker is not running after a `sudo service docker start` (you can tell if re-running that command does not say it's already running), look in `/var/lib/docker/trust` and delete `official.json`. It should work now. #magic #thankyougoogle #wat
 
 #### Installing Takout
 1. Obtain a Takeout delivery using one of the following options.
