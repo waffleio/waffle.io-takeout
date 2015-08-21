@@ -105,3 +105,6 @@ A root CA was generated during the install process and saved on the host machine
 2. Each user of Waffle Takeout can individually trust the certificate on their own machine. This is obviously not ideal. If you want to use our self-signed certificates, we highly recommend trusting at a domain level. If you decide to have each individual trust the certificate, they need to obtain a copy of `/etc/waffle/ca-certificates/waffle-root-ca.crt` and then follow these instructions:
   - [For OSX users](https://support.apple.com/kb/PH18677?locale=en_US)
   - [For Windows users](https://technet.microsoft.com/en-us/library/cc754841.aspx#BKMK_addlocal)
+
+### Trusting your GitHub:Enterprise certificate
+Waffle will not be able to connect to your GitHub:Enterprise instance if you do not have a trusted certificate for GH:E. To get around this, place the GH:E certificate in `etc/waffle/ca-certificates`.
