@@ -35,7 +35,7 @@ This looks more daunting than it is, I promise :)
 13. Might be a good idea to reboot to make sure you are in a good state.
 14. If docker is not running after a `sudo service docker start` (you can tell if re-running that command does not say it's already running), look in `/var/lib/docker/trust` and delete `official.json`. It should work now. #magic #thankyougoogle #wat
 
-#### Installing Takout
+#### Installing Takeout
 1. Obtain a Takeout delivery using one of the following options.
   1. Downloading it from S3
   2. Generate one by running the `./bin/build.sh` script (if you are testing local changes, you have to use this option).
@@ -44,6 +44,9 @@ This looks more daunting than it is, I promise :)
 4. Run `sudo ./install.sh` and follow the install.
   - You must specify a hostname and configure ngrok (explained below) to tunnel traffic to your VM.
   - For your mongo uri, run `mongod` on your host (local) machine and then use the IP for your host machine.
+5. If you are running Ubuntu 15, you'll need to switch the system to use Upstart instead of Systemd.
+  - `apt-get upstart-sysv`
+  - `sudo update-initramfs -u`
 
 #### Configure ngrok
 Waffle has a team ngrok account. You need to request access to it if you don't have it already. Then follow these steps:
