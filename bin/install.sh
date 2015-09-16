@@ -38,13 +38,13 @@ echo HOST_NAME=$hostName >> $envFile
 sed -n '/WAFFLE_BASE_URL/!p' $envFile > tmp.list && mv tmp.list $envFile
 echo WAFFLE_BASE_URL="https://${hostName}" >> $envFile
 sed -n '/WAFFLE_API_BASE_URL/!p' $envFile > tmp.list && mv tmp.list $envFile
-echo WAFFLE_API_BASE_URL="https://api.${hostName}" >> $envFile
+echo WAFFLE_API_BASE_URL="https://${hostName}/api" >> $envFile
 sed -n '/WAFFLE_HOOKS_SERVICE_URI/!p' $envFile > tmp.list && mv tmp.list $envFile
-echo WAFFLE_HOOKS_SERVICE_URI="https://hooks.${hostName}" >> $envFile
+echo WAFFLE_HOOKS_SERVICE_URI="https://${hostName}/hooks" >> $envFile
 sed -n '/RALLY_INTEGRATION_BASE_URL/!p' $envFile > tmp.list && mv tmp.list $envFile
-echo RALLY_INTEGRATION_BASE_URL="https://rally.${hostName}" >> $envFile
+echo RALLY_INTEGRATION_BASE_URL="https://${hostName}/integrations/rally" >> $envFile
 sed -n '/POXA_HOST/!p' $envFile > tmp.list && mv tmp.list $envFile
-echo POXA_HOST="poxa.${hostName}" >> $envFile
+echo POXA_HOST="${hostName}" >> $envFile
 sed -n '/POXA_PORT/!p' $envFile > tmp.list && mv tmp.list $envFile
 echo POXA_PORT=443 >> $envFile
 
@@ -316,6 +316,13 @@ then
   echo WAFFLE_DB_ENCRYPTION_KEY=$encryptionkey >> $envFile
 fi
 
+# WAFFLE_DB_SIGNING_KEY
+if [ -z "$WAFFLE_DB_SIGNING_KEY" ];
+then
+  signingKey=$(openssl rand -base64 64 | tr -d '\n') # remove random newline in middle of key
+  echo WAFFLE_DB_SIGNING_KEY=$signingKey >> $envFile
+fi
+
 # WAFFLE_SESSION_SECRET
 if [ -z "$WAFFLE_SESSION_SECRET" ];
 then
@@ -361,20 +368,13 @@ sudo chmod +x /etc/init.d/waffle-hedwig
 sudo chmod +x /etc/init.d/waffle-hooks
 sudo chmod +x /etc/init.d/waffle-poxa
 sudo chmod +x /etc/init.d/waffle-rally-integration
-sudo chmod +x /etc/init.d/waffle-admin
 sudo chmod +x /etc/init.d/waffle-nginx
 
-##########################
-# Configure NGINX vhosts #
-##########################
-echo -e "Configuring NGINX vhosts"
-sudo mkdir -p /etc/waffle/nginx/vhost.d
-sudo cp ./etc/waffle/nginx/vhost.d/poxa.conf /etc/waffle/nginx/vhost.d/poxa.$hostName
 
 #############################
 # Creating SSL Certificates #
 #############################
-echo -e "Creating a self-signed certificates${grey}"
+echo -e "Creating a self-signed certificate${grey}"
 sudo mkdir -p /etc/waffle/{ca-certificates,nginx/certs}
 (./bin/make-root-ca-and-certificates.sh \
   --hostname=$hostName \
@@ -401,9 +401,7 @@ docker load --input images/waffle.io-migrations.tar
 echo -ne '[##################         ] (66%)\r'
 docker load --input images/waffle.io-rally-integration.tar
 echo -ne '[#####################      ] (77%)\r'
-docker load --input images/waffle.io-admin.tar
-echo -ne '[########################   ] (88%)\r'
-docker load --input images/nginx-proxy.tar
+docker load --input images/takeout-nginx.tar
 echo -e  '[###########################] (100%)\r'
 
 ##################

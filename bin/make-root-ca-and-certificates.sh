@@ -7,8 +7,8 @@ function show_help() {
   echo -e "
 Usage: ./make-root-ca-and-certificates.sh [OPTIONS]
 
-Create a root ca and then use it to sign certificates for both [hostname] and
-*.[hostname]. The root ca and the certificates will then be stored in [ca-dir]
+Create a root ca and then use it to sign certificates for [hostname].
+The root ca and the certificates will then be stored in [ca-dir]
 and [certificates-dir] respectively. If the certificates already exist in the
 specified directories, this script will exit cleanly.
 
@@ -124,10 +124,8 @@ fi
 # Generating a self-signed Certificates #
 #########################################
 if [ -f "${ca_dir}/waffle-root-ca.crt" ] &&
-   [ -f "${certificates_dir}/${hostname}.crt" ] &&
-   [ -f "${certificates_dir}/${hostname}.key" ] &&
-   [ -f "${certificates_dir}/*.${hostname}.crt" ] &&
-   [ -f "${certificates_dir}/*.${hostname}.key" ] &&
+   [ -f "${certificates_dir}/waffle-takeout.crt" ] &&
+   [ -f "${certificates_dir}/waffle-takeout.key" ] &&
    [ ! $force ] ;
 then
   printf "Certificates already exists, skipping creation of new ones.\n"
@@ -157,45 +155,29 @@ else
   # such as example.com, *.example.com, awesome.example.com
   # NOTE: You MUST match CN to the domain name or ip address you want to use
   openssl genrsa \
-    -out .tmp/certs/server/${hostname}.key \
-    2048
-  openssl genrsa \
-    -out .tmp/certs/server/*.${hostname}.key \
+    -out .tmp/certs/server/waffle-takeout.key \
     2048
 
   # Create a request from your Device, which your Root CA will sign
   openssl req -new \
-    -key .tmp/certs/server/${hostname}.key \
-    -out .tmp/certs/tmp/${hostname}.csr \
+    -key .tmp/certs/server/waffle-takeout.key \
+    -out .tmp/certs/tmp/waffle-takeout.csr \
     -subj "/C=US/ST=Colorado/L=Boulder/O=Waffle Takeout Inc/CN=${hostname}"
-  openssl req -new \
-    -key .tmp/certs/server/*.${hostname}.key \
-    -out .tmp/certs/tmp/*.${hostname}.csr \
-    -subj "/C=US/ST=Colorado/L=Boulder/O=Waffle Takeout Inc/CN=*.${hostname}"
 
   # Sign the request from Device with your Root CA
   # -CAserial .tmp/certs/ca/waffle-root-ca.srl
   # -days 7304  --  20 years
   openssl x509 \
-    -req -in .tmp/certs/tmp/${hostname}.csr \
+    -req -in .tmp/certs/tmp/waffle-takeout.csr \
     -CA .tmp/certs/ca/waffle-root-ca.crt \
     -CAkey .tmp/certs/ca/waffle-root-ca.key \
     -CAcreateserial \
-    -out .tmp/certs/server/${hostname}.crt \
-    -days 7304
-  openssl x509 \
-    -req -in .tmp/certs/tmp/*.${hostname}.csr \
-    -CA .tmp/certs/ca/waffle-root-ca.crt \
-    -CAkey .tmp/certs/ca/waffle-root-ca.key \
-    -CAcreateserial \
-    -out .tmp/certs/server/*.${hostname}.crt \
+    -out .tmp/certs/server/waffle-takeout.crt \
     -days 7304
 
   cp .tmp/certs/ca/waffle-root-ca.crt ${ca_dir}
-  cp .tmp/certs/server/${hostname}.crt ${certificates_dir}
-  cp .tmp/certs/server/${hostname}.key ${certificates_dir}
-  cp .tmp/certs/server/*.${hostname}.crt ${certificates_dir}
-  cp .tmp/certs/server/*.${hostname}.key ${certificates_dir}
+  cp .tmp/certs/server/waffle-takeout.crt ${certificates_dir}
+  cp .tmp/certs/server/waffle-takeout.key ${certificates_dir}
 
   printf "${reset}"
 fi

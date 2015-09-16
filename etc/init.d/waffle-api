@@ -5,8 +5,6 @@ source /etc/waffle/environment.list
 IMAGE=quay.io/waffleio/waffle.io-api
 
 DOCKER_OPTS="--env-file /etc/waffle/environment.list \
-             --env VIRTUAL_HOST=api.$HOST_NAME \
-             --env CERT_NAME=*.$HOST_NAME \
              --volume=/etc/waffle/ca-certificates:/etc/waffle/ca-certificates:ro \
              --restart='on-failure[10]'"
 

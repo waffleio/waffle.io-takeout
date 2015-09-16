@@ -11,13 +11,13 @@ stop() {
 }
 
 start() {
-    service waffle-nginx start
     service waffle-poxa start
     service waffle-rally-integration start
     service waffle-hedwig start
     service waffle-hooks start
     service waffle-api start
     service waffle-app start
+    service waffle-nginx start
 }
 
 status() {

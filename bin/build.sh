@@ -28,7 +28,7 @@ docker pull quay.io/waffleio/waffle.io-app
 docker pull quay.io/waffleio/waffle.io-hooks
 docker pull quay.io/waffleio/waffle.io-migrations
 docker pull quay.io/waffleio/waffle.io-rally-integration
-docker pull jwilder/nginx-proxy
+docker pull quay.io/waffleio/takeout-nginx
 echo -e "${reset}"
 
 echo -e "Packaging images into tarballs"
@@ -48,8 +48,8 @@ echo -e "${grey}  Packaging waffle.io-migrations...${reset}"
 docker save --output="waffleio-takeout/images/waffle.io-migrations.tar" quay.io/waffleio/waffle.io-migrations
 echo -e "${grey}  Packaging waffle.io-rally-integration...${reset}"
 docker save --output="waffleio-takeout/images/waffle.io-rally-integration.tar" quay.io/waffleio/waffle.io-rally-integration
-echo -e "${grey}  Packaging nginx-proxy...${reset}"
-docker save --output="waffleio-takeout/images/nginx-proxy.tar" jwilder/nginx-proxy
+echo -e "${grey}  Packaging takeout-nginx...${reset}"
+docker save --output="waffleio-takeout/images/takeout-nginx.tar" quay.io/waffleio/takeout-nginx
 
 cp bin/install.sh waffleio-takeout/
 cp bin/colors.sh waffleio-takeout/bin
