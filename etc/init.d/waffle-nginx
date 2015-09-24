@@ -1,12 +1,15 @@
 #!/bin/bash
 
-IMAGE=jwilder/nginx-proxy
+IMAGE=quay.io/waffleio/takeout-nginx
 
-DOCKER_OPTS="--publish=80:80 \
+DOCKER_OPTS="--link waffle-app \
+             --link waffle-api \
+             --link waffle-hooks \
+             --link waffle-poxa \
+             --link waffle-hedwig \
+             --link waffle-rally-integration \
              --publish=443:443 \
-             --volume=/var/run/docker.sock:/tmp/docker.sock \
              --volume=/etc/waffle/nginx/certs:/etc/nginx/certs:ro \
-             --volume=/etc/waffle/nginx/vhost.d:/etc/nginx/vhost.d:ro \
              --restart='on-failure[10]'"
 
 source /etc/init.d/dockerized-local-service
