@@ -75,6 +75,18 @@ _Before running `sudo ./install.sh` again, you need to remove existing docker co
 1. Run `docker ps` to see if any containers are running.
 2. If they are, run `docker logs waffle-app`.
 
+#### Debugging realtime events
+
+You can use the Poxa console to see if realtime events are being sent. The poxa console is not available with a normal install, you'll need to restart the docker container and expose the console.
+
+Running these commands will expose the console on port `8080` on your host machine.
+```
+sudo service waffle-poxa stop
+docker run -d --name waffle-poxa --env-file /etc/waffle/environment.list -p 8080:8080 quay.io/waffleio/poxa
+sudo service waffle-nginx restart
+```
+
+
 ## Reconfigure Takeout Post-Install
 1. Stop and remove containers: `sudo service waffle stop`.
 2. Run `sudo ./install.sh` again.
