@@ -1,7 +1,7 @@
 # Developer instructions for Waffle Takeout
 
 ## Running Takeout locally
-You must run takeout in a linux environment. This is most easily setup by using a VirtualBox image. With it running in a VM, you will need to run [ngrok](ngrok.com) on your local machine to tunnel all web traffic to your VM. 
+You must run takeout in a linux environment. This is most easily setup by using a VirtualBox image. With it running in a VM, you will need to run [ngrok](https://ngrok.com) on your local machine to tunnel all web traffic to your VM. 
 
 #### Setuping up your VirtualBox
 This looks more daunting than it is, I promise :)
