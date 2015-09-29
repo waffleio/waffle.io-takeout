@@ -349,6 +349,25 @@ echo WEB_CONCURRENCY=$webConcurrency >> $envFile
 
 echo -e "\n\nGreat! That's all we need, we will have your Waffle.io Takeout ready shortly."
 
+# POXA ENVs
+if [ -z "$POXA_APP_ID" ];
+then
+  poxaAppId=`date +%s | sha256sum | base64 | head -c 16 ;`
+  echo POXA_APP_ID=$poxaAppId >> $envFile
+fi
+
+if [ -z "$POXA_APP_KEY" ];
+then
+  poxaAppKey=`date +%s | sha256sum | base64 | head -c 32 ;`
+  echo POXA_APP_KEY=$poxaAppKey >> $envFile
+fi
+
+if [ -z "$POXA_SECRET" ];
+then
+  poxaSecret=`date +%s | sha256sum | base64 | head -c 64 ;`
+  echo POXA_SECRET=$poxaSecret >> $envFile
+fi
+
 ######################################################
 # Store off environment configuration in /etc/waffle #
 ######################################################
