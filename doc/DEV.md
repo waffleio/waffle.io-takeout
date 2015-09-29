@@ -1,7 +1,7 @@
 # Developer instructions for Waffle Takeout
 
 ## Running Takeout locally
-You must run takeout in a linux environment. This is most easily setup by using a VirtualBox image. With it running in a VM, you will need to run [ngrok](ngrok.com) on your local machine to tunnel all web traffic to your VM. 
+You must run takeout in a linux environment. This is most easily setup by using a VirtualBox image. With it running in a VM, you will need to run [ngrok](https://ngrok.com) on your local machine to tunnel all web traffic to your VM. 
 
 #### Setuping up your VirtualBox
 This looks more daunting than it is, I promise :)
@@ -51,7 +51,7 @@ This looks more daunting than it is, I promise :)
 #### Configure ngrok
 Waffle has a team ngrok account. You need to request access to it if you don't have it already. Then follow these steps:
 
-1. Go to [ngrok.com](ngrok.com), login, and reserve your hostname.
+1. Go to [ngrok.com](https://ngrok.com/), login, and reserve your hostname.
 2. Download ngrok (optionally add it to your path or move it into `/usr/local/bin/` for convenience).
 3. Run `ngrok authtoken <your ngrok auth token>`. This will create `~/.ngrok2/ngrok.yml`.
 4. Open `~/.ngrok2/ngrok.yml` in your editor of choice and add the config so your file looks something like this (of course replacing the things in `<...>`):
