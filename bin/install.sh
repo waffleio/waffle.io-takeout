@@ -350,13 +350,13 @@ echo WEB_CONCURRENCY=$webConcurrency >> $envFile
 echo -e "\n\nGreat! That's all we need, we will have your Waffle.io Takeout ready shortly."
 
 # POXA ENVs
-poxaAppId=$(openssl rand -base64 32)
+poxaAppId=`date +%s | sha256sum | base64 | head -c 16 ;`
 echo POXA_APP_ID=$poxaAppId >> $envFile
 
-poxaAppKey=$(openssl rand -base64 32)
+poxaAppKey=`date +%s | sha256sum | base64 | head -c 32 ;`
 echo POXA_APP_KEY=$poxaAppKey >> $envFile
 
-poxaSecret=$(openssl rand -base64 64)
+poxaSecret=`date +%s | sha256sum | base64 | head -c 64 ;`
 echo POXA_SECRET=$poxaSecret >> $envFile
 
 ######################################################
