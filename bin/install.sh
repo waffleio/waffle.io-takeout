@@ -312,23 +312,26 @@ echo MONGOLAB_URI=$mongoDbConnectString >> $envFile
 # WAFFLE_DB_ENCRYPTION_KEY
 if [ -z "$WAFFLE_DB_ENCRYPTION_KEY" ];
 then
-  encryptionkey=$(openssl rand -base64 32)
-  echo WAFFLE_DB_ENCRYPTION_KEY=$encryptionkey >> $envFile
+  WAFFLE_DB_ENCRYPTION_KEY=$(openssl rand -base64 32)
 fi
+sed -n '/WAFFLE_DB_ENCRYPTION_KEY/!p' $envFile > tmp.list && mv tmp.list $envFile
+echo WAFFLE_DB_ENCRYPTION_KEY=$WAFFLE_DB_ENCRYPTION_KEY >> $envFile
 
 # WAFFLE_DB_SIGNING_KEY
 if [ -z "$WAFFLE_DB_SIGNING_KEY" ];
 then
-  signingKey=$(openssl rand -base64 64 | tr -d '\n') # remove random newline in middle of key
-  echo WAFFLE_DB_SIGNING_KEY=$signingKey >> $envFile
+  WAFFLE_DB_SIGNING_KEY=$(openssl rand -base64 64 | tr -d '\n') # remove random newline in middle of key
 fi
+sed -n '/WAFFLE_DB_SIGNING_KEY/!p' $envFile > tmp.list && mv tmp.list $envFile
+echo WAFFLE_DB_SIGNING_KEY=$WAFFLE_DB_SIGNING_KEY >> $envFile
 
 # WAFFLE_SESSION_SECRET
 if [ -z "$WAFFLE_SESSION_SECRET" ];
 then
-  sessionSecret=$(openssl rand -base64 32)
-  echo WAFFLE_SESSION_SECRET=$sessionSecret >> $envFile
+  WAFFLE_SESSION_SECRET=$(openssl rand -base64 32)
 fi
+sed -n '/WAFFLE_SESSION_SECRET/!p' $envFile > tmp.list && mv tmp.list $envFile
+echo WAFFLE_SESSION_SECRET=$WAFFLE_SESSION_SECRET >> $envFile
 
 # WEB_CONCURRENCY
 if [ $WEB_CONCURRENCY ]
@@ -352,21 +355,24 @@ echo -e "\n\nGreat! That's all we need, we will have your Waffle.io Takeout read
 # POXA ENVs
 if [ -z "$POXA_APP_ID" ];
 then
-  poxaAppId=`date +%s | sha256sum | base64 | head -c 16 ;`
-  echo POXA_APP_ID=$poxaAppId >> $envFile
+  POXA_APP_ID=`date +%s | sha256sum | base64 | head -c 16 ;`
 fi
+sed -n '/POXA_APP_ID/!p' $envFile > tmp.list && mv tmp.list $envFile
+echo POXA_APP_ID=$POXA_APP_ID >> $envFile
 
 if [ -z "$POXA_APP_KEY" ];
 then
-  poxaAppKey=`date +%s | sha256sum | base64 | head -c 32 ;`
-  echo POXA_APP_KEY=$poxaAppKey >> $envFile
+  POXA_APP_KEY=`date +%s | sha256sum | base64 | head -c 32 ;`
 fi
+sed -n '/POXA_APP_KEY/!p' $envFile > tmp.list && mv tmp.list $envFile
+echo POXA_APP_KEY=$POXA_APP_KEY >> $envFile
 
 if [ -z "$POXA_SECRET" ];
 then
-  poxaSecret=`date +%s | sha256sum | base64 | head -c 64 ;`
-  echo POXA_SECRET=$poxaSecret >> $envFile
+  POXA_SECRET=`date +%s | sha256sum | base64 | head -c 64 ;`
 fi
+sed -n '/POXA_SECRET/!p' $envFile > tmp.list && mv tmp.list $envFile
+echo POXA_SECRET=$POXA_SECRET >> $envFile
 
 ######################################################
 # Store off environment configuration in /etc/waffle #
