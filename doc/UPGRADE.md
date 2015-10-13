@@ -1,6 +1,6 @@
 ## Waffle Takeout upgrade instructions
 
-### Upgrading from `waffleio-takeout-2015-05-27-12:05:32` (takeout alpha) to `v1.0.0` (Oct, 2015)
+#### Upgrading from `waffleio-takeout-2015-05-27-12:05:32` (takeout alpha) to `v1.0.0` (Oct, 2015)
 
 1. Download latest Takeout delivery
 2. Upload latest Takeout delivery to VM
