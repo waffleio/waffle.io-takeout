@@ -91,6 +91,8 @@ Note that iptables rules need to be saved to persist after a reboot:
 /sbin/service iptables save
 ```
 
+Warning: If your host machine is under a configuration management system like Puppet, you may need to make changes to your configuration to prevent this setting from being overridden unexpectedly.
+
 ## Reconfigure Takeout Post-Install
 1. Stop and remove containers: `sudo service waffle stop`.
 2. Run `sudo ./install.sh` again.
