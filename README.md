@@ -3,6 +3,7 @@ Waffle Takeout is an on-premises deployment of Waffle.io, to run in your own env
 
 ### For customers:
 - [Installation Instructions](doc/INSTALL.md)
+- [Upgrade Instructions](doc/UPGRADE.md)
 
 ### For Waffle developers:
 - [Developer Environment Instructions](doc/DEV.md)

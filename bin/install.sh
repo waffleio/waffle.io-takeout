@@ -333,23 +333,6 @@ fi
 sed -n '/WAFFLE_SESSION_SECRET/!p' $envFile > tmp.list && mv tmp.list $envFile
 echo WAFFLE_SESSION_SECRET=$WAFFLE_SESSION_SECRET >> $envFile
 
-# WEB_CONCURRENCY
-if [ $WEB_CONCURRENCY ]
-then
-  echo -e "\n${blue}How many CPUs would you like to use? (${WEB_CONCURRENCY})${reset}"
-else
-  echo -e "\n${blue}How many CPUs would you like to use?${reset}"
-fi
-
-while [[ ! $webConcurrency || $webConcurrency = *[^0-9]* ]]; do
-  echo -en $"${grey}Please enter in a number (blank to keep it the same):\n>${reset}"
-  read webConcurrency
-  webConcurrency=${webConcurrency:-$WEB_CONCURRENCY}
-done
-
-sed -n '/WEB_CONCURRENCY/!p' $envFile > tmp.list && mv tmp.list $envFile
-echo WEB_CONCURRENCY=$webConcurrency >> $envFile
-
 echo -e "\n\nGreat! That's all we need, we will have your Waffle.io Takeout ready shortly."
 
 # POXA ENVs
