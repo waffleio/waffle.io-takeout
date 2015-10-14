@@ -86,6 +86,17 @@ docker run -d --name waffle-poxa --env-file /etc/waffle/environment.list -p 8080
 sudo service waffle-nginx restart
 ```
 
+Additionally, if running on CentOS, make sure that you have outbound network access on port 443. To open this port, run the following command:
+
+```
+iptables -I INPUT 3 -s 0.0.0.0/0 -d 0.0.0.0/0 -p tcp --dport 443 -m state --state New -j ACCEPT
+```
+
+Note that iptables rules need to be saved to persist after a reboot:
+
+```
+/sbin/service iptables save
+```
 
 ## Reconfigure Takeout Post-Install
 1. Stop and remove containers: `sudo service waffle stop`.
