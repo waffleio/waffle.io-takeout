@@ -11,16 +11,7 @@ Getting Started guides and other Waffle.io documentation can be found at [here](
 
 ## Host Machine
 
-The standard setup consists of one host, running the following services:
-
-* Migrations
-* Poxa
-* Rally
-* Hedwig
-* Hooks
-* API
-* App
-* Nginx
+The standard setup consists of one host.
 
 If you are using EC2 we recommend the m4.large instance type.
 
