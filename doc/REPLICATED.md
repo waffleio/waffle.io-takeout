@@ -2,13 +2,12 @@
 
 Please submit a request on [https://takeout.waffle.io](https://takeout.waffle.io) for more information on pricing and to register for a 45 day trial.
 
-Getting started guides and other Waffle.io documentation can be found at [here](https://github.com/waffleio/waffle.io/wiki).
+Getting Started guides and other Waffle.io documentation can be found at [here](https://github.com/waffleio/waffle.io/wiki).
 
 ## Prerequisites
 
-* One dedicated host with Ubuntu 14.04 or greater installed
-* A Waffle.io Takeout license file
-* A GitHub Enterprise or GitHub.com application
+* A dedicated host with Ubuntu 14.04 or greater installed
+* A Waffle Takeout license file
 
 ## Host Machine
 
@@ -23,21 +22,21 @@ The standard setup consists of one host, running the following services:
 * App
 * Nginx
 
-If you are using EC2 we recommend the c3.2xlarge instance types.
+If you are using EC2 we recommend the m4.large instance types.
 
-For other setups we recommend hosts with 16 gigs of RAM and 8 CPUs.
+For other setups we recommend hosts with 8 gigs of RAM and 2 CPUs.
 
 ## Register a GitHub OAuth app
 
 Waffle Takeout talks to GitHub Enterprise and GitHub.com via OAuth. You will need to create an OAuth app on your GitHub Enterprise installation or GitHub.com that Waffle Takeout can connect to.
 
-The OAuth app registered will use the domain name pointing to your Platform host for the Homepage URL (e.g. https://waffle-io.your-domain.com).
+The OAuth app registered will use the domain name pointing to your Platform host for the Homepage URL (e.g. https://waffle.company.com).
 
 ## Installation
 
-### Creating a Security Group
+### Network Configuration
 
-If you're setting up your AMI for the first time you will need to create a Security Group. From the EC2 management console, create an entry for each port in the table below:
+To run Waffle Takeout, you will need to ensure the following ports are open:
 
 | Port          | Service       | Description                                                                  |
 | ------------- |:-------------:| ----------------------------------------------------------------------------:|
@@ -56,19 +55,23 @@ $ curl -sSL https://get.replicated.com | sudo sh
 
  This will install the management application, which takes care of downloading and installing Waffle Takeout, as well as providing a simple web interface for setting up the platform, and for viewing runtime metrics.
 
- Once the script has run you can navigate to `https://waffle-io.your-domain.com:8800` to complete the setup.
+ This requires access to the internet, but only during the installation process. If you are unable to allow access the internet during installation or upgrades, please contact support@waffle.io and we can provide you with alternate installation instructions.
+
+ The installation process can also connect to the internet through a proxy, and only needs access to these IP addresses: `52.7.167.120` and `54.174.248.164`.
+
+ Once the script has run you can navigate to `https://waffle.company.com:8800` to complete the setup.
 
  From here you can upload your trial license key, add your GitHub OAuth details, upload an SSL certificate and enter other configuration options.
 
- If you are running the Platform host on EC2, we recommend using an image that uses EBS for the root volume, as well as allocating 30 gigs of space to it. It is also recommended to not destroy the volume on instance termination.
+ If you are running the Platform host on EC2, we recommend using an image that uses EBS for the root volume, as well as allocating 32 gigs of space to it.
 
 ## Maintenance
 
 ### Updating your Waffle Takeout Installation
 
-You can check for new releases by going to the management interface dashboard `https://waffle-io.your-domain.com:8800` and clicking on the 'Check Now' button. If an update is available you will be able to read the release notes and install the update.
+You can check for new releases by going to the management interface dashboard `https://waffle.company.com:8800` and clicking on the 'Check Now' button. If an update is available you will be able to read the release notes and install the update.
 
-It is also recommended to run the following commands on the Platform host afterwards:
+It is also recommended to run the following commands on the host afterwards:
 
 ```curl
 $ sudo apt-get update
