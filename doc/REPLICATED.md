@@ -7,7 +7,7 @@ Getting Started guides and other Waffle.io documentation can be found at [here](
 ## Prerequisites
 
 * A dedicated host with Ubuntu 14.04 or greater installed
-* A Waffle Takeout license file
+* A Waffle Takeout license file (downloadable from [https://takeout.waffle.io](https://takeout.waffle.io))
 
 ## Host Machine
 
