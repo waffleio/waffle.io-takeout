@@ -21,7 +21,7 @@ For other setups we recommend hosts with 32 gigs of RAM and 2 CPUs.
 
 Waffle Takeout talks to GitHub Enterprise and GitHub.com via OAuth. You will need to create an OAuth app on your GitHub Enterprise installation or GitHub.com that Waffle Takeout can connect to.
 
-The OAuth app registered will use the domain name pointing to your Platform host for the Homepage URL (e.g. https://waffle.company.com).
+The OAuth app registered will use the network routable address to your host machine for the Homepage URL (e.g. https://waffle.company.com).
 
 ## Installation
 
@@ -52,7 +52,7 @@ $ curl -sSL https://get.replicated.com | sudo sh
 
  Once the script has run you can navigate to `https://waffle.company.com:8800` to complete the setup.
 
- From here you can upload your trial license key, add your GitHub OAuth details, upload an SSL certificate and enter other configuration options.
+ From here you can upload your trial license key, add your GitHub OAuth Application details, upload an SSL certificate and enter other configuration options.
 
  If you are running the Platform host on EC2, we recommend using an image that uses EBS for the root volume, as well as allocating 32 gigs of space to it.
 
