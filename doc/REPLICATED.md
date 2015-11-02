@@ -38,13 +38,13 @@ To run Waffle Takeout, you will need to ensure the following ports are open:
 
 ### Installation
 
-The recommended installation of the Platform host is done through running the following script on the host:
+The recommended installation of Waffle Takeout is done through running the following script on the host:
 
  ```curl
 $ curl -sSL https://get.replicated.com | sudo sh
  ```
 
- This will install the management application, which takes care of downloading and installing Waffle Takeout, as well as providing a simple web interface for setting up the platform, and for viewing runtime metrics.
+ This will install the management application, which takes care of downloading and installing Waffle Takeout, as well as providing a simple web interface for setting up Waffle Takeout, and for viewing runtime metrics.
 
  This requires access to the internet, but only during the installation process. If you are unable to allow access the internet during installation or upgrades, please contact [support@waffle.io](mailto:support@waffle.io) and we can provide you with alternate installation instructions.
 
@@ -54,7 +54,7 @@ $ curl -sSL https://get.replicated.com | sudo sh
 
  From here you can upload your trial license key, add your GitHub OAuth Application details, upload an SSL certificate and enter other configuration options.
 
- If you are running the Platform host on EC2, we recommend using an image that uses EBS for the root volume, as well as allocating 32 gigs of space to it.
+ If you are running the Waffle Takeout host on EC2, we recommend using an image that uses EBS for the root volume, as well as allocating 32 gigs of space to it.
 
 ## Maintenance
 
