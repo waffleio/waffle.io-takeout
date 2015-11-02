@@ -39,7 +39,7 @@ The OAuth app registered will use the domain name pointing to your Platform host
 To run Waffle Takeout, you will need to ensure the following ports are open:
 
 | Port          | Service       | Description                                                                  |
-| ------------- |:-------------:| ----------------------------------------------------------------------------:|
+| ------------- |---------------| -----------------------------------------------------------------------------|
 | 8800          | Custom TCP    | This port is to access the admin dashboard for your Enterprise installation. |
 | 443           | HTTPS         | Web application over HTTPS access.                                           |
 | 80            | HTTP          | Web application access.                                                      |
