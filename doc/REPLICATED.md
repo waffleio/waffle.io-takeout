@@ -22,7 +22,7 @@ The standard setup consists of one host, running the following services:
 * App
 * Nginx
 
-If you are using EC2 we recommend the m4.large instance types.
+If you are using EC2 we recommend the m4.large instance type.
 
 For other setups we recommend hosts with 8 gigs of RAM and 2 CPUs.
 
