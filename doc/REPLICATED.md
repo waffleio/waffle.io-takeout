@@ -54,7 +54,7 @@ $ curl -sSL https://get.replicated.com | sudo sh
 
  From here you can upload your trial license key, add your GitHub OAuth Application details, upload an SSL certificate and enter other configuration options.
 
- If you are running the Waffle Takeout host on EC2, we recommend using an image that uses EBS for the root volume, as well as allocating 32 gigs of space to it.
+ If you are running Waffle Takeout on EC2, we recommend using an image that uses EBS for the root volume, as well as allocating 32 gigs of space to it.
 
 ## Maintenance
 
