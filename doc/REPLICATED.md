@@ -55,7 +55,7 @@ $ curl -sSL https://get.replicated.com | sudo sh
 
  This will install the management application, which takes care of downloading and installing Waffle Takeout, as well as providing a simple web interface for setting up the platform, and for viewing runtime metrics.
 
- This requires access to the internet, but only during the installation process. If you are unable to allow access the internet during installation or upgrades, please contact support@waffle.io and we can provide you with alternate installation instructions.
+ This requires access to the internet, but only during the installation process. If you are unable to allow access the internet during installation or upgrades, please contact [support@waffle.io](mailto:support@waffle.io) and we can provide you with alternate installation instructions.
 
  The installation process can also connect to the internet through a proxy, and only needs access to these IP addresses: `52.7.167.120` and `54.174.248.164`.
 
