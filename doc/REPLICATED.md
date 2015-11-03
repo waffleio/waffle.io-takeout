@@ -13,7 +13,7 @@ Getting Started guides and other Waffle.io documentation can be found at [here](
 
 The standard setup consists of one host.
 
-If you are using EC2 we recommend the m4.large instance type.
+If you are using EC2 we recommend the m4.large instance type with a 32GB EBS volume.
 
 For other setups we recommend hosts with 32 gigs of RAM and 2 CPUs.
 
@@ -51,8 +51,6 @@ $ curl -sSL https://get.replicated.com | sudo sh
  Once the script has run you can navigate to `https://waffle.company.com:8800` to complete the setup.
 
  From here you can upload your trial license key, add your GitHub OAuth Application details, upload an SSL certificate and enter other configuration options.
-
- If you are running Waffle Takeout on EC2, we recommend using an image that uses EBS for the root volume, as well as allocating 32 gigs of space to it.
 
 ## Maintenance
 
