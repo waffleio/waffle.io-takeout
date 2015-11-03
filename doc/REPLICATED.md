@@ -17,14 +17,6 @@ If you are using EC2 we recommend the m4.large instance type.
 
 For other setups we recommend hosts with 32 gigs of RAM and 2 CPUs.
 
-## Register a GitHub OAuth app
-
-Waffle Takeout talks to GitHub Enterprise and GitHub.com via OAuth. You will need to create an OAuth app on your GitHub Enterprise installation or GitHub.com that Waffle Takeout can connect to.
-
-The OAuth app registered will use the network routable address to your host machine for the Homepage URL (e.g. https://waffle.company.com).
-
-## Installation
-
 ### Network Configuration
 
 To run Waffle Takeout, you will need to ensure the following ports are open:
@@ -35,9 +27,13 @@ To run Waffle Takeout, you will need to ensure the following ports are open:
 | 443           | HTTPS         | Web application over HTTPS access                                                |
 | 80            | HTTP          | Web application access                                                           |
 | 22            | SSH           | SSH access                                                                       |
+## Register a GitHub OAuth app
 
+Waffle Takeout talks to GitHub Enterprise and GitHub.com via OAuth. You will need to create an OAuth app on your GitHub Enterprise installation or GitHub.com that Waffle Takeout can connect to.
 
-### Installation
+The OAuth app registered will use the network routable address to your host machine for the Homepage URL (e.g. https://waffle.company.com).
+
+## Installation
 
 The recommended installation of Waffle Takeout is done through running the following script on the host:
 
