@@ -25,17 +25,6 @@ The OAuth app registered will use the network routable address to your host mach
 
 ## Installation
 
-### Network Configuration
-
-To run Waffle Takeout, you will need to ensure the following ports are open:
-
-| Port          | Service       | Description                                                                      |
-| :------------ |:--------------| :--------------------------------------------------------------------------------|
-| 8800          | Custom TCP    | This port is to access the admin dashboard for your Waffle Takeout installation  |
-| 443           | HTTPS         | Web application over HTTPS access                                                |
-| 80            | HTTP          | Web application access                                                           |
-| 22            | SSH           | SSH access                                                                       |
-
 ### Installation
 
 The recommended installation of Waffle Takeout is done through running the following script on the host:
@@ -55,6 +44,17 @@ $ curl -sSL https://get.replicated.com | sudo sh
  From here you can upload your trial license key, add your GitHub OAuth Application details, upload an SSL certificate and enter other configuration options.
 
  If you are running Waffle Takeout on EC2, we recommend using an image that uses EBS for the root volume, as well as allocating 32 gigs of space to it.
+
+### Network Configuration
+
+To run Waffle Takeout, you will need to ensure the following ports are open:
+
+| Port          | Service       | Description                                                                      |
+| :------------ |:--------------| :--------------------------------------------------------------------------------|
+| 8800          | Custom TCP    | This port is to access the admin dashboard for your Waffle Takeout installation  |
+| 443           | HTTPS         | Web application over HTTPS access                                                |
+| 80            | HTTP          | Web application access                                                           |
+| 22            | SSH           | SSH access                                                                       |
 
 ## Maintenance
 
