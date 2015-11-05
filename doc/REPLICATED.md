@@ -15,7 +15,7 @@ The standard setup consists of one host.
 
 If you are using EC2 we recommend the m4.large instance type with a 32GB EBS volume.
 
-For other setups we recommend hosts with 32 gigs of RAM and 2 CPUs.
+For other setups we recommend hosts with 8 gigs of RAM and 2 CPUs.
 
 ## Network Configuration
 
