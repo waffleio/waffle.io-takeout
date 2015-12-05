@@ -32,7 +32,11 @@ To run Waffle Takeout, you will need to ensure the following ports are open:
 
 Waffle Takeout talks to GitHub Enterprise and GitHub.com via OAuth. You will need to create an OAuth app on your GitHub Enterprise installation or GitHub.com that Waffle Takeout can connect to.
 
-The OAuth app registered will use the network routable address to your host machine for the Homepage URL (e.g. https://waffle.company.com).
+#### For GitHub Enterprise
+
+To register an OAuth app, first click on your profile icon. From there, navigate to Settings->Applications and to the Developer Applications tab. Select 'Register New Application.'
+
+The OAuth app registered will use the network routable address to your host machine for the Homepage URL (e.g. https://waffle.company.com). Be sure the homepage URL and authorization callback both match the host name for your Replicated Installation when creating your application.
 
 ## Installation
 
