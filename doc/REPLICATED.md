@@ -8,6 +8,7 @@ Getting Started guides and other Waffle.io documentation can be found at [here](
 
 * A dedicated host with Ubuntu 14.04 or greater installed
 * A Waffle Takeout license file (downloadable from [https://takeout.waffle.io](https://takeout.waffle.io))
+* A GitHub Enterprise installation secured via SSL certificate. (Waffle Takeout does not support connecting to GitHub Enterprise insecurely over http at this time.)
 
 ## Host Machine
 
