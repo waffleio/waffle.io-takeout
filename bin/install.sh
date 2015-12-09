@@ -131,7 +131,7 @@ then
   echo -e "     Homepage URL:               https://${hostName}"
   echo -e "     Application description:    Automate your workflow."
   echo -e "     Authorization callback URL: https://${hostName}"
-  echo -e "     Application Logo:           https://brandfolder.com/waffleio/share/1FBJUQk"
+  echo -e "     Application Logo:           https://fp.brandfolder.com/api/file/h6MQPYSaeLHFIRJYZGuA+waffle-yellow.png"
 echo -e "After registering your application, you will be given a Client ID and Client Secret."
 
   # Client ID
