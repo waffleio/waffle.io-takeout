@@ -8,7 +8,7 @@ Waffle Takeout is an on-premises deployment of Waffle.io, to run in your own env
 ### Releases
 - [Waffle Takeout 2.0.0](releases/2.0.0.md)
 - [Waffle Takeout 1.0.1](releases/1.0.1.md)
-- [Waffle Takeout 1.0.1](releases/1.0.0.md)
+- [Waffle Takeout 1.0.0](releases/1.0.0.md)
 
 ### For Waffle developers:
 - [Developer Environment Instructions](doc/DEV.md)
