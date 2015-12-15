@@ -69,3 +69,9 @@ It is also recommended to run the following commands on the host afterwards:
 $ sudo apt-get update
 $ sudo apt-get install replicated replicated-ui replicated-agent replicated-updater
 ```
+
+## Upgrading from 1.x (self-install) to 2.x
+
+If you installed Waffle Takeout by downloading a set of docker images and then manually running an installation script to configure Waffle Takeout, you'll need to migrate to our new installation method.
+
+Upgrading to the 2.x release only requires configuring the new installation with your existing database encryption keys. Follow the normal installation steps above, and then check the optional "Migrate" checkbox. Provide the "Encryption Key" and "Signing Key" from your existing installation. These are found in your `/etc/waffle/environment.list` file on your host machine.
