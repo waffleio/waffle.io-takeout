@@ -1,6 +1,6 @@
 Waffle Takeout Installation Instructions
 ===
-_These instructions are meant for customers installing Waffle Takeout in their own environment._
+_These instructions have been replaced by our current installation documentation [here](https://github.com/waffleio/waffle.io-takeout/blob/master/doc/INSTALL.md) for customers installing Waffle Takeout in their own environment._
 
 ## Hardware Requirements
  - We recommend at least 32GB of storage, and 4GB of memory.
