@@ -61,14 +61,16 @@ $ curl -sSL https://get.replicated.com | sudo sh
 
 ### Updating your Waffle Takeout Installation
 
-You can check for new releases by going to the management interface dashboard `https://waffle.company.com:8800` and clicking on the 'Check Now' button. If an update is available you will be able to read the release notes and install the update.
-
-It is also recommended to run the following commands on the host afterwards:
+Update the Replicated agent on the host machine before upgrading the Waffle Takeout application. This is not always required, and the UI will prompt you to do so if it is required:
 
 ```curl
 $ sudo apt-get update
 $ sudo apt-get install replicated replicated-ui replicated-agent replicated-updater
 ```
+
+You can check for new app releases by going to the management interface dashboard `https://waffle.company.com:8800` and clicking on the 'Check Now' button. If an update is available you will be able to read the release notes and install the update.
+
+
 
 ## Upgrading from 1.x (self-install) to 2.x
 
