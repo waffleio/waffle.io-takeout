@@ -9,6 +9,7 @@ Getting Started guides and other Waffle.io documentation can be found [here](htt
 * A supported Linux server (modern versions of Ubuntu, Debian, CentOS, Red Hat & Fedora)
 * A Waffle Takeout license file (downloadable from [https://takeout.waffle.io](https://takeout.waffle.io))
 * A GitHub Enterprise installation secured via SSL certificate. (Waffle Takeout does not support connecting to GitHub Enterprise insecurely over HTTP at this time.)
+* A MongoDB instance. Waffle does not currently ship with our own database and we require you to manage your database.
 
 ## Host Machine
 
@@ -64,7 +65,7 @@ $ curl -sSL https://get.replicated.com | sudo sh
 
 ![Step 6](http://f.cl.ly/items/412o1Z2X3I1O2w462x0c/4.png)
 
-#### 7. Configure your ELK instance and click "Save"
+#### 7. Configure your Waffle Takeout instance and click "Save"
 
 ![Step 7](http://f.cl.ly/items/0w223t293h0p3J451r2a/5.png)
 
