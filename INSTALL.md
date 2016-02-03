@@ -2,19 +2,20 @@
 
 Please submit a request on [https://takeout.waffle.io](https://takeout.waffle.io) for more information on pricing and to register for a 45 day trial.
 
-Getting Started guides and other Waffle.io documentation can be found at [here](https://github.com/waffleio/waffle.io/wiki).
+Getting Started guides and other Waffle.io documentation can be found [here](https://github.com/waffleio/waffle.io/wiki).
 
-## Prerequisites
+# Prerequisites
 
-* A dedicated host with Ubuntu 14.04 or greater installed
+* A supported Linux server (modern versions of Ubuntu, Debian, CentOS, Red Hat & Fedora)
 * A Waffle Takeout license file (downloadable from [https://takeout.waffle.io](https://takeout.waffle.io))
-* A GitHub Enterprise installation secured via SSL certificate. (Waffle Takeout does not support connecting to GitHub Enterprise insecurely over http at this time.)
+* A GitHub Enterprise installation secured via SSL certificate. (Waffle Takeout does not support connecting to GitHub Enterprise insecurely over HTTP at this time.)
+* A MongoDB instance. Waffle does not currently ship with our own database and we require you to manage your database.
 
 ## Host Machine
 
 The standard setup consists of one host.
 
-If you are using EC2 we recommend the m4.large instance type with a 32GB EBS volume.
+If you are using EC2, we recommend the m4.large instance type with at least a 32GB EBS volume.
 
 For other setups we recommend hosts with 8 gigs of RAM and 2 CPUs.
 
@@ -31,31 +32,46 @@ To run Waffle Takeout, you will need to ensure the following ports are open:
 
 ## Register a GitHub.com OAuth app
 
-Waffle Takeout talks to GitHub Enterprise and GitHub.com via OAuth. You will need to create an OAuth app on your GitHub Enterprise installation or GitHub.com that Waffle Takeout can connect to.
+Waffle Takeout talks to GitHub Enterprise and GitHub.com via OAuth. You will need to create an OAuth application on your GitHub Enterprise installation or GitHub.com that Waffle Takeout can connect to.
 
 #### For GitHub Enterprise
 
-To register an OAuth app, first click on your profile icon. From there, navigate to Settings->Applications and to the Developer Applications tab. Select 'Register New Application.'
+To register an OAuth application, first click on your profile icon. From there, navigate to Settings->Applications and to the Developer Applications tab. Select 'Register New Application.'
 
 Make sure the Homepage URL and Authorization Callback match the URL for your Waffle Takeout installation.
 
 ## Installation
 
-The recommended installation of Waffle Takeout is done through running the following script on the host:
+#### 1. SSH into your Linux server
+#### 2. Run the following script:
 
  ```curl
 $ curl -sSL https://get.replicated.com | sudo sh
  ```
 
- This will install the management application, which takes care of downloading and installing Waffle Takeout, as well as providing a simple web interface for setting up Waffle Takeout, and for viewing runtime metrics.
+#### 3. Access your server via HTTPS on port 8800 & bypass the SSL security warning.
 
- This requires access to the internet, but only during the installation process. If you are unable to allow access the internet during installation or upgrades, please contact [support@waffle.io](mailto:support@waffle.io) and we can provide you with alternate installation instructions.
+![Step 3](http://f.cl.ly/items/341U3v3I2O3n1c1G1h3I/1.png)
 
- The installation process can also connect to the internet through a proxy, and only needs access to these IP addresses: `52.7.167.120` and `54.174.248.164`.
+#### 4. Upload a custom TLS/SSL cert/key or proceed with the provided self-signed pair.
 
- Once the script has run you can navigate to `https://waffle.company.com:8800` to complete the setup.
+![Step 4](http://f.cl.ly/items/0r3T2l453A350v1W0V2q/2.png)
 
- From here you can upload your trial license key, add your GitHub OAuth Application details, upload an SSL certificate and enter other configuration options.
+#### 5. Upload the provided license file (.rli)
+
+![Step 5](http://f.cl.ly/items/1x1b042H353N3C2P0V22/3.png)
+
+#### 6. Secure your Waffle Takeout Management console with a password
+
+![Step 6](http://f.cl.ly/items/412o1Z2X3I1O2w462x0c/4.png)
+
+#### 7. Configure your Waffle Takeout instance and click "Save"
+
+![Step 7](http://f.cl.ly/items/0w223t293h0p3J451r2a/5.png)
+
+#### 8. Visit the hostname you provided to access Waffle Takeout
+
+![Step 8](http://f.cl.ly/items/0y0l2z0F3D0t3v1o0Q1X/6.png)
 
 ## Maintenance
 
@@ -69,8 +85,6 @@ $ sudo apt-get install replicated replicated-ui replicated-agent replicated-upda
 ```
 
 You can check for new app releases by going to the management interface dashboard `https://waffle.company.com:8800` and clicking on the 'Check Now' button. If an update is available you will be able to read the release notes and install the update.
-
-
 
 ## Upgrading from 1.x (self-install) to 2.x
 
