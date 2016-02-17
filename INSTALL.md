@@ -51,27 +51,27 @@ $ curl -sSL https://get.replicated.com | sudo sh
 
 #### 3. Access your server via HTTPS on port 8800 & bypass the SSL security warning.
 
-![Step 3](doc/screenshots/1.png)
+![Step 3](http://f.cl.ly/items/341U3v3I2O3n1c1G1h3I/1.png)
 
 #### 4. Upload a custom TLS/SSL cert/key or proceed with the provided self-signed pair.
 
-![Step 4](doc/screenshots/2.png)
+![Step 4](http://f.cl.ly/items/0r3T2l453A350v1W0V2q/2.png)
 
 #### 5. Upload the provided license file (.rli)
 
-![Step 5](doc/screenshots/3.png)
+![Step 5](http://f.cl.ly/items/1x1b042H353N3C2P0V22/3.png)
 
 #### 6. Secure your Waffle Takeout Management console with a password
 
-![Step 6](doc/screenshots/4.png)
+![Step 6](http://f.cl.ly/items/412o1Z2X3I1O2w462x0c/4.png)
 
 #### 7. Configure your Waffle Takeout instance and click "Save"
 
-![Step 7](doc/screenshots/5.png)
+![Step 7](http://f.cl.ly/items/0w223t293h0p3J451r2a/5.png)
 
 #### 8. Visit the hostname you provided to access Waffle Takeout
 
-![Step 8](doc/screenshots/6.png)
+![Step 8](http://f.cl.ly/items/0y0l2z0F3D0t3v1o0Q1X/6.png)
 
 ## Maintenance
 
