@@ -10,6 +10,8 @@ Getting Started guides and other Waffle.io documentation can be found [here](htt
 * A Waffle Takeout license file (downloadable from [https://takeout.waffle.io](https://takeout.waffle.io))
 * A GitHub Enterprise installation secured via SSL certificate. (Waffle Takeout does not support connecting to GitHub Enterprise insecurely over HTTP at this time.)
 * A MongoDB instance. Waffle does not currently ship with our own database and we require you to manage your database.
+  * You will need to create a db in MongoDB for Waffle Takeout
+  * If you are using authentication, you will need to create a user/password in MongoDB which has read/write privileges on the created DB and then set the MongoDB connection string to "mongodb://\<user:password\>@\<mongodb DNS name or IP\>:27017/\<name of db created\>"
 
 ## Host Machine
 
@@ -26,6 +28,7 @@ To run Waffle Takeout, you will need to ensure the following ports are open:
 | Port          | Service       | Description                                                                      |
 | :------------ |:--------------| :--------------------------------------------------------------------------------|
 | 8800          | Custom TCP    | This port is to access the admin dashboard for your Waffle Takeout installation  |
+| 9880          | Custom TCP    | This port is for replicated host api to update the admin dashboard's status      |
 | 443           | HTTPS         | Web application over HTTPS access                                                |
 | 80            | HTTP          | Web application access                                                           |
 | 22            | SSH           | SSH access                                                                       |
@@ -39,6 +42,8 @@ Waffle Takeout talks to GitHub Enterprise and GitHub.com via OAuth. You will nee
 To register an OAuth application, first click on your profile icon. From there, navigate to Settings->Applications and to the Developer Applications tab. Select 'Register New Application.'
 
 Make sure the Homepage URL and Authorization Callback match the URL for your Waffle Takeout installation.
+
+For GitHub Enterprise Config when installing Waffle Takeout, make sure to prepend "https://" to field asking for GitHub Enterprise Host
 
 ## Installation
 
