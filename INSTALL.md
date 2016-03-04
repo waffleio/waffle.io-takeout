@@ -11,7 +11,7 @@ Getting Started guides and other Waffle.io documentation can be found [here](htt
 * A GitHub Enterprise installation secured via SSL certificate. (Waffle Takeout does not support connecting to GitHub Enterprise insecurely over HTTP at this time.)
 * A MongoDB instance. Waffle does not currently ship with our own database and we require you to manage your database.
   * You will need to create a db in MongoDB for Waffle Takeout
-  * If you are using authentication, you will need to create a user/password in MongoDB which has read/write privileges on the created DB and then set the MongoDB connection string to "mongodb://\<user:password\>@\<mongodb DNS name or IP\>:27017/\<name of db created\>"
+  * If you are using authentication, you will need to create a user/password in MongoDB which has read/write privileges on the created DB and then set the MongoDB connection string to `user:password@yourmongodb-host-name-or-ip:27017/dbname`
 
 ## Host Machine
 
@@ -43,7 +43,7 @@ To register an OAuth application, first click on your profile icon. From there, 
 
 Make sure the Homepage URL and Authorization Callback match the URL for your Waffle Takeout installation.
 
-For GitHub Enterprise Config when installing Waffle Takeout, make sure to prepend "https://" to field asking for GitHub Enterprise Host
+When configuring your GitHub Enterprise url on the admin settings page, make sure to include the protocol ("https://") in the url.
 
 ## Installation
 
