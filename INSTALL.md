@@ -1,6 +1,6 @@
 # Installing Waffle Takeout
 
-Please submit a request on [https://takeout.waffle.io](https://takeout.waffle.io) for more information on pricing and to register for a 45 day trial.
+Go to [https://takeout.waffle.io](https://takeout.waffle.io) for more information on pricing and to sign up for a free 45 day trial.
 
 Getting Started guides and other Waffle.io documentation can be found [here](https://github.com/waffleio/waffle.io/wiki).
 
@@ -9,7 +9,7 @@ Getting Started guides and other Waffle.io documentation can be found [here](htt
 * A supported Linux server (modern versions of Ubuntu, Debian, CentOS, Red Hat & Fedora)
 * A Waffle Takeout license file (downloadable from [https://takeout.waffle.io](https://takeout.waffle.io))
 * A GitHub Enterprise installation secured via SSL certificate. (Waffle Takeout does not support connecting to GitHub Enterprise insecurely over HTTP at this time.)
-* A MongoDB instance. Waffle does not currently ship with our own database and we require you to manage your database.
+* A MongoDB instance. **[MongoDB 2.6](https://www.mongodb.org/downloads#previous) is currently required** (You are currently required to manage your own database.)
   * You will need to create a db in MongoDB for Waffle Takeout
   * If you are using authentication, you will need to create a user/password in MongoDB which has read/write privileges on the created DB and then set the MongoDB connection string to `user:password@yourmongodb-host-name-or-ip:27017/dbname`
 
