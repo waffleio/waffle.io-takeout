@@ -7,10 +7,11 @@ _These instructions have been replaced by our current installation documentation
  - Takeout supports most linux distros that you can install Docker on. We test on the [latest Ubuntu Server](http://www.ubuntu.com/download/server) and the [AWS Linux AMI](https://aws.amazon.com/amazon-linux-ami/).
 
 ## Prerequisites
-1. You need mongodb (v2.6) running somewhere. It's your responsibility to maintain your mongodb installation.
-  - If you are running in AWS, you can install mongodb on EC2 by following [these instructions](http://docs.mongodb.org/ecosystem/platforms/amazon-ec2/).
+1. You need mongodb (v2.6) running somewhere. It's your responsibility to maintain your MongoDB installation.
+  - If you are running in AWS, you can install MongoDB on EC2 by following [these instructions](http://docs.mongodb.org/ecosystem/platforms/amazon-ec2/).
 2. If you plan to run Waffle with a hostname (e.g., `waffle.yourcompany.com`), you'll want to set this up first so you can enter it during the initial setup.
 3. Your GitHub Enterprise installation needs to be secured via an SSL certificate, Waffle Takeout does not support connecting to GitHub Enterprise insecurely over http at this time.
+4. A MongoDB database and user is required prior to installation. To create a MongoDB database, run the command `use waffle`, where `waffle` is the database name. For documentation on creating a user user, please follow the documentation [here](https://docs.mongodb.org/manual/reference/method/db.createUser/).
 
 ## Installing Waffle Takeout
 #### Installing Waffle Takeout on your own VM
