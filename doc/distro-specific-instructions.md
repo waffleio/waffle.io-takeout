@@ -4,9 +4,11 @@ CentOS 7 introduced using firewalld for firewall configuration, and there have b
 
 The goal: Open up ports 80, 443, 8800, 9880, and the range 3001-3009 for incoming connections, and allow all outgoing.
 
-1. disable firewalld, enable iptables. Docker on CentOS doesn’t always play nice with firewalld, so we’ll rely on iptables (this is how CentOS <6 worked too).
+##### Disable firewalld, Enable iptables. 
+Docker on CentOS doesn’t always play nice with firewalld, so we’ll rely on iptables (this is how CentOS <6 worked too).
 http://serverfault.com/a/739465/344862
-2. Configure the firewall rules
+
+##### Configure the firewall rules
 
 To just make sure nothing else is wrong, we can open everything up. Or, trust me and skip to the next section to configure it the right way.
 ```
@@ -39,7 +41,7 @@ $> iptables -L -v # make sure it looks ok
 $> service iptables save
 ```
 
-3. Install Replicated
+##### Install Replicated
 `curl -sSL https://get.replicated.com | sudo sh`
 
 That should do it!
