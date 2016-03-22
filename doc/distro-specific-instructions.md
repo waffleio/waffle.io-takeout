@@ -51,4 +51,4 @@ That should do it!
 If trying out Waffle Takeout on a VirtualBox VM, here are a few gotchas:
 
 - Choose a bridge network adapter so you can connect to the service in a browser outside the VM. Details: bridged network adapter, choose whichever interface is connected to the internet (wifi, for example). Explanation: https://www.virtualbox.org/manual/ch06.html
-- Configure a static IP address. A bridge network on VirtualBox creates an internal DHCP, which means your IP might change from under you. Waffle Takeout doesn't like it when this happens, so it's best to configure your VM to use a static IP. [Here's a 7 min video for how to do that on CentOS 7](https://www.youtube.com/watch?v=gDXQY2dC8z4) (The video is a bit painful to watch, but it getes the job done).
+- Configure a static IP address. A bridge network on VirtualBox creates an internal DHCP, which means your IP might change from under you. Waffle Takeout doesn't like it when this happens, so it's best to configure your VM to use a static IP. [Here's a 7 min video for how to do that on CentOS 7](https://www.youtube.com/watch?v=gDXQY2dC8z4) (The video is a bit painful to watch, but it gets the job done).
