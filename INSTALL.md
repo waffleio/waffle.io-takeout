@@ -32,6 +32,7 @@ To run Waffle Takeout, you will need to ensure the following ports are open:
 | 443           | HTTPS         | Web application over HTTPS access                                                |
 | 80            | HTTP          | Web application access                                                           |
 | 22            | SSH           | SSH access                                                                       |
+| 3001-3009     | Custom TCP    | These ports are required for Waffle's internal services.                         |
 
 ## Register a GitHub.com OAuth app
 
