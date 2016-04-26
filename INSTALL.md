@@ -42,7 +42,7 @@ Waffle Takeout talks to GitHub Enterprise and GitHub.com via OAuth. You will nee
 
 To register an OAuth application, first click on your profile icon. From there, navigate to Settings->Applications and to the Developer Applications tab. Select 'Register New Application.'
 
-Make sure the Homepage URL and Authorization Callback match the URL for your Waffle Takeout installation.
+Make sure the Homepage URL and Authorization Callback match the URL for your Waffle Takeout installation: `https://waffle.company.com` (just the base url for where it's installed, no special path required).
 
 When configuring your GitHub Enterprise url on the admin settings page, make sure to include the protocol ("https://") in the url.
 
