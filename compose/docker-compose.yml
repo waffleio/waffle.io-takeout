@@ -47,7 +47,7 @@ waffle-app:
   - APPLICATION_CLIENT_SECRET=
   - RALLY_CLIENT_ID=
   - RALLY_CLIENT_SECRET=
-  - MONGOLAB_URI=mongodb://mongo:27017/waffle
+  - MONGODB_URI=mongodb://mongo:27017/waffle
 waffle-api:
   container_name: waffle-api
   image: quay.io/waffleio/waffle.io-api
@@ -71,7 +71,7 @@ waffle-api:
   - WAFFLE_HOOKS_SERVICE_URI=
   - POXA_HOST=
   - POXA_PORT=
-  - MONGOLAB_URI=mongodb://mongo:27017/waffle  
+  - MONGODB_URI=mongodb://mongo:27017/waffle  
 waffle-hooks:
   container_name: waffle-hooks
   image: quay.io/waffleio/waffle.io-hooks
@@ -97,7 +97,7 @@ waffle-hooks:
   - APPLICATION_CLIENT_SECRET=
   - RALLY_CLIENT_ID=
   - RALLY_CLIENT_SECRET=
-  - MONGOLAB_URI=mongodb://mongo:27017/waffle
+  - MONGODB_URI=mongodb://mongo:27017/waffle
 waffle-hedwig:
   container_name: waffle-hedwig
   image: quay.io/waffleio/hedwig
@@ -116,7 +116,7 @@ waffle-hedwig:
   - POXA_SECRET=
   - POXA_HOST=
   - POXA_PORT=
-  - MONGOLAB_URI=mongodb://mongo:27017/waffle
+  - MONGODB_URI=mongodb://mongo:27017/waffle
 waffle-poxa:
   container_name: waffle-poxa
   image: quay.io/waffleio/poxa
@@ -141,4 +141,4 @@ waffle-rally-integration:
   - WAFFLE_DB_SIGNING_KEY=
   - RALLY_CLIENT_ID=
   - RALLY_CLIENT_SECRET=
-  - MONGOLAB_URI=mongodb://mongo:27017/waffle
+  - MONGODB_URI=mongodb://mongo:27017/waffle
