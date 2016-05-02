@@ -292,10 +292,10 @@ echo "# Environment Setup #"
 echo "#####################"
 echo "Just a few more questions about your environment. NOTE: we currently require you to run your own instance of MongoDB."
 
-# MONGOLAB_URI
-if [ $MONGOLAB_URI ]
+# MONGODB_URI
+if [ $MONGODB_URI ]
 then
-  echo -e "\n${blue}What is the connect string for your MongoDB instance? (${MONGOLAB_URI})${reset}"
+  echo -e "\n${blue}What is the connect string for your MongoDB instance? (${MONGODB_URI})${reset}"
 else
   echo -e "\n${blue}What is the connect string for your MongoDB instance?${reset}"
 fi
@@ -303,11 +303,11 @@ fi
 while [ -z "$mongoDbConnectString" ]; do
   echo -en $"${grey}Please enter a MongoDB connect string (blank to keep it the same):\n>${reset}"
   read mongoDbConnectString
-  mongoDbConnectString=${mongoDbConnectString:-$MONGOLAB_URI}
+  mongoDbConnectString=${mongoDbConnectString:-$MONGODB_URI}
 done
 
-sed -n '/MONGOLAB_URI/!p' $envFile > tmp.list && mv tmp.list $envFile
-echo MONGOLAB_URI=$mongoDbConnectString >> $envFile
+sed -n '/MONGODB_URI/!p' $envFile > tmp.list && mv tmp.list $envFile
+echo MONGODB_URI=$mongoDbConnectString >> $envFile
 
 # WAFFLE_DB_ENCRYPTION_KEY
 if [ -z "$WAFFLE_DB_ENCRYPTION_KEY" ];
