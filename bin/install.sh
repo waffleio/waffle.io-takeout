@@ -41,8 +41,6 @@ sed -n '/WAFFLE_API_BASE_URL/!p' $envFile > tmp.list && mv tmp.list $envFile
 echo WAFFLE_API_BASE_URL="https://${hostName}/api" >> $envFile
 sed -n '/WAFFLE_HOOKS_SERVICE_URI/!p' $envFile > tmp.list && mv tmp.list $envFile
 echo WAFFLE_HOOKS_SERVICE_URI="https://${hostName}/hooks" >> $envFile
-sed -n '/RALLY_INTEGRATION_BASE_URL/!p' $envFile > tmp.list && mv tmp.list $envFile
-echo RALLY_INTEGRATION_BASE_URL="https://${hostName}/integrations/rally" >> $envFile
 sed -n '/POXA_HOST/!p' $envFile > tmp.list && mv tmp.list $envFile
 echo POXA_HOST="${hostName}" >> $envFile
 sed -n '/POXA_PORT/!p' $envFile > tmp.list && mv tmp.list $envFile
@@ -52,7 +50,7 @@ echo -e "\n"
 echo "#######################"
 echo "# Proxy configuration #"
 echo "#######################"
-echo -en "\n${blue}Waffle supports integrations with GitHub:Enterprise, GitHub.com, and Rally (rally1.rallydev.com). Will your Takeout installation need to talk through a proxy to connect to any of these integrations, if enabled? (Y/n)\n${grey}>${reset}"
+echo -en "\n${blue}Waffle supports integrations with GitHub:Enterprise and GitHub.com. Will your Takeout installation need to talk through a proxy to connect to either of these integrations, if enabled? (Y/n)\n${grey}>${reset}"
 
 read needsProxy
 if [[ $needsProxy =~ ^([yY][eE][sS]|[yY])$ ]]
@@ -230,63 +228,6 @@ else
 fi
 
 echo -e "\n"
-echo "#################################"
-echo "# Rally OAuth Application Setup #"
-echo "#################################"
-echo -e "Waffle.io Takeout offers a Rally integration that enables your devs to work in Waffle while still giving all the business folk the data they need in Rally. In order for this to work, Waffle.io Takeout needs an OAuth Application in Rally. This section of the setup will walk you through how to do that."
-echo -en "\n${blue}Do you have a Rally Subscription? (Y/n)\n${grey}>${reset}"
-read hasRally
-if [[ $hasRally =~ ^([yY][eE][sS]|[yY])$ ]]
-then
-  echo -e "\nPlease go to https://rally1.rallydev.com/login/accounts/index.html#/clients and register an application with the following configuration:"
-  echo -e "     Application name:           Waffle.io Takeout"
-  echo -e "     Homepage URL:               https://${hostName}"
-  echo -e "     Authorization callback URL: https://${hostName}/rally-callback"
-  echo -e "     Application Logo:           https://brandfolder.com/waffleio/share/1FBJUQk"
-  echo -e "After registering your application, you will be given a Client ID and Client Secret."
-
-  # Client ID
-  if [ $RALLY_CLIENT_ID ]
-  then
-    echo -e "\n${blue}What is your Rally OAuth Client ID? (${RALLY_CLIENT_ID})${reset}"
-  else
-    echo -e "\n${blue}What is your Rally OAuth Client ID?${reset}"
-  fi
-
-  while [ -z "$rallyClientId" ]; do
-    echo -en $"${grey}Please enter your Rally OAuth Client ID (blank to keep it the same):\n>${reset}"
-    read rallyClientId
-    rallyClientId=${rallyClientId:-$RALLY_CLIENT_ID}
-  done
-
-  sed -n '/RALLY_CLIENT_ID/!p' $envFile > tmp.list && mv tmp.list $envFile
-  echo RALLY_CLIENT_ID=$rallyClientId >> $envFile
-
-  # Client Secret
-  if [ $RALLY_CLIENT_SECRET ]
-  then
-    echo -e "${blue}What is your Rally OAuth Client Secret? (${RALLY_CLIENT_SECRET})${reset}"
-  else
-    echo -e "${blue}What is your Rally OAuth Client Secret?${reset}"
-  fi
-
-  while [ -z "$rallyClientSecret" ]; do
-    echo -en $"${grey}Please enter your Rally OAuth Client Secret (blank to keep it the same):\n>${reset}"
-    read rallyClientSecret
-    rallyClientSecret=${rallyClientSecret:-$RALLY_CLIENT_SECRET}
-  done
-
-  sed -n '/RALLY_CLIENT_SECRET/!p' $envFile > tmp.list && mv tmp.list $envFile
-  echo RALLY_CLIENT_SECRET=$rallyClientSecret >> $envFile
-else
-  sed -n '/RALLY_CLIENT_ID/!p' $envFile > tmp.list && mv tmp.list $envFile
-  echo RALLY_CLIENT_ID=not-a-real-client-id >> $envFile
-  sed -n '/RALLY_CLIENT_SECRET/!p' $envFile > tmp.list && mv tmp.list $envFile
-  echo RALLY_CLIENT_SECRET=not-a-real-client-secret >> $envFile
-  echo "Skipping Rally OAuth Application setup. You may rerun this script if you wish to configure it later."
-fi
-
-echo -e "\n"
 echo "#####################"
 echo "# Environment Setup #"
 echo "#####################"
@@ -375,7 +316,6 @@ sudo chmod +x /etc/init.d/waffle-app
 sudo chmod +x /etc/init.d/waffle-hedwig
 sudo chmod +x /etc/init.d/waffle-hooks
 sudo chmod +x /etc/init.d/waffle-poxa
-sudo chmod +x /etc/init.d/waffle-rally-integration
 sudo chmod +x /etc/init.d/waffle-nginx
 
 
@@ -396,19 +336,17 @@ echo -en "${reset}"
 echo -e "\nLoading in the docker images, this might take a few minutes:"
 echo -ne '[                           ] (0%)\r'
 docker load --input images/hedwig.tar
-echo -ne '[###                        ] (11%)\r'
+echo -ne '[###                        ] (14%)\r'
 docker load --input images/poxa.tar
-echo -ne '[######                     ] (22%)\r'
+echo -ne '[######                     ] (28%)\r'
 docker load --input images/waffle.io-api.tar
-echo -ne '[#########                  ] (33%)\r'
+echo -ne '[#########                  ] (43%)\r'
 docker load --input images/waffle.io-app.tar
-echo -ne '[############               ] (44%)\r'
+echo -ne '[#############              ] (57%)\r'
 docker load --input images/waffle.io-hooks.tar
-echo -ne '[###############            ] (55%)\r'
+echo -ne '[#################          ] (71%)\r'
 docker load --input images/waffle.io-migrations.tar
-echo -ne '[##################         ] (66%)\r'
-docker load --input images/waffle.io-rally-integration.tar
-echo -ne '[#####################      ] (77%)\r'
+echo -ne '[######################     ] (85%)\r'
 docker load --input images/takeout-nginx.tar
 echo -e  '[###########################] (100%)\r'
 

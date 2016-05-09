@@ -14,7 +14,6 @@ waffle-nginx:
   - waffle-hooks
   - waffle-poxa
   - waffle-hedwig
-  - waffle-rally-integration
   volumes:
   - /etc/waffle/nginx/certs:/etc/nginx/certs:ro
 waffle-app:
@@ -40,13 +39,10 @@ waffle-app:
   - WAFFLE_BASE_URL=
   - WAFFLE_API_BASE_URL=
   - WAFFLE_HOOKS_SERVICE_URI=
-  - RALLY_INTEGRATION_BASE_URL=
   - POXA_HOST=
   - POXA_PORT=
   - APPLICATION_CLIENT_ID=
   - APPLICATION_CLIENT_SECRET=
-  - RALLY_CLIENT_ID=
-  - RALLY_CLIENT_SECRET=
   - MONGODB_URI=mongodb://mongo:27017/waffle
 waffle-api:
   container_name: waffle-api
@@ -71,7 +67,7 @@ waffle-api:
   - WAFFLE_HOOKS_SERVICE_URI=
   - POXA_HOST=
   - POXA_PORT=
-  - MONGODB_URI=mongodb://mongo:27017/waffle  
+  - MONGODB_URI=mongodb://mongo:27017/waffle
 waffle-hooks:
   container_name: waffle-hooks
   image: quay.io/waffleio/waffle.io-hooks
@@ -95,8 +91,6 @@ waffle-hooks:
   - IS_GHE_PRIMARY=
   - APPLICATION_CLIENT_ID=
   - APPLICATION_CLIENT_SECRET=
-  - RALLY_CLIENT_ID=
-  - RALLY_CLIENT_SECRET=
   - MONGODB_URI=mongodb://mongo:27017/waffle
 waffle-hedwig:
   container_name: waffle-hedwig
@@ -126,19 +120,3 @@ waffle-poxa:
   - POXA_SECRET=
   - POXA_HOST=
   - POXA_PORT=
-waffle-rally-integration:
-  container_name: waffle-rally-integration
-  image: quay.io/waffleio/waffle.io-rally-integration
-  links:
-  - mongo
-  volumes:
-  - /etc/waffle/ca-certificates:/etc/waffle/ca-certificates:ro
-  environment:
-  - NODE_ENV=takeout
-  - NODE_HEAPDUMP_OPTIONS=
-  - SUPERSTACK_ENABLED=
-  - WAFFLE_DB_ENCRYPTION_KEY=
-  - WAFFLE_DB_SIGNING_KEY=
-  - RALLY_CLIENT_ID=
-  - RALLY_CLIENT_SECRET=
-  - MONGODB_URI=mongodb://mongo:27017/waffle

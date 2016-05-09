@@ -45,13 +45,10 @@ Remember, it's up to you to backup your mongodb database. Also, we recommend kee
 
 ## Proxy configuration
 
-During installation, you'll be prompted for proxy information. If, on your internal network, you must connect through a proxy to talk to your GitHub:Enterprise installation, GitHub.com, or Rally, you should configure a proxy. If you only need GitHub:Enterprise support (and not GitHub.com or Rally integration), and reaching GitHub:Enterprise does not require connecting through a proxy, you do not need to configure a proxy.
+During installation, you'll be prompted for proxy information. If, on your internal network, you must connect through a proxy to talk to your GitHub:Enterprise installation, or GitHub.com, you should configure a proxy. If you only need GitHub:Enterprise support (and not GitHub.com), and reaching GitHub:Enterprise does not require connecting through a proxy, you do not need to configure a proxy.
 
 #### Configure your proxy to allow GitHub.com access
 - See GitHub's IP information: https://help.github.com/articles/what-ip-addresses-does-github-use-that-i-should-whitelist/
-
-#### Configure your proxy to allow Rally access
-- See Rally's IP information: https://help.rallydev.com/rally-ip-addresses-and-cdn-networks
 
 ## Troubleshooting
 
@@ -98,12 +95,12 @@ Warning: If your host machine is under a configuration management system like Pu
 1. Stop and remove containers: `sudo service waffle stop`.
 2. Run `sudo ./install.sh` again.
 
-_If you need to reconfigure the URLs for GitHub.com, GitHub:Enterprise, or Rally, you need to first clear some data from the mongo database before re-running the `install.sh` script (yep, we know, we should totally handle this for you)._
+_If you need to reconfigure the URLs for GitHub.com, or GitHub:Enterprise, you need to first clear some data from the mongo database before re-running the `install.sh` script (yep, we know, we should totally handle this for you)._
 
 1. `mongo <connect string>`
 2. `use <db name>`
 3. `db.migration_versions.remove({$or: [{name: /create_default_providers/}, {name: /set_public_providers/}] })`
-4. `db.providers.remove({type: {$in: ['github', 'rally', 'github-enterprise']}})`
+4. `db.providers.remove({type: {$in: ['github', 'github-enterprise']}})`
 
 ## SSL configuration
 During the installation process, we create a root CA and a self-signed certificate to support SSL on your Takeout install. You will either need to (1) replace our certificates with your own certificates signed by an already trusted CA, or (2) trust our root CA in your system. If you do not, each user will be prompted to accept Waffle's self-signed certificate when the access Takeout.
