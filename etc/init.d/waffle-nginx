@@ -7,7 +7,6 @@ DOCKER_OPTS="--link waffle-app \
              --link waffle-hooks \
              --link waffle-poxa \
              --link waffle-hedwig \
-             --link waffle-rally-integration \
              --publish=443:443 \
              --publish=80:80 \
              --volume=/etc/waffle/nginx/certs:/etc/nginx/certs:ro \

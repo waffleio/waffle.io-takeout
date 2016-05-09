@@ -3,7 +3,6 @@
 stop() {
     service waffle-nginx stop
     service waffle-poxa stop
-    service waffle-rally-integration stop
     service waffle-hedwig stop
     service waffle-hooks stop
     service waffle-api stop
@@ -12,7 +11,6 @@ stop() {
 
 start() {
     service waffle-poxa start
-    service waffle-rally-integration start
     service waffle-hedwig start
     service waffle-hooks start
     service waffle-api start
@@ -23,7 +21,6 @@ start() {
 status() {
     service waffle-nginx status
     service waffle-poxa status
-    service waffle-rally-integration status
     service waffle-hedwig status
     service waffle-hooks status
     service waffle-api status
