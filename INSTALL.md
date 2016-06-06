@@ -9,9 +9,6 @@ Getting Started guides and other Waffle.io documentation can be found [here](htt
 * A supported Linux server (modern versions of Ubuntu, Debian, CentOS, Red Hat & Fedora)
 * A Waffle Takeout license file (downloadable from [https://takeout.waffle.io](https://takeout.waffle.io))
 * A GitHub Enterprise installation secured via SSL certificate. (Waffle Takeout does not support connecting to GitHub Enterprise insecurely over HTTP at this time.)
-* A MongoDB instance. **[MongoDB 2.6](https://www.mongodb.org/downloads#previous) is currently required** (You are currently required to manage your own database.)
-  * You will need to create a db in MongoDB for Waffle Takeout
-  * If you are using authentication, you will need to create a user/password in MongoDB which has read/write privileges on the created DB and then set the MongoDB connection string to `user:password@yourmongodb-host-name-or-ip:27017/dbname`
 
 ## Host Machine
 
@@ -32,7 +29,6 @@ To run Waffle Takeout, you will need to ensure the following ports are open:
 | 443           | HTTPS         | Web application over HTTPS access                                                |
 | 80            | HTTP          | Web application access                                                           |
 | 22            | SSH           | SSH access                                                                       |
-| 3001-3009     | Custom TCP    | These ports are required for Waffle's internal services.                         |
 
 ## Register a GitHub.com OAuth app
 
@@ -81,6 +77,10 @@ $ curl -sSL https://get.replicated.com | sudo sh
 
 ## Maintenance
 
+### Backups
+
+Waffle Takeout automatically takes snapshots of the application state and database every 24 hours. These snapshots can be used to restore your Takeout installation in the event that something happens to the host machine or the installation itself. Snapshots are stored in `/var/lib/replicated/snapshots` on the host machine. It is highly recommended that you copy these backups to another location each day so that you are not at risk of losing them along with your installation in the event the host machine encounters complications.
+
 ### Updating your Waffle Takeout Installation
 
 Update the Replicated agent on the host machine before upgrading the Waffle Takeout application. This is not always required, and the UI will prompt you to do so if it is required:
@@ -92,7 +92,7 @@ $ sudo apt-get install replicated replicated-ui replicated-agent replicated-upda
 
 You can check for new app releases by going to the management interface dashboard `https://waffle.company.com:8800` and clicking on the 'Check Now' button. If an update is available you will be able to read the release notes and install the update.
 
-## Upgrading from 1.x (self-install) to 2.x
+## Migrating from 1.x (self-install) to 2.x (Replicated install)
 
 If you installed Waffle Takeout by downloading a set of docker images and then manually running an installation script to configure Waffle Takeout, you'll need to migrate to our new installation method.
 
