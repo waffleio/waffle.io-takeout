@@ -48,7 +48,7 @@ When configuring your GitHub Enterprise url on the admin settings page, make sur
 #### 2. Run the following script:
 
  ```curl
-$ curl -sSL https://get.replicated.com | sudo sh
+$ curl -sSL https://takeout.waffle.io/get | sudo bash
  ```
 
 #### 3. Access your server via HTTPS on port 8800 & bypass the SSL security warning.
