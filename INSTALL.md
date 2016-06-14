@@ -75,6 +75,51 @@ $ curl -sSL https://takeout.waffle.io/get | sudo bash
 
 ![Step 8](doc/screenshots/6.png)
 
+### Airgap Installation
+
+For installations without external internet access or are behind a proxy, you can install Waffle Takeout using the following steps.
+
+> __Note__: You will need to provision a host machine with at least 64G of space for this install as opposed to the 32G mentioned above.
+
+#### 1. Follow the [Replicated Airgap install docs](http://docs.replicated.com/docs/airgapped-installations#2-install-replicated). You will need to up the default base device size for Docker to 20G. You can do so by adding the following to `/etc/docker/default`.
+
+```bash
+DOCKER_OPTS="--storage-opt dm.basesize=20G"
+```
+
+Once that change is made, restart the docker daemon:
+
+```bash
+sudo service docker stop
+sudo rm -rf /var/lib/docker
+sudo service docker start
+```
+
+#### 2. The Airgap package is what is downloaded from the Airgap link we provide you. You can `shift-click` in your browser to download the file or you can use something like `wget`.
+
+```bash
+wget --trust-server-names -O <your_file_name>.airgap "<link_we_provide>"
+```
+
+#### 3. Once you have the host machine up and running and installed replicated, upload the `.airgap` package onto the host machine and remember the path to the file. One way is to use `scp`.
+
+
+```bash
+scp -i ~/.ssh/your_key.pem /path/to/your_airgap_file.airgap ubuntu@<host_machine_url>:/path/to/upload/to
+```
+
+> Note: You may need to run the following commands to reboot the Management Screen UI (Ubuntu/Debian)
+
+```
+sudo service replicated restart
+sudo service replicated-ui restart
+sudo service replicated-operator restart
+```
+
+#### 4. Continue following the [Replicated Airgap install docs](http://docs.replicated.com/docs/airgapped-installations#2-install-replicated) in the Management UI to locate the package on the host machine and upload the license.
+
+#### 5. Follow the above steps for installing Waffle Takeout starting from Step 6
+
 ## Maintenance
 
 ### Backups
