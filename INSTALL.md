@@ -63,8 +63,8 @@ $ curl -sSL https://takeout.waffle.io/get | sudo bash
 
 ![Step 5](doc/screenshots/3.png)
 
-<a name="step6"></a>
-#### 6. Secure your Waffle Takeout Management console with a password
+
+#### <a name="step6">6</a>. Secure your Waffle Takeout Management console with a password
 
 ![Step 6](doc/screenshots/4.png)
 
