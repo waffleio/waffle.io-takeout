@@ -63,7 +63,8 @@ $ curl -sSL https://takeout.waffle.io/get | sudo bash
 
 ![Step 5](doc/screenshots/3.png)
 
-#### 6. Secure your Waffle Takeout Management console with a password
+
+#### <a name="step6">6</a>. Secure your Waffle Takeout Management console with a password
 
 ![Step 6](doc/screenshots/4.png)
 
@@ -74,6 +75,53 @@ $ curl -sSL https://takeout.waffle.io/get | sudo bash
 #### 8. Visit the hostname you provided to access Waffle Takeout
 
 ![Step 8](doc/screenshots/6.png)
+
+### Airgap Installation
+
+**If you need an airgap installation, please contact us at <takeout@waffle.io> so we can provide you with a download link and instructions for getting a Takeout package.**
+
+For installations who don't have easy access to the internet, you can install Waffle Takeout using the following steps. These installations are "airgapped" meaning that they "do not have inbound or outbound internet traffic at all". Waffle Takeout supports this using Replicated's airgap feature.
+
+> __Note__: You will need to provision a host machine as noted above, but with at least 64G of space for this install as opposed to the 32G mentioned.
+
+#### 1. Follow the [Replicated Airgap install docs](http://docs.replicated.com/docs/airgapped-installations#2-install-replicated). You will need to up the default base device size for Docker to 20G. You can do so by adding the following to `/etc/docker/default`.
+
+```bash
+DOCKER_OPTS="--storage-opt dm.basesize=20G"
+```
+
+Once that change is made, restart the docker daemon (Ubuntu/Debian):
+
+```bash
+sudo service docker stop
+sudo rm -rf /var/lib/docker
+sudo service docker start
+```
+
+#### 2. The Airgap package is what is downloaded from the Airgap link we provide you. You can `shift-click` in your browser to download the file or you can use something like `wget`.
+
+```bash
+wget --trust-server-names -O <your_file_name>.airgap "<link_we_provide>"
+```
+
+#### 3. Once you have the host machine up and running and have installed docker and replicated, upload the `.airgap` package onto the host machine and remember the path to the file. One way is to use `scp` on your computer to upload the file to the host machine.
+
+
+```bash
+scp -i ~/.ssh/your_key.pem /path/to/your_airgap_file.airgap ubuntu@<host_machine_url>:/path/to/upload/to
+```
+
+> Note: You may need to run the following commands on the host machine to restart the Management Screen UI (Ubuntu/Debian)
+
+```
+sudo service replicated restart
+sudo service replicated-ui restart
+sudo service replicated-operator restart
+```
+
+#### 4. Continue following the [Replicated Airgap install docs](http://docs.replicated.com/docs/airgapped-installations) to locate the package on the host machine and upload your license in the management ui.
+
+#### 5. Follow the above steps for installing Waffle Takeout starting from [Step 6](#step6)
 
 ## Maintenance
 
@@ -91,6 +139,26 @@ $ sudo apt-get install replicated replicated-ui replicated-agent replicated-upda
 ```
 
 You can check for new app releases by going to the management interface dashboard `https://waffle.company.com:8800` and clicking on the 'Check Now' button. If an update is available you will be able to read the release notes and install the update.
+
+#### Updating an Airgap installation
+
+To update an Airgap installation, you will need to download a new package via a link that we provide you and upload it to the server location specified in the "Console Settings" in the management ui.
+
+![Airgap Settings](doc/screenshots/7.png)
+
+To download the package onto your computer, you can use something similar to `wget`:
+
+```bash
+wget --trust-server-names -O <your_update>.airgap "<link_we_provide>"
+```
+
+Then to upload the package onto the host machine, you can use something similar to `scp`:
+
+```bash
+scp -i ~/.ssh/your_key.pem /path/to/updated_package.airgap ubuntu@<host_machine_url>:/path/to/updates
+```
+
+On the dashboard in the management ui, you can now click "Check Now" and should see the new update to install.
 
 ## Migrating from 1.x (self-install) to 2.x (Replicated install)
 
