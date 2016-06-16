@@ -78,6 +78,8 @@ $ curl -sSL https://takeout.waffle.io/get | sudo bash
 
 ### Airgap Installation
 
+**If you need an airgap installation, please contact us at <takeout@waffle.io> so we can provide you with a download link and instructions for getting a Takeout package.**
+
 For installations who don't have easy access to the internet, you can install Waffle Takeout using the following steps. These installations are "airgapped" meaning that they "do not have inbound or outbound internet traffic at all". Waffle Takeout supports this using Replicated's airgap feature.
 
 > __Note__: You will need to provision a host machine as noted above, but with at least 64G of space for this install as opposed to the 32G mentioned.
@@ -144,10 +146,16 @@ To update an Airgap installation, you will need to download a new package via a 
 
 ![Airgap Settings](doc/screenshots/7.png)
 
-##### On Host Machine
+To download the package onto your computer, you can use something similar to `wget`:
+
 ```bash
-cd /home/ubuntu/updates
 wget --trust-server-names -O <your_update>.airgap "<link_we_provide>"
+```
+
+Then to upload the package onto the host machine, you can use something similar to `scp`:
+
+```bash
+scp -i ~/.ssh/your_key.pem /path/to/updated_package.airgap ubuntu@<host_machine_url>:/path/to/updates
 ```
 
 On the dashboard in the management ui, you can now click "Check Now" and should see the new update to install.
