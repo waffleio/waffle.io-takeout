@@ -63,6 +63,7 @@ $ curl -sSL https://takeout.waffle.io/get | sudo bash
 
 ![Step 5](doc/screenshots/3.png)
 
+<a name="step6"></a>
 #### 6. Secure your Waffle Takeout Management console with a password
 
 ![Step 6](doc/screenshots/4.png)
@@ -77,7 +78,7 @@ $ curl -sSL https://takeout.waffle.io/get | sudo bash
 
 ### Airgap Installation
 
-For installations without external internet access or are behind a proxy, you can install Waffle Takeout using the following steps.
+For installations who don't have easy access to the internet, you can install Waffle Takeout using the following steps. These installations are "airgapped" meaning that they "do not have inbound or outbound internet traffic at all". Waffle Takeout supports this using Replicated's airgap feature.
 
 > __Note__: You will need to provision a host machine as noted above, but with at least 64G of space for this install as opposed to the 32G mentioned.
 
@@ -87,7 +88,7 @@ For installations without external internet access or are behind a proxy, you ca
 DOCKER_OPTS="--storage-opt dm.basesize=20G"
 ```
 
-Once that change is made, restart the docker daemon:
+Once that change is made, restart the docker daemon (Ubuntu/Debian):
 
 ```bash
 sudo service docker stop
@@ -101,14 +102,14 @@ sudo service docker start
 wget --trust-server-names -O <your_file_name>.airgap "<link_we_provide>"
 ```
 
-#### 3. Once you have the host machine up and running and have installed docker and replicated, upload the `.airgap` package onto the host machine and remember the path to the file. One way is to use `scp`.
+#### 3. Once you have the host machine up and running and have installed docker and replicated, upload the `.airgap` package onto the host machine and remember the path to the file. One way is to use `scp` on your computer to upload the file to the host machine.
 
 
 ```bash
 scp -i ~/.ssh/your_key.pem /path/to/your_airgap_file.airgap ubuntu@<host_machine_url>:/path/to/upload/to
 ```
 
-> Note: You may need to run the following commands to restart the Management Screen UI (Ubuntu/Debian)
+> Note: You may need to run the following commands on the host machine to restart the Management Screen UI (Ubuntu/Debian)
 
 ```
 sudo service replicated restart
@@ -118,7 +119,7 @@ sudo service replicated-operator restart
 
 #### 4. Continue following the [Replicated Airgap install docs](http://docs.replicated.com/docs/airgapped-installations) to locate the package on the host machine and upload your license in the management ui.
 
-#### 5. Follow the above steps for installing Waffle Takeout starting from Step 6
+#### 5. Follow the above steps for installing Waffle Takeout starting from [Step 6](#step6)
 
 ## Maintenance
 
