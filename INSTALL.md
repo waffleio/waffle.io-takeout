@@ -79,7 +79,7 @@ $ curl -sSL https://takeout.waffle.io/get | sudo bash
 
 For installations without external internet access or are behind a proxy, you can install Waffle Takeout using the following steps.
 
-> __Note__: You will need to provision a host machine with at least 64G of space for this install as opposed to the 32G mentioned above.
+> __Note__: You will need to provision a host machine as noted above, but with at least 64G of space for this install as opposed to the 32G mentioned.
 
 #### 1. Follow the [Replicated Airgap install docs](http://docs.replicated.com/docs/airgapped-installations#2-install-replicated). You will need to up the default base device size for Docker to 20G. You can do so by adding the following to `/etc/docker/default`.
 
@@ -101,14 +101,14 @@ sudo service docker start
 wget --trust-server-names -O <your_file_name>.airgap "<link_we_provide>"
 ```
 
-#### 3. Once you have the host machine up and running and installed replicated, upload the `.airgap` package onto the host machine and remember the path to the file. One way is to use `scp`.
+#### 3. Once you have the host machine up and running and have installed docker and replicated, upload the `.airgap` package onto the host machine and remember the path to the file. One way is to use `scp`.
 
 
 ```bash
 scp -i ~/.ssh/your_key.pem /path/to/your_airgap_file.airgap ubuntu@<host_machine_url>:/path/to/upload/to
 ```
 
-> Note: You may need to run the following commands to reboot the Management Screen UI (Ubuntu/Debian)
+> Note: You may need to run the following commands to restart the Management Screen UI (Ubuntu/Debian)
 
 ```
 sudo service replicated restart
@@ -116,7 +116,7 @@ sudo service replicated-ui restart
 sudo service replicated-operator restart
 ```
 
-#### 4. Continue following the [Replicated Airgap install docs](http://docs.replicated.com/docs/airgapped-installations#2-install-replicated) in the Management UI to locate the package on the host machine and upload the license.
+#### 4. Continue following the [Replicated Airgap install docs](http://docs.replicated.com/docs/airgapped-installations) to locate the package on the host machine and upload your license in the management ui.
 
 #### 5. Follow the above steps for installing Waffle Takeout starting from Step 6
 
@@ -136,6 +136,20 @@ $ sudo apt-get install replicated replicated-ui replicated-agent replicated-upda
 ```
 
 You can check for new app releases by going to the management interface dashboard `https://waffle.company.com:8800` and clicking on the 'Check Now' button. If an update is available you will be able to read the release notes and install the update.
+
+#### Updating an Airgap installation
+
+To update an Airgap installation, you will need to download a new package via a link that we provide you and upload it to the server location specified in the "Console Settings" in the management ui.
+
+![Airgap Settings](doc/screenshots/7.png)
+
+##### On Host Machine
+```bash
+cd /home/ubuntu/updates
+wget --trust-server-names -O <your_update>.airgap "<link_we_provide>"
+```
+
+On the dashboard in the management ui, you can now click "Check Now" and should see the new update to install.
 
 ## Migrating from 1.x (self-install) to 2.x (Replicated install)
 
