@@ -173,7 +173,6 @@ scp -i ~/.ssh/your_key.pem /path/to/updated_package.airgap ubuntu@<host_machine_
 On the dashboard in the management ui, you can now click "Check Now" and should see the new update to install.
 
 ## Migrating from 1.x (self-install) to 2.x (Replicated install)
+_NOTE: Upgrading from Waffle Takeout 1.x to Waffle Takeout 2.x requires an additional configuration step before starting Takeout. This is documented in [step 8](INSTALL.md#8-migrating-your-old-database) above._
 
-Starting with Waffle Takeout 2.x, installation changed to use [Replicated](https://replicated.com) instead of the custom installation bash script. If you installed Waffle Takeout by downloading a zip file and manually running an installation script, you'll need to migrate to the Replicated installation method. You can do that by following the [installation instructions](INSTALL.md#installation) above.
-
-__NOTE: Upgrading from Waffle Takeout 1.x to Waffle Takeout 2.x requires an additional configuration step before starting Takeout. This is documented in [step 8](INSTALL.md#8-migrating-your-old-database) above.__
+Starting with Waffle Takeout 2.x, installation changed to use [Replicated](http://www.replicated.com) instead of the custom installation bash script. If you installed Waffle Takeout by downloading a zip file and manually running an installation script, you'll need to migrate to the Replicated installation method. You can do that by following the [installation instructions](INSTALL.md#installation) above.
