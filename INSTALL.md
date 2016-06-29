@@ -90,11 +90,11 @@ After clicking "Save" at the bottom of the settings page, the instance will star
 
 ### Airgap Installation
 
-**If you need an airgap installation, please contact us at <takeout@waffle.io> so we can provide you with a download link and instructions for getting a Takeout package.**
+**If you need an airgap installation, please contact us at <takeout@waffle.io> so we can provide you with a download link and instructions for getting a Waffle Takeout `.airgap` package.**
 
 For installations who don't have easy access to the internet, you can install Waffle Takeout using the following steps. These installations are "airgapped" meaning that they "do not have inbound or outbound internet traffic at all". Waffle Takeout supports this using Replicated's airgap feature.
 
-> __Note__: You will need to provision a host machine as noted above, but with at least 64G of space for this install as opposed to the 32G mentioned.
+> __Note__: You will need to provision a host machine as [noted above](INSTALL.md#host-machine), but with at least 64G of space for this install as opposed to the 32G mentioned.
 
 #### 1. Follow the [Replicated Airgap install docs](http://docs.replicated.com/docs/airgapped-installations#2-install-replicated). You will need to up the default base device size for Docker to 20G. You can do so by adding the following to `/etc/docker/default`.
 
