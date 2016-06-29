@@ -68,13 +68,20 @@ $ curl -sSL https://takeout.waffle.io/get | sudo bash
 
 ![Step 6](doc/screenshots/4.png)
 
-#### 7. Configure your Waffle Takeout instance and click "Save"
+#### 7. Migrating your old database
+Unless you are migrating from Waffle Takeout 1.x and the bash installation script, skip to [step 8](https://github.com/waffleio/waffle.io-takeout/blob/master/INSTALL.md#8-configure-your-waffle-takeout-instance-and-click-save).
 
-![Step 7](doc/screenshots/5.png)
+Upgrading from Takeout 1.x to Takeout 2.x requires configuring the new installation with your existing database information. Check the optional "Migrate" checkbox. Provide the "MongoDB URI", "Encryption Key", and "Signing Key" from your existing installation. These are found in your `/etc/waffle/environment.list` file on your host machine.
 
-#### 8. Visit the hostname you provided to access Waffle Takeout
+![Migrate Database](doc/screenshots/7.png)
 
-![Step 8](doc/screenshots/6.png)
+#### 8. Configure your Waffle Takeout instance and click "Save"
+
+![Step 8](doc/screenshots/5.png)
+
+#### 9. Visit the hostname you provided to access Waffle Takeout
+
+![Step 9](doc/screenshots/6.png)
 
 ### Airgap Installation
 
@@ -144,7 +151,7 @@ You can check for new app releases by going to the management interface dashboar
 
 To update an Airgap installation, you will need to download a new package via a link that we provide you and upload it to the server location specified in the "Console Settings" in the management ui.
 
-![Airgap Settings](doc/screenshots/7.png)
+![Airgap Settings](doc/screenshots/8.png)
 
 To download the package onto your computer, you can use something similar to `wget`:
 
@@ -162,6 +169,6 @@ On the dashboard in the management ui, you can now click "Check Now" and should 
 
 ## Migrating from 1.x (self-install) to 2.x (Replicated install)
 
-If you installed Waffle Takeout by downloading a set of docker images and then manually running an installation script to configure Waffle Takeout, you'll need to migrate to our new installation method.
+Starting with Waffle Takeout 2.x, installation changed to use [Replicated](https://replicated.com) instead of the custom installation bash script. If you installed Waffle Takeout by downloading a zip file and manually running an installation script, you'll need to migrate to the Replicated installation method. You can do that by following the [installation instructions](https://github.com/waffleio/waffle.io-takeout/blob/master/INSTALL.md#installation) above.
 
-Upgrading to the 2.x release only requires configuring the new installation with your existing database encryption keys. Follow the normal installation steps above, and then check the optional "Migrate" checkbox. Provide the "Encryption Key" and "Signing Key" from your existing installation. These are found in your `/etc/waffle/environment.list` file on your host machine.
+__NOTE: Upgrading from Waffle Takeout 1.x to Waffle Takeout 2.x requires an additional configuration step before starting Takeout. This is documented in [step 7](https://github.com/waffleio/waffle.io-takeout/blob/master/INSTALL.md#7-migrating-your-old-database) above.__
