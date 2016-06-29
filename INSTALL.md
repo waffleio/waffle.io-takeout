@@ -68,21 +68,33 @@ $ curl -sSL https://takeout.waffle.io/get | sudo bash
 
 ![Step 6](doc/screenshots/4.png)
 
-#### 7. Configure your Waffle Takeout instance and click "Save"
+#### 7. Configure your Waffle Takeout instance
 
 ![Step 7](doc/screenshots/5.png)
 
-#### 8. Visit the hostname you provided to access Waffle Takeout
+#### 8. Migrating your old database
+_Skip to [step 9](INSTALL.md#9-click-save) unless you are migrating from Waffle Takeout 1.x with the bash installation script._
 
-![Step 8](doc/screenshots/6.png)
+Upgrading from Takeout 1.x to Takeout 2.x requires configuring the new installation with your existing database information. Check the optional "Migrate" checkbox near the bottom of the "Settings" page. Provide the "MongoDB URI", "Encryption Key", and "Signing Key" from your existing installation. These are found in your `/etc/waffle/environment.list` file on your host machine.
+
+![Migrate Database](doc/screenshots/mongo-migration-settings.png)
+
+#### 9. Click "Save"
+_NOTE: Make sure you have finished configuring your install before starting the instance._
+
+After clicking "Save" at the bottom of the settings page, the instance will start.
+
+#### 10. Visit the hostname you provided to access Waffle Takeout
+
+![Step 10](doc/screenshots/6.png)
 
 ### Airgap Installation
 
-**If you need an airgap installation, please contact us at <takeout@waffle.io> so we can provide you with a download link and instructions for getting a Takeout package.**
+**If you need an airgap installation, please contact us at <takeout@waffle.io> so we can provide you with a download link and instructions for getting a Waffle Takeout `.airgap` package.**
 
 For installations who don't have easy access to the internet, you can install Waffle Takeout using the following steps. These installations are "airgapped" meaning that they "do not have inbound or outbound internet traffic at all". Waffle Takeout supports this using Replicated's airgap feature.
 
-> __Note__: You will need to provision a host machine as noted above, but with at least 64G of space for this install as opposed to the 32G mentioned.
+> __Note__: You will need to provision a host machine as [noted above](INSTALL.md#host-machine), but with at least 64G of space for this install as opposed to the 32G mentioned.
 
 #### 1. Follow the [Replicated Airgap install docs](http://docs.replicated.com/docs/airgapped-installations#2-install-replicated). You will need to up the default base device size for Docker to 20G. You can do so by adding the following to `/etc/docker/default`.
 
@@ -144,7 +156,7 @@ You can check for new app releases by going to the management interface dashboar
 
 To update an Airgap installation, you will need to download a new package via a link that we provide you and upload it to the server location specified in the "Console Settings" in the management ui.
 
-![Airgap Settings](doc/screenshots/7.png)
+![Airgap Settings](doc/screenshots/8.png)
 
 To download the package onto your computer, you can use something similar to `wget`:
 
@@ -161,7 +173,6 @@ scp -i ~/.ssh/your_key.pem /path/to/updated_package.airgap ubuntu@<host_machine_
 On the dashboard in the management ui, you can now click "Check Now" and should see the new update to install.
 
 ## Migrating from 1.x (self-install) to 2.x (Replicated install)
+_NOTE: Upgrading from Waffle Takeout 1.x to Waffle Takeout 2.x requires an additional configuration step before starting Takeout. This is documented in [step 8](INSTALL.md#8-migrating-your-old-database) above._
 
-If you installed Waffle Takeout by downloading a set of docker images and then manually running an installation script to configure Waffle Takeout, you'll need to migrate to our new installation method.
-
-Upgrading to the 2.x release only requires configuring the new installation with your existing database encryption keys. Follow the normal installation steps above, and then check the optional "Migrate" checkbox. Provide the "Encryption Key" and "Signing Key" from your existing installation. These are found in your `/etc/waffle/environment.list` file on your host machine.
+Starting with Waffle Takeout 2.x, installation changed to use [Replicated](http://www.replicated.com) instead of the custom installation bash script. If you installed Waffle Takeout by downloading a zip file and manually running an installation script, you'll need to migrate to the Replicated installation method. You can do that by following the [installation instructions](INSTALL.md#installation) above.
