@@ -69,7 +69,7 @@ $ curl -sSL https://takeout.waffle.io/get | sudo bash
 ![Step 6](doc/screenshots/4.png)
 
 #### 7. Migrating your old database
-_Skip to [step 8](https://github.com/waffleio/waffle.io-takeout/blob/master/INSTALL.md#8-configure-your-waffle-takeout-instance-and-click-save) unless you are migrating from Waffle Takeout 1.x with the bash installation script._
+_Skip to [step 8](INSTALL.md#8-configure-your-waffle-takeout-instance-and-click-save) unless you are migrating from Waffle Takeout 1.x with the bash installation script._
 
 Upgrading from Takeout 1.x to Takeout 2.x requires configuring the new installation with your existing database information. Check the optional "Migrate" checkbox. Provide the "MongoDB URI", "Encryption Key", and "Signing Key" from your existing installation. These are found in your `/etc/waffle/environment.list` file on your host machine.
 
@@ -169,6 +169,6 @@ On the dashboard in the management ui, you can now click "Check Now" and should 
 
 ## Migrating from 1.x (self-install) to 2.x (Replicated install)
 
-Starting with Waffle Takeout 2.x, installation changed to use [Replicated](https://replicated.com) instead of the custom installation bash script. If you installed Waffle Takeout by downloading a zip file and manually running an installation script, you'll need to migrate to the Replicated installation method. You can do that by following the [installation instructions](https://github.com/waffleio/waffle.io-takeout/blob/master/INSTALL.md#installation) above.
+Starting with Waffle Takeout 2.x, installation changed to use [Replicated](https://replicated.com) instead of the custom installation bash script. If you installed Waffle Takeout by downloading a zip file and manually running an installation script, you'll need to migrate to the Replicated installation method. You can do that by following the [installation instructions](INSTALL.md#installation) above.
 
-__NOTE: Upgrading from Waffle Takeout 1.x to Waffle Takeout 2.x requires an additional configuration step before starting Takeout. This is documented in [step 7](https://github.com/waffleio/waffle.io-takeout/blob/master/INSTALL.md#7-migrating-your-old-database) above.__
+__NOTE: Upgrading from Waffle Takeout 1.x to Waffle Takeout 2.x requires an additional configuration step before starting Takeout. This is documented in [step 7](INSTALL.md#7-migrating-your-old-database) above.__
