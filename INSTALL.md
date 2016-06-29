@@ -68,20 +68,25 @@ $ curl -sSL https://takeout.waffle.io/get | sudo bash
 
 ![Step 6](doc/screenshots/4.png)
 
-#### 7. Migrating your old database
-_Skip to [step 8](INSTALL.md#8-configure-your-waffle-takeout-instance-and-click-save) unless you are migrating from Waffle Takeout 1.x with the bash installation script._
+#### 7. Configure your Waffle Takeout instance
 
-Upgrading from Takeout 1.x to Takeout 2.x requires configuring the new installation with your existing database information. Check the optional "Migrate" checkbox. Provide the "MongoDB URI", "Encryption Key", and "Signing Key" from your existing installation. These are found in your `/etc/waffle/environment.list` file on your host machine.
+![Step 7](doc/screenshots/5.png)
 
-![Migrate Database](doc/screenshots/7.png)
+#### 8. Migrating your old database
+_Skip to [step 9](INSTALL.md#9-click-save) unless you are migrating from Waffle Takeout 1.x with the bash installation script._
 
-#### 8. Configure your Waffle Takeout instance and click "Save"
+Upgrading from Takeout 1.x to Takeout 2.x requires configuring the new installation with your existing database information. Check the optional "Migrate" checkbox near the bottom of the "Settings" page. Provide the "MongoDB URI", "Encryption Key", and "Signing Key" from your existing installation. These are found in your `/etc/waffle/environment.list` file on your host machine.
 
-![Step 8](doc/screenshots/5.png)
+![Migrate Database](doc/screenshots/mongo-migration-settings.png)
 
-#### 9. Visit the hostname you provided to access Waffle Takeout
+#### 9. Click "Save"
+_NOTE: Make sure you have finished configuring your install before starting the instance._
 
-![Step 9](doc/screenshots/6.png)
+After clicking "Save" at the bottom of the settings page, the instance will start.
+
+#### 10. Visit the hostname you provided to access Waffle Takeout
+
+![Step 10](doc/screenshots/6.png)
 
 ### Airgap Installation
 
@@ -171,4 +176,4 @@ On the dashboard in the management ui, you can now click "Check Now" and should 
 
 Starting with Waffle Takeout 2.x, installation changed to use [Replicated](https://replicated.com) instead of the custom installation bash script. If you installed Waffle Takeout by downloading a zip file and manually running an installation script, you'll need to migrate to the Replicated installation method. You can do that by following the [installation instructions](INSTALL.md#installation) above.
 
-__NOTE: Upgrading from Waffle Takeout 1.x to Waffle Takeout 2.x requires an additional configuration step before starting Takeout. This is documented in [step 7](INSTALL.md#7-migrating-your-old-database) above.__
+__NOTE: Upgrading from Waffle Takeout 1.x to Waffle Takeout 2.x requires an additional configuration step before starting Takeout. This is documented in [step 8](INSTALL.md#8-migrating-your-old-database) above.__
