@@ -143,11 +143,10 @@ Waffle Takeout automatically takes snapshots of the application state and databa
 
 ### Updating your Waffle Takeout Installation
 
-Update the Replicated agent on the host machine before upgrading the Waffle Takeout application. This is not always required, and the UI will prompt you to do so if it is required:
+Update the Replicated agent on the host machine before upgrading the Waffle Takeout application. You can update all Replicated component versions by re-running the installation script.:
 
 ```curl
-$ sudo apt-get update
-$ sudo apt-get install replicated replicated-ui replicated-agent replicated-updater
+$ curl -sSL https://takeout.waffle.io/get | sudo bash
 ```
 
 You can check for new app releases by going to the management interface dashboard `https://waffle.company.com:8800` and clicking on the 'Check Now' button. If an update is available you will be able to read the release notes and install the update.
