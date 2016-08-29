@@ -7,8 +7,8 @@ trap "echo -e \"\n\n${red}Exiting...${reset}\n\"; exit;" SIGINT SIGTERM
 
 #!/bin/bash
 if (( EUID != 0 )); then
-    echo -e "\n${red}We need root access in order to set up init.d scripts and save off environment configuration in /etc/waffle.\n\nPlease run ./install.sh as root.${reset}\n" 1>&2
-    exit 1
+  echo -e "\n${red}We need root access in order to set up init.d scripts and save off environment configuration in /etc/waffle.\n\nPlease run ./install.sh as root.${reset}\n" 1>&2
+  exit 1
 fi
 
 hash docker 2>/dev/null || { echo -e >&2 "${red}I require docker but it's not installed.  Aborting.${reset}"; exit 1; }
