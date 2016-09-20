@@ -149,25 +149,25 @@ Refer to the Replicated documentation for restoring your Replicated instance - h
 
 To complete a restore, you will need to do the following steps to restore your existing Waffle data including projects, cards, etc.
 
-Once the Replicated restore was successful and the application has been started, you will need to run:
+Once the Replicated restore was successful and the application has been started, you will need to run the following to get a list of the running containers:
 
 ```bash
 sudo docker ps
 ```
 
-to get a list of the running containers. Find the CONTAINER ID of the container using the image name `takeout-mongo`. Once you have that id, run the following command to get access to that container:
+Find the CONTAINER ID of the container using the image name `takeout-mongo`. Once you have that id, run the following command to get access to that container:
 
 ```bash
 sudo docker exec -it <CONTAINER ID> /bin/bash
 ```
 
-Once in the container, you will need to connect to the database using the mongo shell.
+In the container, you will need to connect to the database using the mongo shell.
 
 ```bash
 mongo
 ```
 
-Once in the mongo shell, you will need to drop the `waffle-takeout` database.
+In the mongo shell, you will need to drop the `waffle-takeout` database.
 
 ```bash
 use waffle-takeout
