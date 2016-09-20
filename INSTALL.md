@@ -141,6 +141,51 @@ sudo service replicated-operator restart
 
 Waffle Takeout automatically takes snapshots of the application state and database every 24 hours. These snapshots can be used to restore your Takeout installation in the event that something happens to the host machine or the installation itself. Snapshots are stored in `/var/lib/replicated/snapshots` on the host machine. It is highly recommended that you copy these backups to another location each day so that you are not at risk of losing them along with your installation in the event the host machine encounters complications.
 
+#### Restoring Waffle data
+
+Please use the following instructions for restoring your Waffle Takeout instance:
+
+Refer to the Replicated documentation for restoring your Replicated instance - https://www.replicated.com/docs/kb/supporting-your-customers/restoring-from-a-snapshot.
+
+To complete a restore, you will need to do the following steps to restore your existing Waffle data including projects, cards, etc.
+
+Once the Replicated restore was successful and the application has been started, you will need to run the following to get a list of the running containers:
+
+```bash
+sudo docker ps
+```
+
+Find the CONTAINER ID of the container using the image name `takeout-mongo`. Once you have that id, run the following command to get access to that container:
+
+```bash
+sudo docker exec -it <CONTAINER ID> /bin/bash
+```
+
+In the container, you will need to connect to the database using the mongo shell.
+
+```bash
+mongo
+```
+
+In the mongo shell, you will need to drop the `waffle-takeout` database.
+
+```bash
+use waffle-takeout
+db.dropDatabase();
+exit # exit mongo shell
+exit # exit takeout-mongo container
+```
+
+This deletes the empty database created for you when first starting a new Waffle Takeout instance. We would now like to restore your existing Waffle data that was backed up as part of the Replicated snapshot.
+
+On the host machine, we can run the following command to restore your existing Waffle data:
+
+```bash
+replicated admin restore-mongodb
+```
+
+Once that completes, you will be able to access Waffle Takeout and see your existing data.
+
 ### Updating your Waffle Takeout Installation
 
 Update the Replicated agent on the host machine before upgrading the Waffle Takeout application. You can update all Replicated component versions by re-running the installation script.:
