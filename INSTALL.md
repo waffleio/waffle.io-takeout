@@ -166,7 +166,7 @@ sudo service replicated-operator restart
 | us-west-1      | [ami-1f1b537f](https://console.aws.amazon.com/ec2/v2/home?region=us-west-1#LaunchInstanceWizard:ami=ami-1f1b537f) |
 | us-west-2      | [ami-6c05de0c](https://console.aws.amazon.com/ec2/v2/home?region=us-west-2#LaunchInstanceWizard:ami=ami-6c05de0c) |
 
-1. Continue with step 3 of the [installation instructions](https://github.com/waffleio/waffle.io-takeout/blob/master/INSTALL.md#installation)
+2. Continue with step 3 of the [installation instructions](https://github.com/waffleio/waffle.io-takeout/blob/master/INSTALL.md#installation)
 
 #### AMI Information
 * Consult AWS for pricing information when using EC2 Instances
