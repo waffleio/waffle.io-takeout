@@ -147,8 +147,8 @@ sudo service replicated-operator restart
 * We provide AMI's which allow you to skip the replicated installation
 * Before launching an AMI, ensure you've got the following:
   * A [Waffle Takeout license](https://takeout.waffle.io/)
-  * [Github Registered OAuth App](https://github.com/waffleio/waffle.io-takeout/blob/master/INSTALL.md#register-a-githubcom-oauth-app)
-  * An appropriate [Security Group Configuration](https://github.com/waffleio/waffle.io-takeout/blob/master/INSTALL.md#network-configuration)
+  * [Github Registered OAuth App](#register-a-githubcom-oauth-app)
+  * An appropriate [Security Group Configuration](#network-configuration)
 
 #### How To Install using an AMI
 1. Click any of the links below to fire up the EC2 console and get started with an AMI
@@ -166,7 +166,7 @@ sudo service replicated-operator restart
 | us-west-1      | [ami-1f1b537f](https://console.aws.amazon.com/ec2/v2/home?region=us-west-1#LaunchInstanceWizard:ami=ami-1f1b537f) |
 | us-west-2      | [ami-6c05de0c](https://console.aws.amazon.com/ec2/v2/home?region=us-west-2#LaunchInstanceWizard:ami=ami-6c05de0c) |
 
-2. Continue with step 3 of the [installation instructions](https://github.com/waffleio/waffle.io-takeout/blob/master/INSTALL.md#installation)
+2. Continue with step 3 of the [installation instructions](#installation)
 
 #### AMI Information
 * Consult AWS for pricing information when using EC2 Instances
