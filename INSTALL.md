@@ -5,12 +5,9 @@ Go to [https://takeout.waffle.io](https://takeout.waffle.io) for more informatio
 Getting Started guides and other Waffle.io documentation can be found [here](https://help.waffle.io).
 
 ## Installation Types
-* [Bring Your Own
-  Server](https://github.com/waffleio/waffle.io-takeout/blob/master/INSTALL.md#installation)
-* [Air
-  Gap](https://github.com/waffleio/waffle.io-takeout/blob/master/INSTALL.md#airgap-installation)
-* [Amazon
-  AMI](https://github.com/waffleio/waffle.io-takeout/blob/master/INSTALL.md#ami-installation)
+* [Bring Your Own Server](#installation)
+* [Air Gap](#airgap-installation)
+* [Amazon AMI](#ami-installation)
 
 # Prerequisites
 
