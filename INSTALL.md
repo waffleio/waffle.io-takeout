@@ -151,8 +151,8 @@ sudo service replicated-operator restart
   * An appropriate [Security Group Configuration](https://github.com/waffleio/waffle.io-takeout/blob/master/INSTALL.md#network-configuration)
 
 #### How To Install using an AMI
-1. Click any of the links below to fire up the EC2 console and get started with
-  an AMI
+1. Click any of the links below to fire up the EC2 console and get started with an AMI
+
 | Region         | AMI ID |
 |----------------|--------|
 | ap-northeast-1 | [ami-5fd9033e](https://console.aws.amazon.com/ec2/v2/home?region=ap-northeast-1#LaunchInstanceWizard:ami=ami-5fd9033e) |
