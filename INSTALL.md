@@ -4,6 +4,14 @@ Go to [https://takeout.waffle.io](https://takeout.waffle.io) for more informatio
 
 Getting Started guides and other Waffle.io documentation can be found [here](https://github.com/waffleio/waffle.io/wiki).
 
+## Installation Types
+* [Bring Your Own
+  Server](https://github.com/waffleio/waffle.io-takeout/blob/master/INSTALL.md#installation)
+* [Air
+  Gap](https://github.com/waffleio/waffle.io-takeout/blob/master/INSTALL.md#airgap-installation)
+* [Amazon
+  AMI](https://github.com/waffleio/waffle.io-takeout/blob/master/INSTALL.md#ami-installation)
+
 # Prerequisites
 
 * A supported Linux server (modern versions of Ubuntu, Debian, CentOS, Red Hat & Fedora)
@@ -134,6 +142,37 @@ sudo service replicated-operator restart
 #### 4. Continue following the [Replicated Airgap install docs](http://docs.replicated.com/docs/airgapped-installations) to locate the package on the host machine and upload your license in the management ui.
 
 #### 5. Follow the above steps for installing Waffle Takeout starting from [Step 6](#step6)
+
+### AMI Installation
+* We provide AMI's which allow you to skip the replicated installation
+* Before launching an AMI, ensure you've got the following:
+  * A [Waffle Takeout license](https://takeout.waffle.io/)
+  * [Github Registered OAuth App](https://github.com/waffleio/waffle.io-takeout/blob/master/INSTALL.md#register-a-githubcom-oauth-app)
+  * An appropriate [Security Group Configuration](https://github.com/waffleio/waffle.io-takeout/blob/master/INSTALL.md#network-configuration)
+
+#### How To Install using an AMI
+1. Click any of the links below to fire up the EC2 console and get started with
+  an AMI
+| Region         | AMI ID |
+|----------------|--------|
+| ap-northeast-1 | [ami-5fd9033e](https://console.aws.amazon.com/ec2/v2/home?region=ap-northeast-1#LaunchInstanceWizard:ami=ami-5fd9033e) |
+| ap-northeast-2 | [ami-8fa97de1](https://console.aws.amazon.com/ec2/v2/home?region=ap-northeast-2#LaunchInstanceWizard:ami=ami-8fa97de1) |
+| ap-southeast-1 | [ami-3e55f25d](https://console.aws.amazon.com/ec2/v2/home?region=ap-southeast-1#LaunchInstanceWizard:ami=ami-3e55f25d) |
+| ap-southeast-2 | [ami-00251763](https://console.aws.amazon.com/ec2/v2/home?region=ap-southeast-2#LaunchInstanceWizard:ami=ami-00251763) |
+| eu-central-1   | [ami-84ed13eb](https://console.aws.amazon.com/ec2/v2/home?region=eu-central-1#LaunchInstanceWizard:ami=ami-84ed13eb) |
+| eu-west-1      | [ami-5796d424](https://console.aws.amazon.com/ec2/v2/home?region=eu-west-1#LaunchInstanceWizard:ami=ami-5796d424) |
+| sa-east-1      | [ami-39fe6355](https://console.aws.amazon.com/ec2/v2/home?region=sa-east-1#LaunchInstanceWizard:ami=ami-39fe6355) |
+| us-east-1      | [ami-e96229fe](https://console.aws.amazon.com/ec2/v2/home?region=us-east-1#LaunchInstanceWizard:ami=ami-e96229fe) |
+| us-west-1      | [ami-1f1b537f](https://console.aws.amazon.com/ec2/v2/home?region=us-west-1#LaunchInstanceWizard:ami=ami-1f1b537f) |
+| us-west-2      | [ami-6c05de0c](https://console.aws.amazon.com/ec2/v2/home?region=us-west-2#LaunchInstanceWizard:ami=ami-6c05de0c) |
+
+1. Continue with step 3 of the [installation instructions](https://github.com/waffleio/waffle.io-takeout/blob/master/INSTALL.md#installation)
+
+#### AMI Information
+* Consult AWS for pricing information when using EC2 Instances
+* The AMI is built on a standard ubuntu 16.04 image
+* Should there be any need to ssh into the node for troubleshooting, utilize the
+  key pair you assigned to the instance with the `ubuntu` user
 
 ## Maintenance
 
