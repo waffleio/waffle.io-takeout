@@ -2,7 +2,7 @@
 
 Go to [https://takeout.waffle.io](https://takeout.waffle.io) for more information on pricing and to sign up for a free 45 day trial.
 
-Getting Started guides and other Waffle.io documentation can be found [here](https://github.com/waffleio/waffle.io/wiki).
+Getting Started guides and other Waffle.io documentation can be found [here](https://help.waffle.io).
 
 ## Installation Types
 * [Bring Your Own
@@ -170,7 +170,7 @@ sudo service replicated-operator restart
 
 #### AMI Information
 * Consult AWS for pricing information when using EC2 Instances
-* The AMI is built on a standard ubuntu 16.04 image
+* The AMI is built on a standard Ubuntu 16.04 image
 * Should there be any need to ssh into the node for troubleshooting, utilize the
   key pair you assigned to the instance with the `ubuntu` user
 
