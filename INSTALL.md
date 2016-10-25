@@ -152,16 +152,18 @@ sudo service replicated-operator restart
 
 | Region         | AMI ID |
 |----------------|--------|
-| ap-northeast-1 | [ami-5fd9033e](https://console.aws.amazon.com/ec2/v2/home?region=ap-northeast-1#LaunchInstanceWizard:ami=ami-5fd9033e) |
-| ap-northeast-2 | [ami-8fa97de1](https://console.aws.amazon.com/ec2/v2/home?region=ap-northeast-2#LaunchInstanceWizard:ami=ami-8fa97de1) |
-| ap-southeast-1 | [ami-3e55f25d](https://console.aws.amazon.com/ec2/v2/home?region=ap-southeast-1#LaunchInstanceWizard:ami=ami-3e55f25d) |
-| ap-southeast-2 | [ami-00251763](https://console.aws.amazon.com/ec2/v2/home?region=ap-southeast-2#LaunchInstanceWizard:ami=ami-00251763) |
-| eu-central-1   | [ami-84ed13eb](https://console.aws.amazon.com/ec2/v2/home?region=eu-central-1#LaunchInstanceWizard:ami=ami-84ed13eb) |
-| eu-west-1      | [ami-5796d424](https://console.aws.amazon.com/ec2/v2/home?region=eu-west-1#LaunchInstanceWizard:ami=ami-5796d424) |
-| sa-east-1      | [ami-39fe6355](https://console.aws.amazon.com/ec2/v2/home?region=sa-east-1#LaunchInstanceWizard:ami=ami-39fe6355) |
-| us-east-1      | [ami-e96229fe](https://console.aws.amazon.com/ec2/v2/home?region=us-east-1#LaunchInstanceWizard:ami=ami-e96229fe) |
-| us-west-1      | [ami-1f1b537f](https://console.aws.amazon.com/ec2/v2/home?region=us-west-1#LaunchInstanceWizard:ami=ami-1f1b537f) |
-| us-west-2      | [ami-6c05de0c](https://console.aws.amazon.com/ec2/v2/home?region=us-west-2#LaunchInstanceWizard:ami=ami-6c05de0c) |
+| ap-northeast-1 | [ami-2c60c04d](https://console.aws.amazon.com/ec2/v2/home?region=ap-northeast-1#LaunchInstanceWizard:ami=ami-2c60c04d) |
+| ap-northeast-2 | [ami-711eca1f](https://console.aws.amazon.com/ec2/v2/home?region=ap-northeast-2#LaunchInstanceWizard:ami=ami-711eca1f) |
+| ap-south-1     | [ami-67453108](https://console.aws.amazon.com/ec2/v2/home?region=ap-south-1#LaunchInstanceWizard:ami=ami-67453108) |
+| ap-southeast-1 | [ami-00ac0d63](https://console.aws.amazon.com/ec2/v2/home?region=ap-southeast-1#LaunchInstanceWizard:ami=ami-00ac0d63) |
+| ap-southeast-2 | [ami-e7cff284](https://console.aws.amazon.com/ec2/v2/home?region=ap-southeast-2#LaunchInstanceWizard:ami=ami-e7cff284) |
+| eu-central-1   | [ami-71ef171e](https://console.aws.amazon.com/ec2/v2/home?region=eu-central-1#LaunchInstanceWizard:ami=ami-71ef171e) |
+| eu-west-1      | [ami-c12860b2](https://console.aws.amazon.com/ec2/v2/home?region=eu-west-1#LaunchInstanceWizard:ami=ami-c12860b2) |
+| sa-east-1      | [ami-5ff76b33](https://console.aws.amazon.com/ec2/v2/home?region=sa-east-1#LaunchInstanceWizard:ami=ami-5ff76b33) |
+| us-east-1      | [ami-96035c81](https://console.aws.amazon.com/ec2/v2/home?region=us-east-1#LaunchInstanceWizard:ami=ami-96035c81) |
+| us-east-2      | [ami-14336971](https://console.aws.amazon.com/ec2/v2/home?region=us-east-2#LaunchInstanceWizard:ami=ami-14336971) |
+| us-west-1      | [ami-b989c2d9](https://console.aws.amazon.com/ec2/v2/home?region=us-west-1#LaunchInstanceWizard:ami=ami-b989c2d9) |
+| us-west-2      | [ami-b1d275d1](https://console.aws.amazon.com/ec2/v2/home?region=us-west-2#LaunchInstanceWizard:ami=ami-b1d275d1) |
 
 2. Continue with step 3 of the [installation instructions](#installation)
 
