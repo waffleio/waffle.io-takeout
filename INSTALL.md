@@ -29,7 +29,7 @@ To run Waffle Takeout, you will need to ensure the following ports are open:
 
 | Port          | Service       | Description                                                                      |
 | :------------ |:--------------| :--------------------------------------------------------------------------------|
-| 8800          | Custom TCP    | This port is to access the admin dashboard for your Waffle Takeout installation  |
+| 8800          | Custom TCP    | This port is to access the management interface for your Waffle Takeout installation  |
 | 9880          | Custom TCP    | This port is for replicated host api to update the admin dashboard's status      |
 | 443           | HTTPS         | Web application over HTTPS access                                                |
 | 80            | HTTP          | Web application access                                                           |
@@ -177,7 +177,24 @@ sudo service replicated-operator restart
 
 ### Backups
 
-Waffle Takeout automatically takes snapshots of the application state and database every 24 hours. These snapshots can be used to restore your Takeout installation in the event that something happens to the host machine or the installation itself. Snapshots are stored in `/var/lib/replicated/snapshots` on the host machine. It is highly recommended that you copy these backups to another location each day so that you are not at risk of losing them along with your installation in the event the host machine encounters complications.
+Snapshots can be used to restore your Takeout installation in the event that 
+something happens to the host machine or the installation itself. Snapshots are
+stored in `/var/lib/replicated/snapshots` on the host machine. It is highly
+recommended that you copy these backups to another location on a regular basis
+to minimize risk of losing them along with your installation in the event the
+host machine encounters complications.
+
+**This must be manually configured using the admin console.  To do so, follow
+these steps:**
+1. Go to the management interface on port 8800
+  * Example: https://waffle.company.com:8800
+1. Click on the gear icon at the top right of the screen
+1. Select Console Settings
+1. Click Snapshot & Restore on the Left
+1. Adjust the following settings as you see fit for your environment:
+  * Max Number of Snapshots retained
+  * Automatic Snapshots - click the button to enable
+    * Then you can choose your preferred schedule
 
 #### Restoring Waffle data
 
