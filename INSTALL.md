@@ -186,6 +186,7 @@ host machine encounters complications.
 
 **This must be manually configured using the admin console.  To do so, follow
 these steps:**
+
 1. Go to the management interface on port 8800
   * Example: https://waffle.company.com:8800
 1. Click on the gear icon at the top right of the screen
