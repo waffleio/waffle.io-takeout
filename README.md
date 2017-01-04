@@ -4,8 +4,8 @@ Waffle Takeout is an on-premises deployment of Waffle.io. Host Waffle on your ow
 Visit [takeout.waffle.io](https://takeout.waffle.io) to start your free 45 day unlimited trial.
 
 ### For customers:
-- [Installation Instructions](https://help.waffle.io/hc/en-us/sections/207275567-Takeout-Installation)
+- [Installation Instructions](https://help.waffle.io/waffle-takeout)
 
 ### Releases
-- [Waffle Takeout 2.x](https://help.waffle.io/hc/en-us/articles/235757987-2-x)
-- [Waffle Takeout 1.x](https://help.waffle.io/hc/en-us/articles/235687508-1-x)
+- [Waffle Takeout 2.x](https://help.waffle.io/waffle-takeout/release-notes/2x)
+- [Waffle Takeout 1.x](https://help.waffle.io/waffle-takeout/release-notes/1x)
